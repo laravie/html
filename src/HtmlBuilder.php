@@ -1,27 +1,26 @@
 <?php namespace Collective\Html;
 
-use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Traits\Macroable;
+use Collective\Html\Traits\ObfuscateTrait;
+use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
 class HtmlBuilder
 {
-    use Macroable;
+    use Macroable, ObfuscateTrait;
 
     /**
      * The URL generator instance.
      *
-     * @var \Illuminate\Routing\UrlGenerator
+     * @var \Illuminate\Contracts\Routing\UrlGenerator
      */
     protected $url;
 
     /**
      * Create a new HTML builder instance.
      *
-     * @param \Illuminate\Routing\UrlGenerator $url
-     *
-     * @return void
+     * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
      */
-    public function __construct(UrlGenerator $url = null)
+    public function __construct(UrlGeneratorContract $url = null)
     {
         $this->url = $url;
     }
@@ -29,7 +28,7 @@ class HtmlBuilder
     /**
      * Convert an HTML string to entities.
      *
-     * @param string $value
+     * @param  string  $value
      *
      * @return string
      */
@@ -41,7 +40,7 @@ class HtmlBuilder
     /**
      * Convert entities to HTML characters.
      *
-     * @param string $value
+     * @param  string  $value
      *
      * @return string
      */
@@ -51,11 +50,28 @@ class HtmlBuilder
     }
 
     /**
+     * Generate a meta tag.
+     *
+     * @param  string  $name
+     * @param  string  $content
+     * @param  array   $attributes
+     *
+     * @return string
+     */
+    public function meta($name, $content, array $attributes = [])
+    {
+        $defaults   = compact('name', 'content');
+        $attributes = array_merge($defaults, $attributes);
+
+        return '<meta'.$this->attributes($attributes).'>'.PHP_EOL;
+    }
+
+    /**
      * Generate a link to a JavaScript file.
      *
-     * @param string $url
-     * @param array  $attributes
-     * @param bool   $secure
+     * @param  string  $url
+     * @param  array   $attributes
+     * @param  bool    $secure
      *
      * @return string
      */
@@ -69,9 +85,9 @@ class HtmlBuilder
     /**
      * Generate a link to a CSS file.
      *
-     * @param string $url
-     * @param array  $attributes
-     * @param bool   $secure
+     * @param  string  $url
+     * @param  array   $attributes
+     * @param  bool    $secure
      *
      * @return string
      */
@@ -89,10 +105,10 @@ class HtmlBuilder
     /**
      * Generate an HTML image element.
      *
-     * @param string $url
-     * @param string $alt
-     * @param array  $attributes
-     * @param bool   $secure
+     * @param  string  $url
+     * @param  string  $alt
+     * @param  array   $attributes
+     * @param  bool    $secure
      *
      * @return string
      */
@@ -126,10 +142,10 @@ class HtmlBuilder
     /**
      * Generate a HTML link.
      *
-     * @param string $url
-     * @param string $title
-     * @param array  $attributes
-     * @param bool   $secure
+     * @param  string  $url
+     * @param  string  $title
+     * @param  array   $attributes
+     * @param  bool    $secure
      *
      * @return string
      */
@@ -147,9 +163,9 @@ class HtmlBuilder
     /**
      * Generate a HTTPS HTML link.
      *
-     * @param string $url
-     * @param string $title
-     * @param array  $attributes
+     * @param  string  $url
+     * @param  string  $title
+     * @param  array   $attributes
      *
      * @return string
      */
@@ -161,10 +177,10 @@ class HtmlBuilder
     /**
      * Generate a HTML link to an asset.
      *
-     * @param string $url
-     * @param string $title
-     * @param array  $attributes
-     * @param bool   $secure
+     * @param  string  $url
+     * @param  string  $title
+     * @param  array   $attributes
+     * @param  bool    $secure
      *
      * @return string
      */
@@ -178,9 +194,9 @@ class HtmlBuilder
     /**
      * Generate a HTTPS HTML link to an asset.
      *
-     * @param string $url
-     * @param string $title
-     * @param array  $attributes
+     * @param  string  $url
+     * @param  string  $title
+     * @param  array   $attributes
      *
      * @return string
      */
@@ -192,10 +208,10 @@ class HtmlBuilder
     /**
      * Generate a HTML link to a named route.
      *
-     * @param string $name
-     * @param string $title
-     * @param array  $parameters
-     * @param array  $attributes
+     * @param  string  $name
+     * @param  string  $title
+     * @param  array   $parameters
+     * @param  array   $attributes
      *
      * @return string
      */
@@ -207,10 +223,10 @@ class HtmlBuilder
     /**
      * Generate a HTML link to a controller action.
      *
-     * @param string $action
-     * @param string $title
-     * @param array  $parameters
-     * @param array  $attributes
+     * @param  string  $action
+     * @param  string  $title
+     * @param  array   $parameters
+     * @param  array   $attributes
      *
      * @return string
      */
@@ -222,9 +238,9 @@ class HtmlBuilder
     /**
      * Generate a HTML link to an email address.
      *
-     * @param string $email
-     * @param string $title
-     * @param array  $attributes
+     * @param  string  $email
+     * @param  string  $title
+     * @param  array   $attributes
      *
      * @return string
      */
@@ -242,7 +258,7 @@ class HtmlBuilder
     /**
      * Obfuscate an e-mail address to prevent spam-bots from sniffing it.
      *
-     * @param string $email
+     * @param  string  $email
      *
      * @return string
      */
@@ -254,8 +270,8 @@ class HtmlBuilder
     /**
      * Generate an ordered list of items.
      *
-     * @param array $list
-     * @param array $attributes
+     * @param  array   $list
+     * @param  array   $attributes
      *
      * @return string
      */
@@ -267,8 +283,8 @@ class HtmlBuilder
     /**
      * Generate an un-ordered list of items.
      *
-     * @param array $list
-     * @param array $attributes
+     * @param  array   $list
+     * @param  array   $attributes
      *
      * @return string
      */
@@ -280,16 +296,15 @@ class HtmlBuilder
     /**
      * Generate a description list of items.
      *
-     * @param array $list
-     * @param array $attributes
+     * @param  array   $list
+     * @param  array   $attributes
      *
      * @return string
      */
     public function dl(array $list, array $attributes = [])
     {
         $attributes = $this->attributes($attributes);
-
-        $html = "<dl{$attributes}>";
+        $html       = "<dl{$attributes}>";
 
         foreach ($list as $key => $value) {
             $html .= "<dt>$key</dt><dd>$value</dd>";
@@ -303,9 +318,9 @@ class HtmlBuilder
     /**
      * Create a listing HTML element.
      *
-     * @param string $type
-     * @param array  $list
-     * @param array  $attributes
+     * @param  string  $type
+     * @param  array   $list
+     * @param  array   $attributes
      *
      * @return string
      */
@@ -332,9 +347,9 @@ class HtmlBuilder
     /**
      * Create the HTML for a listing element.
      *
-     * @param mixed  $key
-     * @param string $type
-     * @param mixed  $value
+     * @param  mixed   $key
+     * @param  string  $type
+     * @param  mixed   $value
      *
      * @return string
      */
@@ -350,9 +365,9 @@ class HtmlBuilder
     /**
      * Create the HTML for a nested listing attribute.
      *
-     * @param mixed  $key
-     * @param string $type
-     * @param mixed  $value
+     * @param  mixed   $key
+     * @param  string  $type
+     * @param  mixed   $value
      *
      * @return string
      */
@@ -368,7 +383,7 @@ class HtmlBuilder
     /**
      * Build an HTML attribute string from an array.
      *
-     * @param array $attributes
+     * @param  array  $attributes
      *
      * @return string
      */
@@ -376,12 +391,13 @@ class HtmlBuilder
     {
         $html = [];
 
+        // For numeric keys we will assume that the key and the value are the same
+        // as this will convert HTML attributes such as "required" to a correct
+        // form like required="required" instead of using incorrect numerics.
         foreach ((array) $attributes as $key => $value) {
             $element = $this->attributeElement($key, $value);
 
-            if (!is_null($element)) {
-                $html[] = $element;
-            }
+            ! is_null($element) && $html[] = $element;
         }
 
         return count($html) > 0 ? ' '.implode(' ', $html) : '';
@@ -390,74 +406,17 @@ class HtmlBuilder
     /**
      * Build a single attribute element.
      *
-     * @param string $key
-     * @param string $value
+     * @param  string  $key
+     * @param  string  $value
      *
      * @return string
      */
     protected function attributeElement($key, $value)
     {
-        // For numeric keys we will assume that the key and the value are the same
-        // as this will convert HTML attributes such as "required" to a correct
-        // form like required="required" instead of using incorrect numerics.
-        if (is_numeric($key)) {
-            $key = $value;
-        }
+        is_numeric($key) && $key = $value;
 
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             return $key.'="'.e($value).'"';
         }
-    }
-
-    /**
-     * Obfuscate a string to prevent spam-bots from sniffing it.
-     *
-     * @param string $value
-     *
-     * @return string
-     */
-    public function obfuscate($value)
-    {
-        $safe = '';
-
-        foreach (str_split($value) as $letter) {
-            if (ord($letter) > 128) {
-                return $letter;
-            }
-
-            // To properly obfuscate the value, we will randomly convert each letter to
-            // its entity or hexadecimal representation, keeping a bot from sniffing
-            // the randomly obfuscated letters out of the string on the responses.
-            switch (rand(1, 3)) {
-                case 1:
-                    $safe .= '&#'.ord($letter).';'; break;
-
-                case 2:
-                    $safe .= '&#x'.dechex(ord($letter)).';'; break;
-
-                case 3:
-                    $safe .= $letter;
-            }
-        }
-
-        return $safe;
-    }
-
-    /**
-     * Generate a meta tag.
-     *
-     * @param string $name
-     * @param string $content
-     * @param array  $attributes
-     *
-     * @return string
-     */
-    public function meta($name, $content, array $attributes = [])
-    {
-        $defaults = compact('name', 'content');
-
-        $attributes = array_merge($defaults, $attributes);
-
-        return '<meta'.$this->attributes($attributes).'>'.PHP_EOL;
     }
 }
