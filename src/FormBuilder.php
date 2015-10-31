@@ -1,10 +1,9 @@
-<?php
-namespace Collective\Html;
+<?php namespace Collective\Html;
 
 use DateTime;
+use Illuminate\Support\Collection;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Session\Store as Session;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 
 class FormBuilder
