@@ -1,22 +1,23 @@
 {
     "name": "laravie/html",
+    "description": "HTML and Form Builders for the Laravel Framework",
     "license": "MIT",
     "authors": [
         {
-          "name": "Adam Engebretson",
-          "email": "adam@laravelcollective.com"
+            "name": "Adam Engebretson",
+            "email": "adam@laravelcollective.com"
         },
         {
-          "name": "Taylor Otwell",
-          "email": "taylorotwell@gmail.com"
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/http": "5.1.*",
-        "illuminate/routing": "5.1.*",
-        "illuminate/session": "5.1.*",
-        "illuminate/support": "5.1.*"
+        "illuminate/http": "~5.1.0",
+        "illuminate/routing": "~5.1.0",
+        "illuminate/session": "~5.1.0",
+        "illuminate/support": "~5.1.0"
     },
     "require-dev": {
         "mockery/mockery": "~0.9",
