@@ -1,5 +1,4 @@
 <?php
-
 namespace Collective\Html;
 
 use DateTime;
@@ -86,8 +85,8 @@ class FormBuilder
    */
   public function __construct(HtmlBuilder $html, UrlGenerator $url, $csrfToken)
   {
-      $this->url = $url;
-      $this->html = $html;
+      $this->url       = $url;
+      $this->html      = $html;
       $this->csrfToken = $csrfToken;
   }
 
@@ -641,7 +640,7 @@ class FormBuilder
   {
       $selected = $this->getSelectedValue(null, $selected);
 
-      $options = compact('selected');
+      $options          = compact('selected');
       $options['value'] = '';
 
       return '<option'.$this->html->attributes($options).'>'.e($display).'</option>';
