@@ -4,6 +4,10 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Mior Muhammad Zaki",
+            "email": "crynobone@gmail.com"
+        },
+        {
             "name": "Adam Engebretson",
             "email": "adam@laravelcollective.com"
         },
@@ -12,6 +16,14 @@
             "email": "taylorotwell@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+          "Collective\\Html\\": "src/"
+        },
+        "files": [
+          "src/helpers.php"
+        ]
+    },
     "require": {
         "php": ">=5.5.9",
         "illuminate/http": "~5.2.0",
@@ -26,13 +38,10 @@
     "replace": {
         "laravelcollective/html": "*"
     },
-    "autoload": {
-        "psr-4": {
-          "Collective\\Html\\": "src/"
-        },
-        "files": [
-          "src/helpers.php"
-        ]
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.2-dev"
+        }
     },
     "minimum-stability": "dev"
 }
