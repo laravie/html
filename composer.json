@@ -1,14 +1,15 @@
 {
     "name": "laravie/html",
+    "description": "HTML and Form Builders for the Laravel Framework",
     "license": "MIT",
     "authors": [
         {
-          "name": "Adam Engebretson",
-          "email": "adam@laravelcollective.com"
+            "name": "Adam Engebretson",
+            "email": "adam@laravelcollective.com"
         },
         {
-          "name": "Taylor Otwell",
-          "email": "taylorotwell@gmail.com"
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
         }
     ],
     "require": {
@@ -21,6 +22,9 @@
     "require-dev": {
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~4.0"
+    },
+    "replace": {
+        "laravelcollective/html": "*"
     },
     "autoload": {
         "psr-4": {
