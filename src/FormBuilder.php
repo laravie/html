@@ -1,12 +1,12 @@
 <?php namespace Collective\Html;
 
-use Illuminate\Routing\UrlGenerator;
 use Collective\Html\Traits\InputTrait;
 use Collective\Html\Traits\CheckerTrait;
 use Collective\Html\Traits\CreatorTrait;
 use Illuminate\Support\Traits\Macroable;
 use Collective\Html\Traits\SelectionTrait;
 use Collective\Html\Traits\SessionHelperTrait;
+use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
 class FormBuilder
 {
@@ -23,10 +23,10 @@ class FormBuilder
      * Create a new form builder instance.
      *
      * @param  \Orchestra\Html\Support\HtmlBuilder  $html
-     * @param  \Illuminate\Routing\UrlGenerator  $url
+     * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
      * @param  string|null  $csrfToken
      */
-    public function __construct(HtmlBuilder $html, UrlGenerator $url, $csrfToken = null)
+    public function __construct(HtmlBuilder $html, UrlGeneratorContract $url, $csrfToken = null)
     {
         $this->url       = $url;
         $this->html      = $html;
