@@ -304,10 +304,15 @@ class HtmlBuilder
     public function dl(array $list, array $attributes = [])
     {
         $attributes = $this->attributes($attributes);
-        $html       = "<dl{$attributes}>";
+
+        $html = "<dl{$attributes}>";
 
         foreach ($list as $key => $value) {
-            $html .= "<dt>$key</dt><dd>$value</dd>";
+            $html .= "<dt>{$key}</dt>";
+
+            foreach ((array) $value as $description) {
+                $html .= "<dd>{$description}</dd>";
+            }
         }
 
         $html .= '</dl>';

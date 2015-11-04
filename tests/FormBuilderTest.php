@@ -17,7 +17,7 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
   {
       $this->urlGenerator = new UrlGenerator(new RouteCollection(), Request::create('/foo', 'GET'));
       $this->htmlBuilder = new HtmlBuilder($this->urlGenerator);
-      $this->formBuilder = new FormBuilder($this->htmlBuilder, $this->urlGenerator, 'abc');
+      $this->formBuilder = new FormBuilder($this->htmlBuilder, $this->urlGenerator);
   }
 
   /**
@@ -30,11 +30,18 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
 
     public function testOpeningForm()
     {
-        $form1 = $this->formBuilder->open(['method' => 'GET']);
-        $form2 = $this->formBuilder->open(['method' => 'POST', 'class' => 'form', 'id' => 'id-form']);
-        $form3 = $this->formBuilder->open(['method' => 'GET', 'accept-charset' => 'UTF-16']);
-        $form4 = $this->formBuilder->open(['method' => 'GET', 'accept-charset' => 'UTF-16', 'files' => true]);
-        $form5 = $this->formBuilder->open(['method' => 'PUT']);
+        $formBuilder = $this->formBuilder;
+
+        $session = m::mock('Illuminate\Session\Store');
+        $session->shouldReceive('getToken')->andReturn('abc')
+            ->shouldReceive('getOldInput')->andReturnNull();
+        $formBuilder->setSessionStore($session);
+
+        $form1 = $formBuilder->open(['method' => 'GET']);
+        $form2 = $formBuilder->open(['method' => 'POST', 'class' => 'form', 'id' => 'id-form']);
+        $form3 = $formBuilder->open(['method' => 'GET', 'accept-charset' => 'UTF-16']);
+        $form4 = $formBuilder->open(['method' => 'GET', 'accept-charset' => 'UTF-16', 'files' => true]);
+        $form5 = $formBuilder->open(['method' => 'PUT']);
 
         $this->assertEquals('<form method="GET" action="http://localhost/foo" accept-charset="UTF-8">', $form1);
         $this->assertEquals('<form method="POST" action="http://localhost/foo" accept-charset="UTF-8" class="form" id="id-form"><input name="_token" type="hidden" value="abc">', $form2);
