@@ -3,7 +3,7 @@
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
 
-## 5.0.0 - 2015-11-02
+## 5.1.0 - 2015-11-02
 
 ### New
 
