@@ -22,8 +22,8 @@ class HtmlServiceProvider extends ServiceProvider
 
         $this->registerFormBuilder();
 
-        $this->app->alias('html', 'Collective\Html\HtmlBuilder');
-        $this->app->alias('form', 'Collective\Html\FormBuilder');
+        $this->app->alias('html', HtmlBuilder::class);
+        $this->app->alias('form', FormBuilder::class);
     }
 
     /**
@@ -59,6 +59,6 @@ class HtmlServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['html', 'form', 'Collective\Html\HtmlBuilder', 'Collective\Html\FormBuilder'];
+        return ['html', 'form', HtmlBuilder::class, FormBuilder::class];
     }
 }
