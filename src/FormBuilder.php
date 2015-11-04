@@ -24,13 +24,11 @@ class FormBuilder
      *
      * @param  \Orchestra\Html\Support\HtmlBuilder  $html
      * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
-     * @param  string|null  $csrfToken
      */
-    public function __construct(HtmlBuilder $html, UrlGeneratorContract $url, $csrfToken = null)
+    public function __construct(HtmlBuilder $html, UrlGeneratorContract $url)
     {
-        $this->url       = $url;
-        $this->html      = $html;
-        $this->csrfToken = $csrfToken;
+        $this->url = $url;
+        $this->html = $html;
     }
 
     /**
