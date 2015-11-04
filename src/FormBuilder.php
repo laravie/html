@@ -27,7 +27,7 @@ class FormBuilder
      */
     public function __construct(HtmlBuilder $html, UrlGeneratorContract $url)
     {
-        $this->url = $url;
+        $this->url  = $url;
         $this->html = $html;
     }
 
