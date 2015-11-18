@@ -2,6 +2,12 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
+## 5.1.2 - 2015-11-19
+
+### New
+
+* Add `Form::datetime` helper method.
+* Add `Form::datetimeLocal` helper method.
 
 ## 5.1.1 - 2015-11-06
 
