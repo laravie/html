@@ -169,7 +169,7 @@ trait SelectionTrait
      */
     public function selectYear($name, $begin, $end, $selected = null, $options = [])
     {
-        return call_user_func([$this, 'selectRange'], $name, $begin, $end, $selected, $options);
+        return $this->selectRange($name, $begin, $end, $selected, $options);
     }
 
     /**
