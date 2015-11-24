@@ -1,5 +1,7 @@
 <?php namespace Collective\Html\Traits;
 
+use Illuminate\Contracts\Support\Arrayable;
+
 trait SelectionTrait
 {
     /**
@@ -125,12 +127,16 @@ trait SelectionTrait
      * Determine if the value is selected.
      *
      * @param  string  $value
-     * @param  string  $selected
+     * @param  string|array|\Illuminate\Contracts\Support\Arrayable  $selected
      *
      * @return string
      */
     protected function getSelectedValue($value, $selected)
     {
+        if ($selected instanceof Arrayable) {
+            $selected = $selected->toArray();
+        }
+
         if (is_array($selected)) {
             return in_array($value, $selected) ? 'selected' : null;
         }
