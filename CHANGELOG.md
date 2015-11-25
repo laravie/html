@@ -2,6 +2,20 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
+## 5.1.3 - 2015-11-25
+
+### New
+
+* Add documentation.
+
+### Changes
+
+* Support boolean HTML attributes. `Form::text('foo', null, ['required'])` should now return `<input type="text" name="foo" required>`.
+
+### Fixed
+
+* Properly populate select from Collection in Laravel 5.1.
+
 ## 5.1.2 - 2015-11-19
 
 ### New
