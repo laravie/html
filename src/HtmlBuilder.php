@@ -418,7 +418,12 @@ class HtmlBuilder
      */
     protected function attributeElement($key, $value)
     {
-        is_numeric($key) && $key = $value;
+        // For numeric keys we will assume that the value is a boolean attribute
+        // where the presence of the attribute represents a true value and the
+        // absence represents a false value.
+        if (is_numeric($key)) {
+            return $value;
+        }
 
         if (! is_null($value)) {
             return $key.'="'.e($value).'"';

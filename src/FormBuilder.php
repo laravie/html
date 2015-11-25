@@ -15,14 +15,14 @@ class FormBuilder
     /**
      * The HTML builder instance.
      *
-     * @var \Orchestra\Html\Support\HtmlBuilder
+     * @var \Collective\Html\HtmlBuilder
      */
     protected $html;
 
     /**
      * Create a new form builder instance.
      *
-     * @param  \Orchestra\Html\Support\HtmlBuilder  $html
+     * @param  \Collective\Html\HtmlBuilder  $html
      * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
      */
     public function __construct(HtmlBuilder $html, UrlGeneratorContract $url)
@@ -247,7 +247,7 @@ class FormBuilder
     /**
      * Get html builder.
      *
-     * @return \Orchestra\Html\Support\HtmlBuilder
+     * @return \Collective\Html\HtmlBuilder
      */
     public function getHtmlBuilder()
     {
