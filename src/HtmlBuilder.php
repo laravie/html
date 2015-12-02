@@ -4,14 +4,14 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Traits\Macroable;
 use Collective\Html\Traits\ObfuscateTrait;
-use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Contracts\View\Factory as ViewFactoryContract;
+use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
 class HtmlBuilder
 {
-    use ObfuscateTrait,
-        Macroable {
-            __call as macroCall;
-        }
+    use Componentable, Macroable, ObfuscateTrait {
+        Macroable::__call as macroCall;
+    }
 
     /**
      * The URL generator instance.
@@ -28,19 +28,12 @@ class HtmlBuilder
     protected $view;
 
     /**
-     * The registered components.
-     *
-     * @var array
-     */
-    protected static $components = [];
-
-    /**
      * Create a new HTML builder instance.
      *
      * @param \Illuminate\Contracts\Routing\UrlGenerator  $url
      * @param \Illuminate\Contracts\View\Factory  $view
      */
-    public function __construct(UrlGenerator $url = null, Factory $view)
+    public function __construct(UrlGeneratorContract $url, ViewFactoryContract $view)
     {
         $this->url  = $url;
         $this->view = $view;
@@ -453,78 +446,6 @@ class HtmlBuilder
         $attributes = array_merge($defaults, $attributes);
 
         return $this->toHtmlString('<meta'.$this->attributes($attributes).'>'.PHP_EOL);
-    }
-
-    /**
-     * Register a custom component.
-     *
-     * @param       $name
-     * @param       $view
-     * @param array $signature
-     *
-     * @return void
-     */
-    public static function component($name, $view, array $signature)
-    {
-        static::$components[$name] = compact('view', 'signature');
-    }
-
-    /**
-     * Check if a component is registered.
-     *
-     * @param $name
-     *
-     * @return bool
-     */
-    public static function hasComponent($name)
-    {
-        return isset(static::$components[$name]);
-    }
-
-    /**
-     * Render a custom component.
-     *
-     * @param        $name
-     * @param  array $arguments
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
-    protected function renderComponent($name, array $arguments)
-    {
-        $component = static::$components[$name];
-        $data      = $this->getComponentData($component['signature'], $arguments);
-
-        return $this->view->make($component['view'], $data);
-    }
-
-    /**
-     * Prepare the component data, while respecting provided defaults.
-     *
-     * @param  array $signature
-     * @param  array $arguments
-     *
-     * @return array
-     */
-    protected function getComponentData(array $signature, array $arguments)
-    {
-        $data = [];
-
-        $i = 0;
-        foreach ($signature as $variable => $default) {
-            // If the "variable" value is actually a numeric key, we can assume that
-            // no default had been specified for the component argument and we'll
-            // just use null instead, so that we can treat them all the same.
-            if (is_numeric($variable)) {
-                $variable = $default;
-                $default  = null;
-            }
-
-            $data[$variable] = array_get($arguments, $i) ?: $default;
-
-            $i++;
-        }
-
-        return $data;
     }
 
     /**

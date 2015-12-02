@@ -2,16 +2,20 @@
 
 use Illuminate\Support\HtmlString;
 use Collective\Html\Traits\InputTrait;
+use Illuminate\Database\Eloquent\Model;
 use Collective\Html\Traits\CheckerTrait;
 use Collective\Html\Traits\CreatorTrait;
 use Illuminate\Support\Traits\Macroable;
 use Collective\Html\Traits\SelectionTrait;
 use Collective\Html\Traits\SessionHelperTrait;
+use Illuminate\Contracts\View\Factory as ViewFactoryContract;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
 class FormBuilder
 {
-    use CheckerTrait, CreatorTrait, InputTrait, Macroable, SelectionTrait, SessionHelperTrait;
+    use Componentable, CheckerTrait, CreatorTrait, InputTrait, Macroable, SelectionTrait, SessionHelperTrait {
+        Macroable::__call as macroCall;
+    }
 
     /**
      * The HTML builder instance.
@@ -25,11 +29,13 @@ class FormBuilder
      *
      * @param  \Collective\Html\HtmlBuilder  $html
      * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
+     * @param  \Illuminate\Contracts\View\Factory  $view
      */
-    public function __construct(HtmlBuilder $html, UrlGeneratorContract $url)
+    public function __construct(HtmlBuilder $html, UrlGeneratorContract $url, ViewFactoryContract $view)
     {
         $this->url  = $url;
         $this->html = $html;
+        $this->view = $view;
     }
 
     /**
@@ -269,5 +275,24 @@ class FormBuilder
     public function getHtmlBuilder()
     {
         return $this->html;
+    }
+
+    /**
+     * Dynamically handle calls to the class.
+     *
+     * @param  string $method
+     * @param  array  $parameters
+     *
+     * @return \Illuminate\Contracts\View\View|mixed
+     *
+     * @throws \BadMethodCallException
+     */
+    public function __call($method, $parameters)
+    {
+        if (static::hasComponent($method)) {
+            return $this->renderComponent($method, $parameters);
+        }
+
+        return $this->macroCall($method, $parameters);
     }
 }
