@@ -1,5 +1,7 @@
 <?php namespace Collective\Html\Traits;
 
+use Illuminate\Contracts\Support\Arrayable;
+
 trait SelectionTrait
 {
     /**
@@ -10,7 +12,7 @@ trait SelectionTrait
      * @param  string  $selected
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function select($name, $list = [], $selected = null, $options = [])
     {
@@ -44,7 +46,7 @@ trait SelectionTrait
 
         $list = implode('', $html);
 
-        return "<select{$options}>{$list}</select>";
+        return $this->toHtmlString("<select{$options}>{$list}</select>");
     }
 
     /**
@@ -54,7 +56,7 @@ trait SelectionTrait
      * @param  string  $value
      * @param  string  $selected
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function getSelectOption($display, $value, $selected)
     {
@@ -72,7 +74,7 @@ trait SelectionTrait
      * @param  string  $label
      * @param  string  $selected
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     protected function optionGroup($list, $label, $selected)
     {
@@ -82,7 +84,7 @@ trait SelectionTrait
             $html[] = $this->option($display, $value, $selected);
         }
 
-        return '<optgroup label="'.e($label).'">'.implode('', $html).'</optgroup>';
+        return $this->toHtmlString('<optgroup label="'.e($label).'">'.implode('', $html).'</optgroup>');
     }
 
     /**
@@ -92,7 +94,7 @@ trait SelectionTrait
      * @param  string  $value
      * @param  string  $selected
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     protected function option($display, $value, $selected)
     {
@@ -100,7 +102,7 @@ trait SelectionTrait
 
         $options = ['value' => $value, 'selected' => $selected];
 
-        return '<option'.$this->getHtmlBuilder()->attributes($options).'>'.e($display).'</option>';
+        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.e($display).'</option>');
     }
 
     /**
@@ -109,7 +111,7 @@ trait SelectionTrait
      * @param string  $display
      * @param string  $selected
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     protected function placeholderOption($display, $selected)
     {
@@ -118,19 +120,23 @@ trait SelectionTrait
 
         $options = compact('selected', 'value');
 
-        return '<option'.$this->html->attributes($options).'>'.e($display).'</option>';
+        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.e($display).'</option>');
     }
 
     /**
      * Determine if the value is selected.
      *
      * @param  string  $value
-     * @param  string  $selected
+     * @param  string|array|\Illuminate\Contracts\Support\Arrayable  $selected
      *
      * @return string
      */
     protected function getSelectedValue($value, $selected)
     {
+        if ($selected instanceof Arrayable) {
+            $selected = $selected->toArray();
+        }
+
         if (is_array($selected)) {
             return in_array($value, $selected) ? 'selected' : null;
         }
@@ -147,7 +153,7 @@ trait SelectionTrait
      * @param  string  $selected
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function selectRange($name, $begin, $end, $selected = null, $options = [])
     {
@@ -165,11 +171,11 @@ trait SelectionTrait
      * @param  string  $selected
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function selectYear($name, $begin, $end, $selected = null, $options = [])
     {
-        return call_user_func([$this, 'selectRange'], $name, $begin, $end, $selected, $options);
+        return $this->selectRange($name, $begin, $end, $selected, $options);
     }
 
     /**
@@ -180,7 +186,7 @@ trait SelectionTrait
      * @param  array   $options
      * @param  string  $format
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function selectMonth($name, $selected = null, $options = [], $format = '%B')
     {
@@ -199,6 +205,15 @@ trait SelectionTrait
      * @return \Orchestra\Html\Support\HtmlBuilder
      */
     abstract public function getHtmlBuilder();
+
+    /**
+     * Transform the string to an Html serializable object.
+     *
+     * @param  string  $html
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    abstract protected function toHtmlString($html);
 
     /**
      * Get the ID attribute for a field name.

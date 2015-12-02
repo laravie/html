@@ -44,7 +44,7 @@ trait CreatorTrait
      *
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function open(array $options = [])
     {
@@ -78,13 +78,13 @@ trait CreatorTrait
         // extra value for the hidden _method field if it's needed for the form.
         $attributes = $this->getHtmlBuilder()->attributes($attributes);
 
-        return '<form'.$attributes.'>'.$append;
+        return $this->toHtmlString('<form'.$attributes.'>'.$append);
     }
 
     /**
      * Close the current form.
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function close()
     {
@@ -92,7 +92,7 @@ trait CreatorTrait
 
         $this->model = null;
 
-        return '</form>';
+        return $this->toHtmlString('</form>');
     }
 
     /**
@@ -226,4 +226,13 @@ trait CreatorTrait
      * @return \Orchestra\Html\Support\HtmlBuilder
      */
     abstract public function getHtmlBuilder();
+
+    /**
+     * Transform the string to an Html serializable object.
+     *
+     * @param  string  $html
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    abstract protected function toHtmlString($html);
 }

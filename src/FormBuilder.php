@@ -1,5 +1,6 @@
 <?php namespace Collective\Html;
 
+use Illuminate\Support\HtmlString;
 use Collective\Html\Traits\InputTrait;
 use Collective\Html\Traits\CheckerTrait;
 use Collective\Html\Traits\CreatorTrait;
@@ -15,14 +16,14 @@ class FormBuilder
     /**
      * The HTML builder instance.
      *
-     * @var \Orchestra\Html\Support\HtmlBuilder
+     * @var \Collective\Html\HtmlBuilder
      */
     protected $html;
 
     /**
      * Create a new form builder instance.
      *
-     * @param  \Orchestra\Html\Support\HtmlBuilder  $html
+     * @param  \Collective\Html\HtmlBuilder  $html
      * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
      */
     public function __construct(HtmlBuilder $html, UrlGeneratorContract $url)
@@ -34,7 +35,7 @@ class FormBuilder
     /**
      * Generate a hidden field with the current CSRF token.
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function token()
     {
@@ -79,7 +80,7 @@ class FormBuilder
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function label($name, $value = null, $options = [])
     {
@@ -89,7 +90,7 @@ class FormBuilder
 
         $value = e($this->formatLabel($name, $value));
 
-        return '<label for="'.$name.'"'.$options.'>'.$value.'</label>';
+        return $this->toHtmlString('<label for="'.$name.'"'.$options.'>'.$value.'</label>');
     }
 
     /**
@@ -123,7 +124,7 @@ class FormBuilder
      * @param  string  $value
      * @param  array   $attributes
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function reset($value, $attributes = [])
     {
@@ -137,7 +138,7 @@ class FormBuilder
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function hidden($name, $value = null, $options = [])
     {
@@ -150,7 +151,7 @@ class FormBuilder
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function submit($value = null, $options = [])
     {
@@ -163,7 +164,7 @@ class FormBuilder
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function button($value = null, $options = [])
     {
@@ -171,7 +172,7 @@ class FormBuilder
             $options['type'] = 'button';
         }
 
-        return '<button'.$this->html->attributes($options).'>'.$value.'</button>';
+        return $this->toHtmlString('<button'.$this->html->attributes($options).'>'.$value.'</button>');
     }
 
     /**
@@ -229,6 +230,10 @@ class FormBuilder
      */
     protected function getModelValueAttribute($name)
     {
+        if (method_exists($this->model, 'getFormValue')) {
+            return $this->model->getFormValue($name);
+        }
+
         return data_get($this->model, $this->transformKey($name));
     }
 
@@ -245,9 +250,21 @@ class FormBuilder
     }
 
     /**
+     * Transform the string to an Html serializable object.
+     *
+     * @param  string  $html
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    protected function toHtmlString($html)
+    {
+        return new HtmlString($html);
+    }
+
+    /**
      * Get html builder.
      *
-     * @return \Orchestra\Html\Support\HtmlBuilder
+     * @return \Collective\Html\HtmlBuilder
      */
     public function getHtmlBuilder()
     {
