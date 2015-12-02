@@ -10,7 +10,7 @@ class HtmlBuilder
 {
     use ObfuscateTrait,
         Macroable {
-            __call as callMacro;
+            __call as macroCall;
         }
 
     /**
