@@ -20,7 +20,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function input($type, $name, $value = null, $options = [])
     {
@@ -42,7 +42,7 @@ trait InputTrait
 
         $options = array_merge($options, $merge);
 
-        return '<input'.$this->html->attributes($options).'>';
+        return $this->toHtmlString('<input'.$this->html->attributes($options).'>');
     }
 
     /**
@@ -52,7 +52,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function text($name, $value = null, $options = [])
     {
@@ -65,7 +65,7 @@ trait InputTrait
      * @param  string  $name
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function password($name, $options = [])
     {
@@ -79,7 +79,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array  $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function color($name, $value = null, $options = [])
     {
@@ -93,7 +93,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function email($name, $value = null, $options = [])
     {
@@ -107,7 +107,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return  string
+     * @return \Illuminate\Support\HtmlString
      */
     public function tel($name, $value = null, $options = [])
     {
@@ -121,7 +121,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function number($name, $value = null, $options = [])
     {
@@ -135,7 +135,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function date($name, $value = null, $options = [])
     {
@@ -152,7 +152,7 @@ trait InputTrait
      * @param  string $value
      * @param  array  $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function datetime($name, $value = null, $options = [])
     {
@@ -170,7 +170,7 @@ trait InputTrait
      * @param  string $value
      * @param  array  $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function datetimeLocal($name, $value = null, $options = [])
     {
@@ -188,7 +188,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function time($name, $value = null, $options = [])
     {
@@ -202,7 +202,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function url($name, $value = null, $options = [])
     {
@@ -215,7 +215,7 @@ trait InputTrait
      * @param  string  $name
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function file($name, $options = [])
     {
@@ -229,7 +229,7 @@ trait InputTrait
      * @param  string  $name
      * @param  array   $attributes
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function image($url, $name = null, $attributes = [])
     {
@@ -245,7 +245,7 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function textarea($name, $value = null, $options = [])
     {
@@ -306,4 +306,13 @@ trait InputTrait
 
         return array_merge($options, ['cols' => $segments[0], 'rows' => $segments[1]]);
     }
+
+    /**
+     * Transform the string to an Html serializable object.
+     *
+     * @param  string  $html
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    abstract protected function toHtmlString($html);
 }

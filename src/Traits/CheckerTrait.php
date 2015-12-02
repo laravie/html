@@ -12,7 +12,7 @@ trait CheckerTrait
      * @param  bool    $checked
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function checkbox($name, $value = 1, $checked = null, $options = [])
     {
@@ -27,7 +27,7 @@ trait CheckerTrait
      * @param  bool    $checked
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function radio($name, $value = null, $checked = null, $options = [])
     {
@@ -45,7 +45,7 @@ trait CheckerTrait
      * @param  bool    $checked
      * @param  array   $options
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     protected function checkable($type, $name, $value, $checked, $options)
     {
