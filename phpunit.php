@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Events\Dispatcher;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
@@ -39,7 +38,6 @@ $capsule->addConnection([
   'driver'   => 'sqlite',
   'database' => ':memory:',
 ]);
-$capsule->setEventDispatcher(new Dispatcher);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 

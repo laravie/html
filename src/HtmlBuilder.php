@@ -4,13 +4,14 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Traits\Macroable;
 use Collective\Html\Traits\ObfuscateTrait;
-use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
+use Illuminate\Contracts\Routing\UrlGenerator;
 
 class HtmlBuilder
 {
-    use Macroable {
-        __call as callMacro;
-    }, ObfuscateTrait;
+    use ObfuscateTrait,
+        Macroable {
+            __call as callMacro;
+        }
 
     /**
      * The URL generator instance.
@@ -41,7 +42,7 @@ class HtmlBuilder
      */
     public function __construct(UrlGenerator $url = null, Factory $view)
     {
-        $this->url = $url;
+        $this->url  = $url;
         $this->view = $view;
     }
 
@@ -70,23 +71,6 @@ class HtmlBuilder
     }
 
     /**
-     * Generate a meta tag.
-     *
-     * @param  string  $name
-     * @param  string  $content
-     * @param  array   $attributes
-     *
-     * @return string
-     */
-    public function meta($name, $content, array $attributes = [])
-    {
-        $defaults   = compact('name', 'content');
-        $attributes = array_merge($defaults, $attributes);
-
-        return '<meta'.$this->attributes($attributes).'>'.PHP_EOL;
-    }
-
-    /**
      * Generate a link to a JavaScript file.
      *
      * @param  string  $url
@@ -99,7 +83,7 @@ class HtmlBuilder
     {
         $attributes['src'] = $this->url->asset($url, $secure);
 
-        return $this->toHtmlString('<script' . $this->attributes($attributes) . '></script>' . PHP_EOL);
+        return $this->toHtmlString('<script'.$this->attributes($attributes).'></script>'.PHP_EOL);
     }
 
     /**
@@ -119,7 +103,7 @@ class HtmlBuilder
 
         $attributes['href'] = $this->url->asset($url, $secure);
 
-        return $this->toHtmlString('<link' . $this->attributes($attributes) . '>' . PHP_EOL);
+        return $this->toHtmlString('<link'.$this->attributes($attributes).'>'.PHP_EOL);
     }
 
     /**
@@ -136,8 +120,8 @@ class HtmlBuilder
     {
         $attributes['alt'] = $alt;
 
-        return $this->toHtmlString('<img src="' . $this->url->asset($url,
-            $secure) . '"' . $this->attributes($attributes) . '>');
+        return $this->toHtmlString('<img src="'.$this->url->asset($url,
+            $secure).'"'.$this->attributes($attributes).'>');
     }
 
     /**
@@ -157,7 +141,7 @@ class HtmlBuilder
 
         $attributes['href'] = $this->url->asset($url, $secure);
 
-        return $this->toHtmlString('<link' . $this->attributes($attributes) . '>' . PHP_EOL);
+        return $this->toHtmlString('<link'.$this->attributes($attributes).'>'.PHP_EOL);
     }
 
     /**
@@ -178,7 +162,7 @@ class HtmlBuilder
             $title = $url;
         }
 
-        return $this->toHtmlString('<a href="' . $url . '"' . $this->attributes($attributes) . '>' . $this->entities($title) . '</a>');
+        return $this->toHtmlString('<a href="'.$url.'"'.$this->attributes($attributes).'>'.$this->entities($title).'</a>');
     }
 
     /**
@@ -271,9 +255,9 @@ class HtmlBuilder
 
         $title = $title ?: $email;
 
-        $email = $this->obfuscate('mailto:') . $email;
+        $email = $this->obfuscate('mailto:').$email;
 
-        return $this->toHtmlString('<a href="' . $email . '"' . $this->attributes($attributes) . '>' . $this->entities($title) . '</a>');
+        return $this->toHtmlString('<a href="'.$email.'"'.$this->attributes($attributes).'>'.$this->entities($title).'</a>');
     }
 
     /**
@@ -384,7 +368,7 @@ class HtmlBuilder
         if (is_array($value)) {
             return $this->nestedListing($key, $type, $value);
         } else {
-            return '<li>' . e($value) . '</li>';
+            return '<li>'.e($value).'</li>';
         }
     }
 
@@ -402,7 +386,7 @@ class HtmlBuilder
         if (is_int($key)) {
             return $this->listing($type, $value);
         } else {
-            return '<li>' . $key . $this->listing($type, $value) . '</li>';
+            return '<li>'.$key.$this->listing($type, $value).'</li>';
         }
     }
 
@@ -428,7 +412,7 @@ class HtmlBuilder
             }
         }
 
-        return count($html) > 0 ? ' ' . implode(' ', $html) : '';
+        return count($html) > 0 ? ' '.implode(' ', $html) : '';
     }
 
     /**
@@ -449,7 +433,7 @@ class HtmlBuilder
         }
 
         if (! is_null($value)) {
-            return $key . '="' . e($value) . '"';
+            return $key.'="'.e($value).'"';
         }
     }
 
@@ -468,7 +452,7 @@ class HtmlBuilder
 
         $attributes = array_merge($defaults, $attributes);
 
-        return $this->toHtmlString('<meta' . $this->attributes($attributes) . '>' . PHP_EOL);
+        return $this->toHtmlString('<meta'.$this->attributes($attributes).'>'.PHP_EOL);
     }
 
     /**
@@ -508,7 +492,7 @@ class HtmlBuilder
     protected function renderComponent($name, array $arguments)
     {
         $component = static::$components[$name];
-        $data = $this->getComponentData($component['signature'], $arguments);
+        $data      = $this->getComponentData($component['signature'], $arguments);
 
         return $this->view->make($component['view'], $data);
     }
@@ -532,7 +516,7 @@ class HtmlBuilder
             // just use null instead, so that we can treat them all the same.
             if (is_numeric($variable)) {
                 $variable = $default;
-                $default = null;
+                $default  = null;
             }
 
             $data[$variable] = array_get($arguments, $i) ?: $default;
@@ -544,7 +528,7 @@ class HtmlBuilder
     }
 
     /**
-     * Transform the string to an Html serializable object
+     * Transform the string to an Html serializable object.
      *
      * @param $html
      *
