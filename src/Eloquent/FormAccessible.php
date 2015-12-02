@@ -1,5 +1,4 @@
-<?php
-namespace Collective\Html\Eloquent;
+<?php namespace Collective\Html\Eloquent;
 
 use ReflectionClass;
 use ReflectionMethod;
