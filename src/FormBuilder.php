@@ -14,6 +14,7 @@ use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 class FormBuilder
 {
     use Componentable, CheckerTrait, CreatorTrait, InputTrait, Macroable, SelectionTrait, SessionHelperTrait {
+        Componentable::__call as componentCall;
         Macroable::__call as macroCall;
     }
 
