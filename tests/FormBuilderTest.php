@@ -11,22 +11,22 @@ use Mockery as m;
 class FormBuilderTest extends PHPUnit_Framework_TestCase
 {
     /**
-   * Setup the test environment.
-   */
-  public function setUp()
-  {
-      $this->urlGenerator = new UrlGenerator(new RouteCollection(), Request::create('/foo', 'GET'));
-      $this->htmlBuilder = new HtmlBuilder($this->urlGenerator);
-      $this->formBuilder = new FormBuilder($this->htmlBuilder, $this->urlGenerator);
-  }
+     * Setup the test environment.
+     */
+    public function setUp()
+    {
+        $this->urlGenerator = new UrlGenerator(new RouteCollection(), Request::create('/foo', 'GET'));
+        $this->htmlBuilder = new HtmlBuilder($this->urlGenerator);
+        $this->formBuilder = new FormBuilder($this->htmlBuilder, $this->urlGenerator);
+    }
 
-  /**
-   * Destroy the test environment.
-   */
-  public function tearDown()
-  {
-      m::close();
-  }
+    /**
+     * Destroy the test environment.
+     */
+    public function tearDown()
+    {
+        m::close();
+    }
 
     public function testOpeningForm()
     {
@@ -496,28 +496,28 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class FormBuilderModelStub
-{
-    protected $data;
-
-    public function __construct(array $data = [])
+    class FormBuilderModelStub
     {
-        foreach ($data as $key => $val) {
-            if (is_array($val)) {
-                $val = new self($val);
-            }
+        protected $data;
 
-            $this->data[$key] = $val;
+        public function __construct(array $data = [])
+        {
+            foreach ($data as $key => $val) {
+                if (is_array($val)) {
+                    $val = new self($val);
+                }
+
+                $this->data[$key] = $val;
+            }
+        }
+
+        public function __get($key)
+        {
+            return $this->data[$key];
+        }
+
+        public function __isset($key)
+        {
+            return isset($this->data[$key]);
         }
     }
-
-    public function __get($key)
-    {
-        return $this->data[$key];
-    }
-
-    public function __isset($key)
-    {
-        return isset($this->data[$key]);
-    }
-}
