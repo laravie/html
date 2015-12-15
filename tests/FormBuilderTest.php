@@ -246,34 +246,54 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
     public function testSelect()
     {
         $select = $this->formBuilder->select(
-      'size',
-      ['L' => 'Large', 'S' => 'Small']
-    );
+            'size',
+            ['L' => 'Large', 'S' => 'Small']
+        );
         $this->assertEquals($select, '<select name="size"><option value="L">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
-      'size',
-      ['L' => 'Large', 'S' => 'Small'],
-      'L'
-    );
+            'size',
+            ['L' => 'Large', 'S' => 'Small'],
+            'L'
+        );
         $this->assertEquals($select, '<select name="size"><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
-      'size',
-      ['L' => 'Large', 'S' => 'Small'],
-      null,
-      ['class' => 'class-name', 'id' => 'select-id']
-    );
+            'size',
+            ['L' => 'Large', 'S' => 'Small'],
+            null,
+            ['class' => 'class-name', 'id' => 'select-id']
+        );
         $this->assertEquals($select, '<select class="class-name" id="select-id" name="size"><option value="L">Large</option><option value="S">Small</option></select>');
 
         $this->formBuilder->label('select-name-id');
         $select = $this->formBuilder->select(
-      'select-name-id',
-      [],
-      null,
-      ['name' => 'select-name']
-    );
+            'select-name-id',
+            [],
+            null,
+            ['name' => 'select-name']
+        );
         $this->assertEquals($select, '<select name="select-name" id="select-name-id"></select>');
+
+        $select = $this->formBuilder->select(
+            'size',
+            [
+                'Large sizes' => [
+                    'L'  => 'Large',
+                    'XL' => 'Extra Large',
+                ],
+                'S' => 'Small',
+            ],
+            null,
+            [
+                'class' => 'class-name',
+                'id'    => 'select-id',
+            ]
+        );
+        $this->assertEquals(
+            $select,
+            '<select class="class-name" id="select-id" name="size"><optgroup label="Large sizes"><option value="L">Large</option><option value="XL">Extra Large</option></optgroup><option value="S">Small</option></select>'
+        );
     }
 
     public function testFormSelectRepopulation()
@@ -298,19 +318,19 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
     public function testFormWithOptionalPlaceholder()
     {
         $select = $this->formBuilder->select(
-      'size',
-      ['L' => 'Large', 'S' => 'Small'],
-      null,
-      ['placeholder' => 'Select One...']
-    );
+            'size',
+            ['L' => 'Large', 'S' => 'Small'],
+            null,
+            ['placeholder' => 'Select One...']
+        );
         $this->assertEquals($select, '<select name="size"><option selected="selected" value="">Select One...</option><option value="L">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
-      'size',
-      ['L' => 'Large', 'S' => 'Small'],
-      'L',
-      ['placeholder' => 'Select One...']
-    );
+            'size',
+            ['L' => 'Large', 'S' => 'Small'],
+            'L',
+            ['placeholder' => 'Select One...']
+        );
         $this->assertEquals($select, '<select name="size"><option value="">Select One...</option><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
     }
 
