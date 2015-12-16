@@ -524,28 +524,29 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
     }
 }
 
-    class FormBuilderModelStub
+class FormBuilderModelStub
+{
+
+    protected $data;
+
+    public function __construct(array $data = [])
     {
-        protected $data;
-
-        public function __construct(array $data = [])
-        {
-            foreach ($data as $key => $val) {
-                if (is_array($val)) {
-                    $val = new self($val);
-                }
-
-                $this->data[$key] = $val;
+        foreach ($data as $key => $val) {
+            if (is_array($val)) {
+                $val = new self($val);
             }
-        }
 
-        public function __get($key)
-        {
-            return $this->data[$key];
-        }
-
-        public function __isset($key)
-        {
-            return isset($this->data[$key]);
+            $this->data[$key] = $val;
         }
     }
+
+    public function __get($key)
+    {
+        return $this->data[$key];
+    }
+
+    public function __isset($key)
+    {
+        return isset($this->data[$key]);
+    }
+}
