@@ -4,9 +4,14 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 5.2.0
 
-* Update support to Laravel Framework 5.2.
+### New
+
 * Add `Collective\Html\Componentable` trait to build HTML or Form components. ([@adamgoose](https://github.com/adamgoose)) 
 * Add `Collective\Html\Eloquent\FormAccessible` trait. [@adamgoose](https://github.com/adamgoose)) 
+
+### Changes
+
+* Update support to Laravel Framework 5.2.
 * Convert all output to return `Illuminate\Support\Htmlable` instead of basic `string`. [@adamgoose](https://github.com/adamgoose)) 
 
 ## 5.1.4 - 2015-12-21
