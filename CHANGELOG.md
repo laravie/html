@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
+## 5.1.4 - 2015-12-21
+
+### New
+
+* Add `Form::color()` helper method. ([@mul14](https://github.com/mul14))
+* Add boolean attributes unit tests. ([@EspadaV8](https://github.com/EspadaV8))
+* Add select optgroup unit tests. ([@EspadaV8](https://github.com/EspadaV8))
+
 ## 5.1.3 - 2015-11-25
 
 ### New
@@ -20,8 +28,8 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ### New
 
-* Add `Form::datetime` helper method.
-* Add `Form::datetimeLocal` helper method.
+* Add `Form::datetime()` helper method.
+* Add `Form::datetimeLocal()` helper method.
 
 ## 5.1.1 - 2015-11-06
 
