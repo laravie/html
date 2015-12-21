@@ -11,7 +11,6 @@ use Mockery as m;
 
 class FormBuilderTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Setup the test environment.
      */
@@ -541,7 +540,6 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
 
 class FormBuilderModelStub
 {
-
     protected $data;
 
     public function __construct(array $data = [])
