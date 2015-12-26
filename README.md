@@ -20,6 +20,7 @@
 * [Drop-Down Lists](#drop-down-lists)
 * [Buttons](#buttons)
 * [Custom Macros](#custom-macros)
+* [Custom Components](#custom-components)
 * [Generating URLs](#generating-urls)
 
 <a name="installation"></a>
