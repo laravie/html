@@ -8,7 +8,6 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 * Add `native-placeholder` configuration option to display native placeholder for `Form::select()`.
 
-
 ## 5.1.4 - 2015-12-21
 
 ### New
