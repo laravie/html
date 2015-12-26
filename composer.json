@@ -2,6 +2,11 @@
     "name": "laravie/html",
     "description": "HTML and Form Builders for the Laravel Framework",
     "license": "MIT",
+    "homepage": "https://github.com/laravie/html",
+    "support": {
+        "issues": "https://github.com/laravie/html/issues",
+        "source": "https://github.com/laravie/html"
+    },
     "authors": [
         {
             "name": "Mior Muhammad Zaki",
