@@ -35,6 +35,11 @@ trait SelectionTrait
             unset($options['placeholder']);
         }
 
+        if (isset($options['native-placeholder'])) {
+            $options['placeholder'] = $options['native-placeholder'];
+            unset($options['native-placeholder']);
+        }
+
         foreach ($list as $value => $display) {
             $html[] = $this->getSelectOption($display, $value, $selected);
         }

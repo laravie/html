@@ -2,6 +2,13 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
+## 5.1.5 - 2015-12-27
+
+### New
+
+* Add `native-placeholder` configuration option to display native placeholder for `Form::select()`.
+
+
 ## 5.1.4 - 2015-12-21
 
 ### New
