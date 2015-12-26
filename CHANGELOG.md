@@ -2,7 +2,13 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
-## 5.2.0
+## 5.2.1 - 2015-12-27
+
+### New
+
+* Add `native-placeholder` configuration option to display native placeholder for `Form::select()`.
+
+## 5.2.0 - 2015-12-22
 
 ### New
 
@@ -13,6 +19,12 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 * Update support to Laravel Framework 5.2.
 * Convert all output to return `Illuminate\Support\Htmlable` instead of basic `string`. [@adamgoose](https://github.com/adamgoose)) 
+
+## 5.1.5 - 2015-12-27
+
+### New
+
+* Add `native-placeholder` configuration option to display native placeholder for `Form::select()`.
 
 ## 5.1.4 - 2015-12-21
 
