@@ -3,6 +3,7 @@
     "description": "HTML and Form Builders for the Laravel Framework",
     "license": "MIT",
     "homepage": "https://github.com/laravie/html",
+    "keywords": ["laravel", "html", "form"],
     "support": {
         "issues": "https://github.com/laravie/html/issues",
         "source": "https://github.com/laravie/html"
