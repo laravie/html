@@ -7,6 +7,7 @@ use Collective\Html\Traits\CheckerTrait;
 use Collective\Html\Traits\CreatorTrait;
 use Illuminate\Support\Traits\Macroable;
 use Collective\Html\Traits\SelectionTrait;
+use Illuminate\Contracts\Support\Arrayable;
 use Collective\Html\Traits\SessionHelperTrait;
 use Illuminate\Contracts\View\Factory as ViewFactoryContract;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
@@ -237,11 +238,17 @@ class FormBuilder
      */
     protected function getModelValueAttribute($name)
     {
-        if (method_exists($this->model, 'getFormValue')) {
-            return $this->model->getFormValue($name);
+        $collection = $this->model;
+
+        if (method_exists($collection, 'getFormValue')) {
+            return $collection->getFormValue($name);
         }
 
-        return data_get($this->model, $this->transformKey($name));
+        if ($collection instanceof Arrayable) {
+            $collection = $collection->toArray();
+        }
+
+        return data_get($collection, $this->transformKey($name));
     }
 
     /**
