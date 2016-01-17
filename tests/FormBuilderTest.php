@@ -553,6 +553,11 @@ class FormBuilderModelStub
         }
     }
 
+    public function toArray()
+    {
+        return $this->data;
+    }
+
     public function __get($key)
     {
         return $this->data[$key];
