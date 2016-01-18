@@ -238,17 +238,11 @@ class FormBuilder
      */
     protected function getModelValueAttribute($name)
     {
-        $collection = $this->model;
-
-        if (method_exists($collection, 'getFormValue')) {
-            return $collection->getFormValue($name);
+        if (method_exists($this->model, 'getFormValue')) {
+            return $this->model->getFormValue($name);
         }
 
-        if ($collection instanceof Arrayable) {
-            $collection = $collection->toArray();
-        }
-
-        return data_get($collection, $this->transformKey($name));
+        return data_get($this->model, $this->transformKey($name));
     }
 
     /**
