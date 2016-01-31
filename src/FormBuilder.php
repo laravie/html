@@ -2,7 +2,6 @@
 
 use Illuminate\Support\HtmlString;
 use Collective\Html\Traits\InputTrait;
-use Illuminate\Database\Eloquent\Model;
 use Collective\Html\Traits\CheckerTrait;
 use Collective\Html\Traits\CreatorTrait;
 use Illuminate\Support\Traits\Macroable;
