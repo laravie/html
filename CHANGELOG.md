@@ -2,6 +2,12 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
+## 5.2.2 
+
+### New
+
+* Add `Collective\Html\HtmlBuilder::tag()` helper. ([@paulvl](https://github.com/paulvl))
+
 ## 5.2.1 - 2015-12-27
 
 ### New
