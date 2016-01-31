@@ -123,7 +123,8 @@ trait SelectionTrait
         $selected = $this->getSelectedValue(null, $selected);
         $value    = '';
 
-        $options = compact('selected', 'value');
+        $options   = compact('selected', 'value');
+        $options[] = 'disabled';
 
         return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.e($display).'</option>');
     }
