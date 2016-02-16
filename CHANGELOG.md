@@ -2,11 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
-## 5.2.2 
+## 5.2.2 - 2016-02-16
 
 ### New
 
 * Add `Collective\Html\HtmlBuilder::tag()` helper. ([@paulvl](https://github.com/paulvl))
+
+### Fixed
+
+* `Collective\Html\HtmlBuilder::textarea()` should return `Illuminate\Support\HtmlString`.
 
 ## 5.2.1 - 2015-12-27
 
