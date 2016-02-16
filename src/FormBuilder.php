@@ -2,12 +2,10 @@
 
 use Illuminate\Support\HtmlString;
 use Collective\Html\Traits\InputTrait;
-use Illuminate\Database\Eloquent\Model;
 use Collective\Html\Traits\CheckerTrait;
 use Collective\Html\Traits\CreatorTrait;
 use Illuminate\Support\Traits\Macroable;
 use Collective\Html\Traits\SelectionTrait;
-use Illuminate\Contracts\Support\Arrayable;
 use Collective\Html\Traits\SessionHelperTrait;
 use Illuminate\Contracts\View\Factory as ViewFactoryContract;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;

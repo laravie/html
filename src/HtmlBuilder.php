@@ -450,6 +450,22 @@ class HtmlBuilder
     }
 
     /**
+     * Generate an html tag.
+     *
+     * @param  string  $tag
+     * @param  mixed  $content
+     * @param  array  $attributes
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    public function tag($tag, $content, array $attributes = [])
+    {
+        $content = is_array($content) ? implode(PHP_EOL, $content) : $content;
+
+        return $this->toHtmlString('<' . $tag . $this->attributes($attributes) . '>') . PHP_EOL . $content . PHP_EOL . $this->toHtmlString('</' . $tag . '>') . PHP_EOL;
+    }
+
+    /**
      * Transform the string to an Html serializable object.
      *
      * @param $html
