@@ -462,6 +462,11 @@ class HtmlBuilder
         if (is_numeric($key)) {
             return $value;
         }
+        
+        // Treat boolean attributes as HTML properties
+        if (is_bool($value)) {
+            return $value ? $key : '';
+        }
 
         if (! is_null($value)) {
             return $key.'="'.$this->entities($value, true).'"';
