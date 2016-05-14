@@ -297,6 +297,7 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
                 'id'    => 'select-id',
             ]
         );
+
         $this->assertEquals(
             $select,
             '<select class="class-name" id="select-id" name="size"><optgroup label="Large sizes"><option value="L">Large</option><option value="XL">Extra Large</option></optgroup><option value="S">Small</option></select>'
