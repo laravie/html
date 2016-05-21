@@ -1,4 +1,6 @@
-<?php namespace Collective\Html;
+<?php
+
+namespace Collective\Html;
 
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
@@ -462,7 +464,7 @@ class HtmlBuilder
     {
         $content = is_array($content) ? implode(PHP_EOL, $content) : $content;
 
-        return $this->toHtmlString('<' . $tag . $this->attributes($attributes) . '>') . PHP_EOL . $content . PHP_EOL . $this->toHtmlString('</' . $tag . '>') . PHP_EOL;
+        return $this->toHtmlString('<'.$tag.$this->attributes($attributes).'>').PHP_EOL.$content.PHP_EOL.$this->toHtmlString('</'.$tag.'>').PHP_EOL;
     }
 
     /**
