@@ -1,4 +1,6 @@
-<?php namespace Collective\Html\Traits;
+<?php
+
+namespace Collective\Html\Traits;
 
 trait ObfuscateTrait
 {

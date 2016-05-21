@@ -1,4 +1,6 @@
-<?php namespace Collective\Html;
+<?php
+
+namespace Collective\Html;
 
 use BadMethodCallException;
 use Illuminate\Support\Arr;
