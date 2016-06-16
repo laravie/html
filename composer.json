@@ -32,15 +32,15 @@
     },
     "require": {
         "php": ">=5.6.4",
-        "illuminate/http": "~5.3.0",
-        "illuminate/routing": "~5.3.0",
-        "illuminate/session": "~5.3.0",
-        "illuminate/support": "~5.3.0"
+        "illuminate/http": "~5.4.0",
+        "illuminate/routing": "~5.4.0",
+        "illuminate/session": "~5.4.0",
+        "illuminate/support": "~5.4.0"
     },
     "require-dev": {
-        "illuminate/database": "~5.3.0",
-        "mockery/mockery": "^0.9.1",
-        "phpunit/phpunit": "~4.0"
+        "mockery/mockery": "^0.9.4",
+        "phpunit/phpunit": "~4.0",
+        "illuminate/database": "~5.4.0"
     },
     "replace": {
         "laravelcollective/html": "*"
