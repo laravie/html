@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
+## 5.2.3 - 2016-06-21
+
+### Fixed
+
+* `_method` fields shouldn't use session data. This solves scenario where Form is used more than once.
+
+### Changes
+
+* Make escaping of labels for HTML and mailto links optional.
+* Transform the field name when getting the form value from model.
+* Allow `Collective\Html\Eloquent\FormAccessible` to access value from related model.
+
 ## 5.2.2 - 2016-02-16
 
 ### New
