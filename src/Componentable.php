@@ -95,9 +95,9 @@ trait Componentable
      * @param  string $method
      * @param  array  $parameters
      *
-     * @return \Illuminate\Contracts\View\View|mixed
-     *
      * @throws \BadMethodCallException
+     *
+     * @return \Illuminate\Contracts\View\View|mixed
      */
     public function __call($method, $parameters)
     {
