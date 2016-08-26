@@ -2,6 +2,12 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
+## 5.3.0 - 2016-08-26
+
+### Changes
+
+* Update support to Laravel Framework 5.3.
+
 ## 5.2.3 - 2016-06-21
 
 ### Fixed
