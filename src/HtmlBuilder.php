@@ -147,10 +147,11 @@ class HtmlBuilder
      * @param  string  $title
      * @param  array   $attributes
      * @param  bool    $secure
+     * @param bool     $escape
      *
      * @return \Illuminate\Support\HtmlString
      */
-    public function link($url, $title = null, $attributes = [], $secure = null)
+    public function link($url, $title = null, $attributes = [], $secure = null, $escape = true)
     {
         $url = $this->url->to($url, [], $secure);
 
@@ -158,7 +159,11 @@ class HtmlBuilder
             $title = $url;
         }
 
-        return $this->toHtmlString('<a href="'.$url.'"'.$this->attributes($attributes).'>'.$this->entities($title).'</a>');
+        if ($escape) {
+            $title = $this->entities($title);
+        }
+
+        return $this->toHtmlString('<a href="'.$url.'"'.$this->attributes($attributes).'>'.$title.'</a>');
     }
 
     /**
@@ -242,18 +247,23 @@ class HtmlBuilder
      * @param  string  $email
      * @param  string  $title
      * @param  array   $attributes
+     * @param bool     $escape
      *
      * @return \Illuminate\Support\HtmlString
      */
-    public function mailto($email, $title = null, $attributes = [])
+    public function mailto($email, $title = null, $attributes = [], $escape = true)
     {
         $email = $this->email($email);
 
         $title = $title ?: $email;
 
+        if ($escape) {
+            $title = $this->entities($title);
+        }
+
         $email = $this->obfuscate('mailto:').$email;
 
-        return $this->toHtmlString('<a href="'.$email.'"'.$this->attributes($attributes).'>'.$this->entities($title).'</a>');
+        return $this->toHtmlString('<a href="'.$email.'"'.$this->attributes($attributes).'>'.$title.'</a>');
     }
 
     /**
@@ -266,6 +276,18 @@ class HtmlBuilder
     public function email($email)
     {
         return str_replace('@', '&#64;', $this->obfuscate($email));
+    }
+
+    /**
+     * Generates non-breaking space entities based on number supplied.
+     *
+     * @param int $num
+     *
+     * @return string
+     */
+    public function nbsp($num = 1)
+    {
+        return str_repeat('&nbsp;', $num);
     }
 
     /**
@@ -485,9 +507,9 @@ class HtmlBuilder
      * @param  string $method
      * @param  array  $parameters
      *
-     * @return \Illuminate\Contracts\View\View|mixed
-     *
      * @throws \BadMethodCallException
+     *
+     * @return \Illuminate\Contracts\View\View|mixed
      */
     public function __call($method, $parameters)
     {

@@ -216,7 +216,7 @@ class FormBuilder
             return $value;
         }
 
-        if (! is_null($this->old($name))) {
+        if (! is_null($this->old($name)) && $name != '_method') {
             return $this->old($name);
         }
 
@@ -239,7 +239,7 @@ class FormBuilder
     protected function getModelValueAttribute($name)
     {
         if (method_exists($this->model, 'getFormValue')) {
-            return $this->model->getFormValue($name);
+            return $this->model->getFormValue($this->transformKey($name));
         }
 
         return data_get($this->model, $this->transformKey($name));
@@ -285,9 +285,9 @@ class FormBuilder
      * @param  string $method
      * @param  array  $parameters
      *
-     * @return \Illuminate\Contracts\View\View|mixed
-     *
      * @throws \BadMethodCallException
+     *
+     * @return \Illuminate\Contracts\View\View|mixed
      */
     public function __call($method, $parameters)
     {
