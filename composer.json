@@ -39,7 +39,7 @@
     },
     "require-dev": {
         "mockery/mockery": "^0.9.4",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~5.0",
         "illuminate/database": "~5.4.0"
     },
     "replace": {
