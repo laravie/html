@@ -2,6 +2,10 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
+## 5.3.1 - 2016-11-27
+
+* Allow to escape `Form::button()`.
+
 ## 5.3.0 - 2016-08-26
 
 ### Changes
