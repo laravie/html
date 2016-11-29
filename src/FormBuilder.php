@@ -42,6 +42,19 @@ class FormBuilder
     }
 
     /**
+     * Convert an HTML string to entities.
+     *
+     * @param  string  $value
+     * @param  bool  $encoding
+     *
+     * @return string
+     */
+    protected function entities($value, $encoding = false)
+    {
+        return $this->html->entities($value, $encoding);
+    }
+
+    /**
      * Generate a hidden field with the current CSRF token.
      *
      * @return \Illuminate\Support\HtmlString

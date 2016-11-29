@@ -46,12 +46,13 @@ class HtmlBuilder
      * Convert an HTML string to entities.
      *
      * @param  string  $value
+     * @param  bool  $encoding
      *
      * @return string
      */
-    public function entities($value)
+    public function entities($value, $encoding = false)
     {
-        return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
+        return htmlentities($value, ENT_QUOTES, 'UTF-8', $encoding);
     }
 
     /**
@@ -386,7 +387,7 @@ class HtmlBuilder
         if (is_array($value)) {
             return $this->nestedListing($key, $type, $value);
         } else {
-            return '<li>'.e($value).'</li>';
+            return '<li>'.$this->entities($value, true).'</li>';
         }
     }
 
@@ -451,7 +452,7 @@ class HtmlBuilder
         }
 
         if (! is_null($value)) {
-            return $key.'="'.e($value).'"';
+            return $key.'="'.$this->entities($value, true).'"';
         }
     }
 

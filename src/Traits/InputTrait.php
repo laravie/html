@@ -269,7 +269,7 @@ trait InputTrait
         // the element. Then we'll create the final textarea elements HTML for us.
         $options = $this->html->attributes($options);
 
-        return $this->toHtmlString('<textarea'.$options.'>'.e($value).'</textarea>');
+        return $this->toHtmlString('<textarea'.$options.'>'.$this->entities($value, true).'</textarea>');
     }
 
     /**
@@ -308,6 +308,16 @@ trait InputTrait
 
         return array_merge($options, ['cols' => $segments[0], 'rows' => $segments[1]]);
     }
+
+    /**
+     * Convert an HTML string to entities.
+     *
+     * @param  string  $value
+     * @param  bool  $encoding
+     *
+     * @return string
+     */
+    abstract protected function entities($value, $encoding = false);
 
     /**
      * Transform the string to an Html serializable object.
