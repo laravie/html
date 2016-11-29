@@ -2,6 +2,7 @@
 
 namespace Collective\Html;
 
+use BadMethodCallException;
 use Illuminate\Support\HtmlString;
 use Collective\Html\Traits\InputTrait;
 use Collective\Html\Traits\CheckerTrait;
@@ -300,6 +301,10 @@ class FormBuilder
             return $this->renderComponent($method, $parameters);
         }
 
-        return $this->macroCall($method, $parameters);
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
+
+        throw new BadMethodCallException("Method {$method} does not exist.");
     }
 }
