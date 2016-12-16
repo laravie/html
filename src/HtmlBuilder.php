@@ -56,6 +56,18 @@ class HtmlBuilder
     }
 
     /**
+     * Convert all applicable characters to HTML entities.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public function escapeAll($value)
+    {
+        return $this->entities($value, true);
+    }
+
+    /**
      * Convert entities to HTML characters.
      *
      * @param  string  $value
