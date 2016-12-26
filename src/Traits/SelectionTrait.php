@@ -91,7 +91,7 @@ trait SelectionTrait
             $html[] = $this->option($display, $value, $selected);
         }
 
-        return $this->toHtmlString('<optgroup label="'.e($label).'">'.implode('', $html).'</optgroup>');
+        return $this->toHtmlString('<optgroup label="'.$this->entities($label, true).'">'.implode('', $html).'</optgroup>');
     }
 
     /**
@@ -109,7 +109,7 @@ trait SelectionTrait
 
         $options = ['value' => $value, 'selected' => $selected];
 
-        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.e($display).'</option>');
+        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.$this->entities($display, true).'</option>');
     }
 
     /**
@@ -127,7 +127,7 @@ trait SelectionTrait
 
         $options = compact('selected', 'value');
 
-        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.e($display).'</option>');
+        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.$this->entities($display, true).'</option>');
     }
 
     /**
@@ -205,6 +205,16 @@ trait SelectionTrait
 
         return $this->select($name, $months, $selected, $options);
     }
+
+    /**
+     * Convert an HTML string to entities.
+     *
+     * @param  string  $value
+     * @param  bool  $encoding
+     *
+     * @return string
+     */
+    abstract protected function entities($value, $encoding = false);
 
     /**
      * Get html builder.

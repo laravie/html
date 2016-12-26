@@ -2,6 +2,7 @@
 
 namespace Collective\Html;
 
+use BadMethodCallException;
 use Illuminate\Support\HtmlString;
 use Collective\Html\Traits\InputTrait;
 use Collective\Html\Traits\CheckerTrait;
@@ -38,6 +39,19 @@ class FormBuilder
         $this->url  = $url;
         $this->html = $html;
         $this->view = $view;
+    }
+
+    /**
+     * Convert an HTML string to entities.
+     *
+     * @param  string  $value
+     * @param  bool  $encoding
+     *
+     * @return string
+     */
+    protected function entities($value, $encoding = false)
+    {
+        return $this->html->entities($value, $encoding);
     }
 
     /**
@@ -300,6 +314,10 @@ class FormBuilder
             return $this->renderComponent($method, $parameters);
         }
 
-        return $this->macroCall($method, $parameters);
+        if (static::hasMacro($method)) {
+            return $this->macroCall($method, $parameters);
+        }
+
+        throw new BadMethodCallException("Method {$method} does not exist.");
     }
 }

@@ -39,6 +39,28 @@ class HtmlBuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('<dl class="example"><dt>foo</dt><dd>bar</dd><dt>bing</dt><dd>baz</dd></dl>', $result);
     }
 
+    public function testOl()
+    {
+        $list = ['foo', 'bar', '&amp;'];
+
+        $attributes = ['class' => 'example'];
+
+        $ol = $this->htmlBuilder->ol($list, $attributes);
+
+        $this->assertEquals('<ol class="example"><li>foo</li><li>bar</li><li>&amp;amp;</li></ol>', $ol);
+    }
+
+    public function testUl()
+    {
+        $list = ['foo', 'bar', '&amp;'];
+
+        $attributes = ['class' => 'example'];
+
+        $ul = $this->htmlBuilder->ul($list, $attributes);
+
+        $this->assertEquals('<ul class="example"><li>foo</li><li>bar</li><li>&amp;amp;</li></ul>', $ul);
+    }
+
     public function testMeta()
     {
         $result = $this->htmlBuilder->meta('description', 'Lorem ipsum dolor sit amet.');
@@ -58,7 +80,7 @@ class HtmlBuilderTest extends PHPUnit_Framework_TestCase
             $this->htmlBuilder->image('http://example.com/image1'),
             $this->htmlBuilder->image('http://example.com/image2'),
         ];
-        
+
         $result4 = $this->htmlBuilder->tag('div', $content, ['class' => 'row']);
 
         $this->assertEquals('<p>' . PHP_EOL . 'Lorem ipsum dolor sit amet.' . PHP_EOL . '</p>' . PHP_EOL, $result1);
@@ -114,5 +136,16 @@ class HtmlBuilderTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('<a href="mailto:person@example.com" class="example-link">&lt;span&gt;First Name Last&lt;/span&gt;</a>', $result1);
         $this->assertEquals('<a href="mailto:person@example.com" class="example-link"><span>First Name Last</span></a>', $result2);
+    }
+
+    public function testBooleanAttributes()
+    {
+        $result1 = $this->htmlBuilder->attributes(['my-property' => true]);
+
+        $result2 = $this->htmlBuilder->attributes(['my-property' => false]);
+
+        $this->assertEquals('my-property', trim($result1));
+
+        $this->assertEquals('', trim($result2));
     }
 }
