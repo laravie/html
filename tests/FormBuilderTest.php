@@ -35,7 +35,7 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
         $formBuilder = $this->formBuilder;
 
         $session = m::mock('Illuminate\Session\Store');
-        $session->shouldReceive('getToken')->andReturn('abc')
+        $session->shouldReceive('token')->andReturn('abc')
             ->shouldReceive('getOldInput')->andReturnNull();
         $formBuilder->setSessionStore($session);
 
