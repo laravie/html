@@ -2,7 +2,7 @@
 
 namespace Collective\Html\Traits;
 
-use Illuminate\Session\Store;
+use Illuminate\Contracts\Session\Session;
 
 trait SessionHelperTrait
 {
@@ -16,7 +16,7 @@ trait SessionHelperTrait
     /**
      * The session store implementation.
      *
-     * @var \Illuminate\Session\Store
+     * @var \Illuminate\Contracts\Session\Session
      */
     protected $session;
 
@@ -47,7 +47,7 @@ trait SessionHelperTrait
     /**
      * Get the session store implementation.
      *
-     * @return  \Illuminate\Session\Store  $session
+     * @return  \Illuminate\Contracts\Session\Session
      */
     public function getSessionStore()
     {
@@ -57,11 +57,11 @@ trait SessionHelperTrait
     /**
      * Set the session store implementation.
      *
-     * @param  \Illuminate\Session\Store  $session
+     * @param  \Illuminate\Contracts\Session\Session  $session
      *
      * @return $this
      */
-    public function setSessionStore(Store $session)
+    public function setSessionStore(Session $session)
     {
         $this->session = $session;
 
