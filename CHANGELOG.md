@@ -1,6 +1,13 @@
 # Changelog
 
-This changelog references the relevant changes (bug and security fixes) done to `html`.
+This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
+
+## 5.4.0 - 2017-01-27
+
+### Changes
+
+* Update support to Laravel Framework 5.4.
+* Added support for array attributes. ([@guillaumebriday](https://github.com/guillaumebriday))
 
 ## 5.3.1 - 2016-11-27
 

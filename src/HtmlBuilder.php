@@ -436,10 +436,20 @@ class HtmlBuilder
         // as this will convert HTML attributes such as "required" to a correct
         // form like required="required" instead of using incorrect numerics.
         foreach ((array) $attributes as $key => $value) {
-            $element = $this->attributeElement($key, $value);
+            if (is_array($value)) {
+                foreach ((array) $value as $name => $val) {
+                    $element = $this->attributeElement($key.'-'.$name, $val);
 
-            if (! is_null($element)) {
-                $html[] = $element;
+                    if (! is_null($element)) {
+                        $html[] = $element;
+                    }
+                }
+            } else {
+                $element = $this->attributeElement($key, $value);
+
+                if (! is_null($element)) {
+                    $html[] = $element;
+                }
             }
         }
 
@@ -462,7 +472,7 @@ class HtmlBuilder
         if (is_numeric($key)) {
             return $value;
         }
-        
+
         // Treat boolean attributes as HTML properties
         if (is_bool($value)) {
             return $value ? $key : '';
