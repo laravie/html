@@ -1,13 +1,14 @@
 <?php
 
-use Illuminate\Contracts\View\Factory;
-use Collective\Html\HtmlBuilder;
-use Illuminate\Http\Request;
-use Illuminate\Routing\RouteCollection;
-use Illuminate\Routing\UrlGenerator;
 use Mockery as m;
+use Illuminate\Http\Request;
+use PHPUnit\Framework\TestCase;
+use Collective\Html\HtmlBuilder;
+use Illuminate\Routing\UrlGenerator;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Routing\RouteCollection;
 
-class HtmlBuilderTest extends PHPUnit_Framework_TestCase
+class HtmlBuilderTest extends TestCase
 {
 
     /**

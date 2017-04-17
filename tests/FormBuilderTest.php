@@ -1,15 +1,16 @@
 <?php
 
+use Mockery as m;
+use Illuminate\Http\Request;
+use PHPUnit\Framework\TestCase;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\Request;
-use Illuminate\Routing\RouteCollection;
-use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Collection;
-use Mockery as m;
+use Illuminate\Routing\UrlGenerator;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Routing\RouteCollection;
 
-class FormBuilderTest extends PHPUnit_Framework_TestCase
+class FormBuilderTest extends TestCase
 {
     /**
      * Setup the test environment.

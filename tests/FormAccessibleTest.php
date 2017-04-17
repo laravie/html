@@ -1,18 +1,19 @@
 <?php
 
+use Mockery as m;
 use Carbon\Carbon;
-use Collective\Html\Eloquent\FormAccessible;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use PHPUnit\Framework\TestCase;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\Request;
-use Illuminate\Routing\RouteCollection;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\RouteCollection;
+use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Mockery as m;
 
-class FormAccessibleTest extends PHPUnit_Framework_TestCase
+class FormAccessibleTest extends TestCase
 {
     public function setUp()
     {
