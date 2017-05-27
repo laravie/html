@@ -108,11 +108,16 @@ class FormBuilderTest extends PHPUnit_Framework_TestCase
         $form2 = $this->formBuilder->text('foo');
         $form3 = $this->formBuilder->text('foo', 'foobar');
         $form4 = $this->formBuilder->text('foo', null, ['class' => 'span2']);
+        $form5 = $this->formBuilder->input('hidden', 'foo', true);
+        $form6 = $this->formBuilder->input('checkbox', 'foo-check', true);
 
         $this->assertEquals('<input name="foo" type="text">', $form1);
         $this->assertEquals($form1, $form2);
         $this->assertEquals('<input name="foo" type="text" value="foobar">', $form3);
         $this->assertEquals('<input class="span2" name="foo" type="text">', $form4);
+        $this->assertEquals('<input name="foo" type="hidden" value="1">', $form5);
+        $this->assertEquals('<input name="foo-check" type="checkbox" value="1">', $form6);
+
     }
 
     public function testFormTextRepopulation()
