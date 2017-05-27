@@ -81,6 +81,26 @@ class FormBuilderTest extends TestCase
         $this->assertEquals('<input class="span2" name="foobar" type="date">', $form3);
     }
 
+    public function testMacroField()
+    {
+        $this->formBuilder->macro('data_field', function ($name, $value, $data) {
+            $dataAttributes = [];
+            foreach ($data as $key => $attribute) {
+                $dataAttributes[] = $key.'="'.$attribute.'"';
+            }
+            return '<input name="'.$name.'" type="text" value="'.$value.'" '.implode(' ', $dataAttributes).'>';
+        });
+
+        $form = $this->formBuilder->data_field('foo', null, [
+            'role' => 'set_name',
+            'data-titlecase' => 'ucfirst',
+            'data-inputmask-type' => 'Regex',
+            'data-inputmask-regex' => '[A-Za-z0-9\\s-\\(\\)&]{2,70}',
+        ]);
+
+        $this->assertEquals('<input name="foo" type="text" value="" role="set_name" data-titlecase="ucfirst" data-inputmask-type="Regex" data-inputmask-regex="[A-Za-z0-9\s-\(\)&]{2,70}">', $form);
+    }
+
     public function testPasswordsNotFilled()
     {
         $this->formBuilder->setSessionStore($session = m::mock('Illuminate\Contracts\Session\Session'));
@@ -120,6 +140,15 @@ class FormBuilderTest extends TestCase
         $this->assertEquals('<input class="span3" data-foo="bar" data-columns="3" name="foo" type="text">', $form5);
         $this->assertEquals('<input name="foo" type="hidden" value="1">', $form6);
         $this->assertEquals('<input name="foo-check" type="checkbox" value="1">', $form7);
+    }
+
+    public function testFormTextArray()
+    {
+        $form1 = $this->formBuilder->input('text', 'foo[]', 'testing');
+        $form2 = $this->formBuilder->text('foo[]');
+
+        $this->assertEquals('<input name="foo[]" type="text" value="testing">', $form1);
+        $this->assertEquals('<input name="foo[]" type="text">', $form2);
     }
 
     public function testFormTextRepopulation()
@@ -174,6 +203,17 @@ class FormBuilderTest extends TestCase
         $this->assertEquals('<input name="foo" type="hidden">', $form1);
         $this->assertEquals('<input name="foo" type="hidden" value="foobar">', $form2);
         $this->assertEquals('<input class="span2" name="foo" type="hidden">', $form3);
+    }
+
+    public function testFormSearch()
+    {
+        $form1 = $this->formBuilder->search('foo');
+        $form2 = $this->formBuilder->search('foo', 'foobar');
+        $form3 = $this->formBuilder->search('foo', null, ['class' => 'span2']);
+
+        $this->assertEquals('<input name="foo" type="search">', $form1);
+        $this->assertEquals('<input name="foo" type="search" value="foobar">', $form2);
+        $this->assertEquals('<input class="span2" name="foo" type="search">', $form3);
     }
 
     public function testFormEmail()
@@ -258,7 +298,7 @@ class FormBuilderTest extends TestCase
         $this->assertEquals('<textarea class="span2" name="foo" cols="50" rows="10"></textarea>', $form3);
         $this->assertEquals('<textarea name="foo" cols="60" rows="15"></textarea>', $form4);
         $this->assertEquals('<textarea name="encoded_html" cols="60" rows="50">Eggs &amp; Sausage</textarea>', $form5);
-        $this->assertEquals('<textarea name="encoded_html" cols="60" rows="50">Eggs &amp;amp;&amp;amp; Sausage</textarea>', $form6);
+        $this->assertEquals('<textarea name="encoded_html" cols="60" rows="50">Eggs &amp;&amp; Sausage</textarea>', $form6);
     }
 
     public function testSelect()
@@ -322,7 +362,7 @@ class FormBuilderTest extends TestCase
 
         $this->assertEquals(
             $select,
-            '<select name="encoded_html"><option value="no_break_space">&amp;nbsp;</option><option value="ampersand">&amp;amp;</option><option value="lower_than">&amp;lt;</option></select>'
+            '<select name="encoded_html"><option value="no_break_space">&nbsp;</option><option value="ampersand">&amp;</option><option value="lower_than">&lt;</option></select>'
         );
     }
 
@@ -374,7 +414,7 @@ class FormBuilderTest extends TestCase
             ['placeholder' => 'Select the &nbsp;']
         );
         $this->assertEquals($select,
-            '<select name="encoded_html"><option selected="selected" value="">Select the &amp;nbsp;</option><option value="no_break_space">&amp;nbsp;</option><option value="ampersand">&amp;amp;</option><option value="lower_than">&amp;lt;</option></select>'
+            '<select name="encoded_html"><option selected="selected" value="">Select the &nbsp;</option><option value="no_break_space">&nbsp;</option><option value="ampersand">&amp;</option><option value="lower_than">&lt;</option></select>'
         );
     }
 

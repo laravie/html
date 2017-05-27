@@ -47,6 +47,19 @@ trait InputTrait
         return $this->toHtmlString('<input'.$this->html->attributes($options).'>');
     }
 
+    /** Create a search input field.
+     *
+     * @param  string $name
+     * @param  string $value
+     * @param  array  $options
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    public function search($name, $value = null, $options = [])
+    {
+        return $this->input('search', $name, $value, $options);
+    }
+
     /**
      * Create a text input field.
      *

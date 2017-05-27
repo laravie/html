@@ -49,6 +49,21 @@ class FormAccessibleTest extends TestCase
         $this->assertEquals($model->getFormValue('created_at'), $this->now->timestamp);
     }
 
+    public function testItCanMutateRelatedValuesForForms()
+    {
+        $model = new ModelThatUsesForms($this->modelData);
+        $relatedModel = new ModelThatUsesForms($this->modelData);
+        $relatedModel->address = [
+            'street' => '123 Evergreen Terrace'
+        ];
+        $model->setRelation('related', $relatedModel);
+
+        $this->formBuilder->setModel($model);
+
+        $this->assertEquals($this->formBuilder->getValueAttribute('related[string]'), 'ponmlkjihgfedcba');
+        $this->assertEquals($this->formBuilder->getValueAttribute('related[address][street]'), '123 Evergreen Terrace');
+    }
+
     public function testItCanGetRelatedValueForForms()
     {
         $model = new ModelThatUsesForms($this->modelData);
