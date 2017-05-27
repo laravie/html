@@ -110,12 +110,16 @@ class FormBuilderTest extends TestCase
         $form3 = $this->formBuilder->text('foo', 'foobar');
         $form4 = $this->formBuilder->text('foo', null, ['class' => 'span2']);
         $form5 = $this->formBuilder->text('foo', null, ['class' => 'span3', 'data' => ['foo' => 'bar', 'columns' => '3']]);
+        $form6 = $this->formBuilder->input('hidden', 'foo', true);
+        $form7 = $this->formBuilder->input('checkbox', 'foo-check', true);
 
         $this->assertEquals('<input name="foo" type="text">', $form1);
         $this->assertEquals($form1, $form2);
         $this->assertEquals('<input name="foo" type="text" value="foobar">', $form3);
         $this->assertEquals('<input class="span2" name="foo" type="text">', $form4);
         $this->assertEquals('<input class="span3" data-foo="bar" data-columns="3" name="foo" type="text">', $form5);
+        $this->assertEquals('<input name="foo" type="hidden" value="1">', $form6);
+        $this->assertEquals('<input name="foo-check" type="checkbox" value="1">', $form7);
     }
 
     public function testFormTextRepopulation()

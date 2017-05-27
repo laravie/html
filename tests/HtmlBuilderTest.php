@@ -48,7 +48,7 @@ class HtmlBuilderTest extends TestCase
 
         $ol = $this->htmlBuilder->ol($list, $attributes);
 
-        $this->assertEquals('<ol class="example"><li>foo</li><li>bar</li><li>&amp;amp;</li></ol>', $ol);
+        $this->assertEquals('<ol class="example"><li>foo</li><li>bar</li><li>&amp;</li></ol>', $ol);
     }
 
     public function testUl()
@@ -59,7 +59,7 @@ class HtmlBuilderTest extends TestCase
 
         $ul = $this->htmlBuilder->ul($list, $attributes);
 
-        $this->assertEquals('<ul class="example"><li>foo</li><li>bar</li><li>&amp;amp;</li></ul>', $ul);
+        $this->assertEquals('<ul class="example"><li>foo</li><li>bar</li><li>&amp;</li></ul>', $ul);
     }
 
     public function testMeta()
