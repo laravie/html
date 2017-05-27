@@ -1,6 +1,4 @@
-<?php
-
-namespace Collective\Html;
+<?php namespace Collective\Html;
 
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
@@ -46,25 +44,12 @@ class HtmlBuilder
      * Convert an HTML string to entities.
      *
      * @param  string  $value
-     * @param  bool  $encoding
      *
      * @return string
      */
-    public function entities($value, $encoding = false)
+    public function entities($value)
     {
-        return htmlentities($value, ENT_QUOTES, 'UTF-8', $encoding);
-    }
-
-    /**
-     * Convert all applicable characters to HTML entities.
-     *
-     * @param string $value
-     *
-     * @return string
-     */
-    public function escapeAll($value)
-    {
-        return $this->entities($value, true);
+        return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
     }
 
     /**
@@ -399,7 +384,7 @@ class HtmlBuilder
         if (is_array($value)) {
             return $this->nestedListing($key, $type, $value);
         } else {
-            return '<li>'.$this->entities($value, true).'</li>';
+            return '<li>'.e($value).'</li>';
         }
     }
 
@@ -436,20 +421,10 @@ class HtmlBuilder
         // as this will convert HTML attributes such as "required" to a correct
         // form like required="required" instead of using incorrect numerics.
         foreach ((array) $attributes as $key => $value) {
-            if (is_array($value)) {
-                foreach ((array) $value as $name => $val) {
-                    $element = $this->attributeElement($key.'-'.$name, $val);
+            $element = $this->attributeElement($key, $value);
 
-                    if (! is_null($element)) {
-                        $html[] = $element;
-                    }
-                }
-            } else {
-                $element = $this->attributeElement($key, $value);
-
-                if (! is_null($element)) {
-                    $html[] = $element;
-                }
+            if (! is_null($element)) {
+                $html[] = $element;
             }
         }
 
@@ -474,12 +449,12 @@ class HtmlBuilder
         }
 
         // Treat boolean attributes as HTML properties
-        if (is_bool($value)) {
+        if (is_bool($value)  && $key != 'value') {
             return $value ? $key : '';
         }
 
         if (! is_null($value)) {
-            return $key.'="'.$this->entities($value, true).'"';
+            return $key.'="'.e($value).'"';
         }
     }
 
@@ -535,9 +510,9 @@ class HtmlBuilder
      * @param  string $method
      * @param  array  $parameters
      *
-     * @throws \BadMethodCallException
-     *
      * @return \Illuminate\Contracts\View\View|mixed
+     *
+     * @throws \BadMethodCallException
      */
     public function __call($method, $parameters)
     {
