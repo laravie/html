@@ -50,7 +50,7 @@ trait CreatorTrait
      */
     public function open(array $options = [])
     {
-        $method = Arr::get($options, 'method', 'post');
+        $method = $options['method'] ?? 'post';
 
         // We need to extract the proper method from the attributes. If the method is
         // something other than GET or POST we'll use POST since we will spoof the
