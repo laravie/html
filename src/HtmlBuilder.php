@@ -1,4 +1,6 @@
-<?php namespace Collective\Html;
+<?php
+
+namespace Collective\Html;
 
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
@@ -518,9 +520,9 @@ class HtmlBuilder
      * @param  string $method
      * @param  array  $parameters
      *
-     * @return \Illuminate\Contracts\View\View|mixed
-     *
      * @throws \BadMethodCallException
+     *
+     * @return \Illuminate\Contracts\View\View|mixed
      */
     public function __call($method, $parameters)
     {
