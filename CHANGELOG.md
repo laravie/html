@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
+## 5.3.2
+
+Released: 2017-07-18
+
+### Added
+
+* Add `Collective\Html\FormBuilder::entities()`.
+* Add support to build attributes from nested array.
+* Add support for boolean type attributes.
+
 ## 5.3.1
 
 Released: 2016-11-27
