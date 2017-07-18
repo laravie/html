@@ -56,18 +56,6 @@ class HtmlBuilder
     }
 
     /**
-     * Convert all applicable characters to HTML entities.
-     *
-     * @param string $value
-     *
-     * @return string
-     */
-    public function escapeAll($value)
-    {
-        return $this->entities($value, true);
-    }
-
-    /**
      * Convert entities to HTML characters.
      *
      * @param  string  $value
@@ -399,7 +387,7 @@ class HtmlBuilder
         if (is_array($value)) {
             return $this->nestedListing($key, $type, $value);
         } else {
-            return '<li>'.$this->entities($value, true).'</li>';
+            return '<li>'.$this->entities($value).'</li>';
         }
     }
 
@@ -439,14 +427,12 @@ class HtmlBuilder
             if (is_array($value)) {
                 foreach ((array) $value as $name => $val) {
                     $element = $this->attributeElement($key.'-'.$name, $val);
-
                     if (! is_null($element)) {
                         $html[] = $element;
                     }
                 }
             } else {
                 $element = $this->attributeElement($key, $value);
-
                 if (! is_null($element)) {
                     $html[] = $element;
                 }
@@ -474,12 +460,12 @@ class HtmlBuilder
         }
 
         // Treat boolean attributes as HTML properties
-        if (is_bool($value)) {
+        if (is_bool($value)  && $key != 'value') {
             return $value ? $key : '';
         }
 
         if (! is_null($value)) {
-            return $key.'="'.$this->entities($value, true).'"';
+            return $key.'="'.$this->entities($value).'"';
         }
     }
 

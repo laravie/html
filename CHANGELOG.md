@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.4.1
+
+Released: 2017-07-18
+
+### Added
+
+* Add `Collective\Html\BladeServiceProvider`.
+
+### Changes
+
+* Call get model value attribute recursively to allow mutating form attribute in related models.
+
+### Removed
+
+* Removed `Collective\Html\HtmlBuilder::escapeAll()`.
+
 ## 5.4.0
 
 Released: 2017-01-27
@@ -10,6 +26,16 @@ Released: 2017-01-27
 
 * Update support to Laravel Framework 5.4.
 * Added support for array attributes. ([@guillaumebriday](https://github.com/guillaumebriday))
+
+## 5.3.2
+
+Released: 2017-07-18
+
+### Added
+
+* Add `Collective\Html\FormBuilder::entities()`.
+* Add support to build attributes from nested array.
+* Add support for boolean type attributes.
 
 ## 5.3.1
 
