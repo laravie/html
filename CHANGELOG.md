@@ -2,19 +2,25 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `html`.
 
-## 5.3.1 - 2016-11-27
+## 5.3.1
+
+Released: 2016-11-27
 
 ### Changes
 
 * Allow to escape `Form::button()`.
 
-## 5.3.0 - 2016-08-26
+## 5.3.0
+
+Released: 2016-08-26
 
 ### Changes
 
 * Update support to Laravel Framework 5.3.
 
-## 5.2.3 - 2016-06-21
+## 5.2.3
+
+Released: 2016-06-21
 
 ### Fixed
 
@@ -26,7 +32,9 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * Transform the field name when getting the form value from model.
 * Allow `Collective\Html\Eloquent\FormAccessible` to access value from related model.
 
-## 5.2.2 - 2016-02-16
+## 5.2.2
+
+Released: 2016-02-16
 
 ### New
 
@@ -36,13 +44,17 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 * `Collective\Html\HtmlBuilder::textarea()` should return `Illuminate\Support\HtmlString`.
 
-## 5.2.1 - 2015-12-27
+## 5.2.1
+
+Released: 2015-12-27
 
 ### New
 
 * Add `native-placeholder` configuration option to display native placeholder for `Form::select()`.
 
-## 5.2.0 - 2015-12-22
+## 5.2.0
+
+Released: 2015-12-22
 
 ### New
 
@@ -54,13 +66,17 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * Update support to Laravel Framework 5.2.
 * Convert all output to return `Illuminate\Support\Htmlable` instead of basic `string`. [@adamgoose](https://github.com/adamgoose)) 
 
-## 5.1.5 - 2015-12-27
+## 5.1.5
+
+Released: 2015-12-27
 
 ### New
 
 * Add `native-placeholder` configuration option to display native placeholder for `Form::select()`.
 
-## 5.1.4 - 2015-12-21
+## 5.1.4
+
+Released: 2015-12-21
 
 ### New
 
@@ -68,7 +84,9 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * Add boolean attributes unit tests. ([@EspadaV8](https://github.com/EspadaV8))
 * Add select optgroup unit tests. ([@EspadaV8](https://github.com/EspadaV8))
 
-## 5.1.3 - 2015-11-25
+## 5.1.3
+
+Released: 2015-11-25
 
 ### New
 
@@ -82,14 +100,18 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 * Properly populate select from Collection in Laravel 5.1.
 
-## 5.1.2 - 2015-11-19
+## 5.1.2
+
+Released: 2015-11-19
 
 ### New
 
 * Add `Form::datetime()` helper method.
 * Add `Form::datetimeLocal()` helper method.
 
-## 5.1.1 - 2015-11-06
+## 5.1.1
+
+Released: 2015-11-06
 
 ### Changes
 
@@ -98,7 +120,9 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * `HTML::dl()` now supports multiple descriptions per term.
 * first character capitalization in month names for `Form::selectMonth()`.
  
-## 5.1.0 - 2015-11-02
+## 5.1.0
+
+Released: 2015-11-02
 
 ### New
 
