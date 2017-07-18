@@ -91,7 +91,7 @@ trait SelectionTrait
             $html[] = $this->option($display, $value, $selected);
         }
 
-        return $this->toHtmlString('<optgroup label="'.$this->entities($label, true).'">'.implode('', $html).'</optgroup>');
+        return $this->toHtmlString('<optgroup label="'.$this->entities($label).'">'.implode('', $html).'</optgroup>');
     }
 
     /**
@@ -109,7 +109,7 @@ trait SelectionTrait
 
         $options = ['value' => $value, 'selected' => $selected];
 
-        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.$this->entities($display, true).'</option>');
+        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.$this->entities($display).'</option>');
     }
 
     /**
@@ -127,7 +127,7 @@ trait SelectionTrait
 
         $options = compact('selected', 'value');
 
-        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.$this->entities($display, true).'</option>');
+        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.$this->entities($display).'</option>');
     }
 
     /**

@@ -282,7 +282,7 @@ trait InputTrait
         // the element. Then we'll create the final textarea elements HTML for us.
         $options = $this->html->attributes($options);
 
-        return $this->toHtmlString('<textarea'.$options.'>'.$this->entities($value, true).'</textarea>');
+        return $this->toHtmlString('<textarea'.$options.'>'.$this->entities($value).'</textarea>');
     }
 
     /**

@@ -46,12 +46,13 @@ class HtmlBuilder
      * Convert an HTML string to entities.
      *
      * @param  string  $value
+     * @param  bool  $encoding
      *
      * @return string
      */
-    public function entities($value)
+    public function entities($value, $encoding = false)
     {
-        return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
+        return htmlentities($value, ENT_QUOTES, 'UTF-8', $encoding);
     }
 
     /**
