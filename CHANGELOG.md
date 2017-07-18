@@ -9,6 +9,9 @@ Released: 2017-07-18
 ### Added
 
 * Add `Collective\Html\BladeServiceProvider`.
+* Add `Collective\Html\FormBuilder::entities()`.
+* Add support to build attributes from nested array.
+* Add support for boolean type attributes.
 
 ### Changes
 
