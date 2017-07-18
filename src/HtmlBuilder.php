@@ -1,4 +1,6 @@
-<?php namespace Collective\Html;
+<?php
+
+namespace Collective\Html;
 
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
@@ -384,7 +386,7 @@ class HtmlBuilder
         if (is_array($value)) {
             return $this->nestedListing($key, $type, $value);
         } else {
-            return '<li>'.e($value).'</li>';
+            return '<li>'.$this->entities($value).'</li>';
         }
     }
 
@@ -462,7 +464,7 @@ class HtmlBuilder
         }
 
         if (! is_null($value)) {
-            return $key.'="'.e($value).'"';
+            return $key.'="'.$this->entities($value).'"';
         }
     }
 
@@ -518,9 +520,9 @@ class HtmlBuilder
      * @param  string $method
      * @param  array  $parameters
      *
-     * @return \Illuminate\Contracts\View\View|mixed
-     *
      * @throws \BadMethodCallException
+     *
+     * @return \Illuminate\Contracts\View\View|mixed
      */
     public function __call($method, $parameters)
     {
