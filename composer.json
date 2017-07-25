@@ -41,7 +41,7 @@
         "illuminate/database": "~5.5.0",
         "illuminate/view": "~5.5.0",
         "mockery/mockery": "^0.9.4",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~6.0"
     },
     "replace": {
         "laravelcollective/html": "*"
