@@ -2,14 +2,8 @@
 
 use Mockery as m;
 use Illuminate\Support\Carbon;
-use Illuminate\Http\Request;
-use Collective\Html\FormBuilder;
-use Collective\Html\HtmlBuilder;
 use Orchestra\Testbench\TestCase;
-use Illuminate\Routing\UrlGenerator;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Routing\RouteCollection;
 use Collective\Html\Eloquent\FormAccessible;
 
 class FormAccessibleTest extends TestCase
@@ -46,12 +40,12 @@ class FormAccessibleTest extends TestCase
     }
 
     protected function getPackageAliases($app)
-{
-    return [
-        'Form' => \Collective\Html\FormFacade::class,
-        'Html' => \Collective\Html\HtmlFacade::class,
-    ];
-}
+    {
+        return [
+            'Form' => \Collective\Html\FormFacade::class,
+            'Html' => \Collective\Html\HtmlFacade::class,
+        ];
+    }
 
     public function testItCanMutateValuesForForms()
     {

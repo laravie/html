@@ -24,10 +24,10 @@
     ],
     "autoload": {
         "psr-4": {
-          "Collective\\Html\\": "src/"
+            "Collective\\Html\\": "src/"
         },
         "files": [
-          "src/helpers.php"
+            "src/helpers.php"
         ]
     },
     "require": {
