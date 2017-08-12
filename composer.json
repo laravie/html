@@ -24,10 +24,10 @@
     ],
     "autoload": {
         "psr-4": {
-          "Collective\\Html\\": "src/"
+            "Collective\\Html\\": "src/"
         },
         "files": [
-          "src/helpers.php"
+            "src/helpers.php"
         ]
     },
     "require": {
@@ -38,9 +38,9 @@
         "illuminate/support": "~5.4.0"
     },
     "require-dev": {
-        "illuminate/database": "~5.4.0",
-        "illuminate/view": "~5.4.0",
         "mockery/mockery": "^0.9.4",
+        "orchestra/database": "~3.4.0",
+        "orchestra/testbench": "~3.4.8",
         "phpunit/phpunit": "~4.8.35 || ~5.7"
     },
     "replace": {

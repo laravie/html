@@ -2,23 +2,19 @@
 
 use Mockery as m;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use PHPUnit\Framework\TestCase;
-use Collective\Html\FormBuilder;
-use Collective\Html\HtmlBuilder;
-use Illuminate\Routing\UrlGenerator;
-use Illuminate\Contracts\View\Factory;
+use Orchestra\Testbench\TestCase;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Routing\RouteCollection;
 use Collective\Html\Eloquent\FormAccessible;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
 class FormAccessibleTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
-        Capsule::table('models')->truncate();
+        parent::setUp();
+
         Model::unguard();
+
+        $this->loadMigrationsFrom(__DIR__.'/migrations/');
 
         $this->now = Carbon::now();
 
@@ -33,17 +29,28 @@ class FormAccessibleTest extends TestCase
           'created_at' => $this->now,
           'updated_at' => $this->now,
         ];
+    }
 
-        $this->urlGenerator = new UrlGenerator(new RouteCollection(), Request::create('/foo', 'GET'));
-        $this->viewFactory = m::mock(Factory::class);
-        $this->htmlBuilder = new HtmlBuilder($this->urlGenerator, $this->viewFactory);
-        $this->formBuilder = new FormBuilder($this->htmlBuilder, $this->urlGenerator, $this->viewFactory, 'abc');
+    protected function getPackageProviders($app)
+    {
+        return [
+            \Orchestra\Database\ConsoleServiceProvider::class,
+            \Collective\Html\HtmlServiceProvider::class,
+        ];
+    }
+
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Form' => \Collective\Html\FormFacade::class,
+            'Html' => \Collective\Html\HtmlFacade::class,
+        ];
     }
 
     public function testItCanMutateValuesForForms()
     {
         $model = new ModelThatUsesForms($this->modelData);
-        $this->formBuilder->setModel($model);
+        Form::setModel($model);
 
         $this->assertEquals($model->getFormValue('string'), 'ponmlkjihgfedcba');
         $this->assertEquals($model->getFormValue('created_at'), $this->now->timestamp);
@@ -58,10 +65,10 @@ class FormAccessibleTest extends TestCase
         ];
         $model->setRelation('related', $relatedModel);
 
-        $this->formBuilder->setModel($model);
+        Form::setModel($model);
 
-        $this->assertEquals($this->formBuilder->getValueAttribute('related[string]'), 'ponmlkjihgfedcba');
-        $this->assertEquals($this->formBuilder->getValueAttribute('related[address][street]'), '123 Evergreen Terrace');
+        $this->assertEquals(Form::getValueAttribute('related[string]'), 'ponmlkjihgfedcba');
+        $this->assertEquals(Form::getValueAttribute('related[address][street]'), '123 Evergreen Terrace');
     }
 
     public function testItCanGetRelatedValueForForms()
@@ -69,13 +76,13 @@ class FormAccessibleTest extends TestCase
         $model = new ModelThatUsesForms($this->modelData);
         $this->assertEquals($model->getFormValue('address.street'), 'abcde st');
     }
-    
+
     public function testItCanUseGetAccessorValuesWhenThereAreNoFormAccessors()
     {
         $model = new ModelThatUsesForms($this->modelData);
-        $this->formBuilder->setModel($model);
-        
-        $this->assertEquals($this->formBuilder->getValueAttribute('email'), 'mutated@tjshafer.com');
+        Form::setModel($model);
+
+        $this->assertEquals(Form::getValueAttribute('email'), 'mutated@tjshafer.com');
     }
 
     public function testItReturnsSameResultWithAndWithoutThisFeature()
@@ -83,14 +90,14 @@ class FormAccessibleTest extends TestCase
         $modelWithAccessor = new ModelThatUsesForms($this->modelData);
         $modelWithoutAccessor = new ModelThatDoesntUseForms($this->modelData);
 
-        $this->formBuilder->setModel($modelWithAccessor);
-        $valuesWithAccessor[] = $this->formBuilder->getValueAttribute('array');
-        $valuesWithAccessor[] = $this->formBuilder->getValueAttribute('array[0]');
-        $valuesWithAccessor[] = $this->formBuilder->getValueAttribute('transform.key');
-        $this->formBuilder->setModel($modelWithoutAccessor);
-        $valuesWithoutAccessor[] = $this->formBuilder->getValueAttribute('array');
-        $valuesWithoutAccessor[] = $this->formBuilder->getValueAttribute('array[0]');
-        $valuesWithoutAccessor[] = $this->formBuilder->getValueAttribute('transform.key');
+        Form::setModel($modelWithAccessor);
+        $valuesWithAccessor[] = Form::getValueAttribute('array');
+        $valuesWithAccessor[] = Form::getValueAttribute('array[0]');
+        $valuesWithAccessor[] = Form::getValueAttribute('transform.key');
+        Form::setModel($modelWithoutAccessor);
+        $valuesWithoutAccessor[] = Form::getValueAttribute('array');
+        $valuesWithoutAccessor[] = Form::getValueAttribute('array[0]');
+        $valuesWithoutAccessor[] = Form::getValueAttribute('transform.key');
 
         $this->assertEquals($valuesWithAccessor, $valuesWithoutAccessor);
     }
@@ -98,7 +105,7 @@ class FormAccessibleTest extends TestCase
     public function testItCanStillMutateValuesForViews()
     {
         $model = new ModelThatUsesForms($this->modelData);
-        $this->formBuilder->setModel($model);
+        Form::setModel($model);
 
         $this->assertEquals($model->string, 'ABCDEFGHIJKLMNOP');
         $this->assertEquals($model->created_at, '1 second ago');
@@ -107,7 +114,7 @@ class FormAccessibleTest extends TestCase
     public function testItDoesntRequireTheUseOfThisFeature()
     {
         $model = new ModelThatDoesntUseForms($this->modelData);
-        $this->formBuilder->setModel($model);
+        Form::setModel($model);
 
         $this->assertEquals($model->string, 'ABCDEFGHIJKLMNOP');
         $this->assertEquals($model->created_at, '1 second ago');
