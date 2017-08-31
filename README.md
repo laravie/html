@@ -1,6 +1,6 @@
 # Forms & HTML
 
-[![Build Status](https://travis-ci.org/laravie/html.svg)](https://travis-ci.org/laravie/html)
+[![Build Status](https://travis-ci.org/laravie/html.svg?branch=5.5)](https://travis-ci.org/laravie/html)
 [![Total Downloads](https://poser.pugx.org/laravie/html/downloads)](https://packagist.org/packages/laravie/html)
 [![Latest Stable Version](https://poser.pugx.org/laravie/html/v/stable.svg)](https://packagist.org/packages/laravie/html)
 [![Latest Unstable Version](https://poser.pugx.org/laravie/html/v/unstable.svg)](https://packagist.org/packages/laravie/html)
