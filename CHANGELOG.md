@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.5.0
+
+Released: 2017-08-31
+
+### Changes
+
+* Update support to Laravel Framework 5.5.
+
 ## 5.4.1
 
 Released: 2017-07-18
