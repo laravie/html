@@ -71,6 +71,7 @@ trait SelectionTrait
      * @param  string  $display
      * @param  string  $value
      * @param  string  $selected
+     * @param  array   $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -89,6 +90,7 @@ trait SelectionTrait
      * @param  array   $list
      * @param  string  $label
      * @param  string  $selected
+     * @param  array   $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -109,6 +111,7 @@ trait SelectionTrait
      * @param  string  $display
      * @param  string  $value
      * @param  string  $selected
+     * @param  array   $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
