@@ -460,7 +460,7 @@ class HtmlBuilder
         }
 
         // Treat boolean attributes as HTML properties
-        if (is_bool($value)  && $key != 'value') {
+        if (is_bool($value) && $key != 'value') {
             return $value ? $key : '';
         }
 

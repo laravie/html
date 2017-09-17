@@ -9,7 +9,7 @@ use Illuminate\View\Compilers\BladeCompiler;
 class BladeServiceProvider extends ServiceProvider
 {
     /**
-     * Supported Blade Directives
+     * Supported Blade Directives.
      *
      * @var array
      */
@@ -19,7 +19,7 @@ class BladeServiceProvider extends ServiceProvider
         'tag', 'open', 'model', 'close', 'token', 'label', 'input', 'text', 'password', 'hidden',
         'email', 'tel', 'number', 'date', 'datetime', 'datetimeLocal', 'time', 'url', 'file',
         'textarea', 'select', 'selectRange', 'selectYear', 'selectMonth', 'getSelectOption',
-        'checkbox', 'radio', 'reset', 'image', 'color', 'submit', 'button', 'old'
+        'checkbox', 'radio', 'reset', 'image', 'color', 'submit', 'button', 'old',
     ];
 
     /**

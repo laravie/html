@@ -2,10 +2,12 @@
 
 use Mockery as m;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store;
 use PHPUnit\Framework\TestCase;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Routing\RouteCollection;
@@ -364,6 +366,43 @@ class FormBuilderTest extends TestCase
             $select,
             '<select name="encoded_html"><option value="no_break_space">&nbsp;</option><option value="ampersand">&amp;</option><option value="lower_than">&lt;</option></select>'
         );
+
+        $select = $this->formBuilder->select(
+            'size',
+            ['L' => 'Large', 'S' => 'Small'],
+            null,
+            [],
+            ['L' => ['data-foo' => 'bar', 'disabled']]
+        );
+
+        $this->assertEquals(
+            $select,
+            '<select name="size"><option value="L" data-foo="bar" disabled>Large</option><option value="S">Small</option></select>'
+        );
+
+        $store = new Store('name', new \SessionHandler());
+        $store->put('_old_input', ['countries' => ['1']]);
+        $this->formBuilder->setSessionStore($store);
+
+        $result = $this->formBuilder->select('countries', [1 => 'L', 2 => 'M']);
+
+        $this->assertEquals(
+            '<select name="countries"><option value="1" selected="selected">L</option><option value="2">M</option></select>',
+            $result
+        );
+    }
+
+    public function testSelectCollection()
+    {
+        $select = $this->formBuilder->select(
+            'size',
+            collect(['L' => 'Large', 'S' => 'Small']),
+            null,
+            [],
+            ['L' => ['data-foo' => 'bar', 'disabled']]
+        );
+        $this->assertEquals($select,
+            '<select name="size"><option value="L" data-foo="bar" disabled>Large</option><option value="S">Small</option></select>');
     }
 
     public function testFormSelectRepopulation()
@@ -396,7 +435,9 @@ class FormBuilderTest extends TestCase
             null,
             ['placeholder' => 'Select One...']
         );
-        $this->assertEquals($select, '<select name="size"><option selected="selected" value="">Select One...</option><option value="L">Large</option><option value="S">Small</option></select>');
+
+        $this->assertEquals($select,
+          '<select name="size"><option selected="selected" value="">Select One...</option><option value="L">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
             'size',
@@ -405,7 +446,8 @@ class FormBuilderTest extends TestCase
             ['placeholder' => 'Select One...']
         );
 
-        $this->assertEquals($select, '<select name="size"><option value="">Select One...</option><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
+        $this->assertEquals($select,
+          '<select name="size"><option value="">Select One...</option><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
             'encoded_html',
