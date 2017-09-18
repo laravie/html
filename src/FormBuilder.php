@@ -31,13 +31,6 @@ class FormBuilder
     protected $html;
 
     /**
-     * The URL generator instance.
-     *
-     * @var \Illuminate\Contracts\Routing\UrlGenerator
-     */
-    protected $url;
-
-    /**
      * The View factory instance.
      *
      * @var \Illuminate\Contracts\View\Factory
@@ -66,8 +59,12 @@ class FormBuilder
      * @param  \Illuminate\Contracts\View\Factory  $view
      * @param  \Illuminate\Http\Request|null  $request
      */
-    public function __construct(HtmlBuilder $html, UrlGeneratorContract $url, ViewFactoryContract $view, Request $request = null)
-    {
+    public function __construct(
+        HtmlBuilder $html,
+        UrlGeneratorContract $url,
+        ViewFactoryContract $view,
+        Request $request = null
+    ) {
         $this->url     = $url;
         $this->html    = $html;
         $this->view    = $view;
