@@ -51,6 +51,8 @@ trait CheckerTrait
      */
     protected function checkable($type, $name, $value, $checked, $options)
     {
+        $this->type = $type;
+
         $checked = $this->getCheckedState($type, $name, $value, $checked);
 
         $checked && $options['checked'] = 'checked';
@@ -91,11 +93,13 @@ trait CheckerTrait
      */
     protected function getCheckboxCheckedState($name, $value, $checked)
     {
-        if (isset($this->session) && ! $this->oldInputIsEmpty() && is_null($this->old($name))) {
+        $request = $this->request($name);
+
+        if (isset($this->session) && ! $this->oldInputIsEmpty() && is_null($this->old($name)) && ! $request) {
             return false;
         }
 
-        if ($this->missingOldAndModel($name)) {
+        if ($this->missingOldAndModel($name) && ! $request) {
             return $checked;
         }
 
@@ -121,7 +125,9 @@ trait CheckerTrait
      */
     protected function getRadioCheckedState($name, $value, $checked)
     {
-        if ($this->missingOldAndModel($name)) {
+        $request = $this->request($name);
+
+        if ($this->missingOldAndModel($name) && ! $request) {
             return $checked;
         }
 

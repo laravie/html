@@ -48,7 +48,6 @@ trait InputTrait
     }
 
     /** Create a search input field.
-     *
      * @param  string $name
      * @param  string $value
      * @param  array  $options
