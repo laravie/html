@@ -10,11 +10,11 @@ trait SelectionTrait
     /**
      * Create a select box field.
      *
-     * @param  string  $name
-     * @param  array   $list
-     * @param  string  $selected
-     * @param  array   $selectAttributes
-     * @param  array   $optionAttributes
+     * @param  string $name
+     * @param  array  $list
+     * @param  string $selected
+     * @param  array  $selectAttributes
+     * @param  array  $optionsAttributes
      *
      * @return \Illuminate\Support\HtmlString
      */
@@ -23,8 +23,10 @@ trait SelectionTrait
         $list = [],
         $selected = null,
         array $selectAttributes = [],
-        array $optionAttributes = []
+        array $optionsAttributes = []
     ) {
+        $this->type = 'select';
+
         // When building a select box the "value" attribute is really the selected one
         // so we will use that when checking the model or session for a value which
         // should provide a convenient method of re-populating the forms on post.
@@ -52,7 +54,7 @@ trait SelectionTrait
         }
 
         foreach ($list as $value => $display) {
-            $html[] = $this->getSelectOption($display, $value, $selected, $optionAttributes[$value] ?? []);
+            $html[] = $this->getSelectOption($display, $value, $selected, $optionsAttributes[$value] ?? []);
         }
 
         // Once we have all of this HTML, we can join this into a single element after
@@ -102,7 +104,11 @@ trait SelectionTrait
             $html[] = $this->option($display, $value, $selected, $attributes);
         }
 
-        return $this->toHtmlString('<optgroup label="'.$this->entities($label).'">'.implode('', $html).'</optgroup>');
+        return $this->toHtmlString(sprintf(
+            '<optgroup label="%s">%s</optgroup>',
+            $this->entities($label),
+            implode('', $html)
+        ));
     }
 
     /**
@@ -121,7 +127,11 @@ trait SelectionTrait
 
         $options = ['value' => $value, 'selected' => $selected] + $attributes;
 
-        return $this->toHtmlString('<option'.$this->getHtmlBuilder()->attributes($options).'>'.$this->entities($display).'</option>');
+        return $this->toHtmlString(sprintf(
+            '<option%s>%s</option>',
+            $this->getHtmlBuilder()->attributes($options),
+            $this->entities($display)
+        ));
     }
 
     /**
@@ -139,7 +149,11 @@ trait SelectionTrait
             'value'    => '',
         ];
 
-        return $this->toHtmlString('<option'.$this->getHtmlBuilder()->attributes($options).'>'.$this->entities($display).'</option>');
+        return $this->toHtmlString(sprintf(
+            '<option%s>%s</option>',
+            $this->getHtmlBuilder()->attributes($options),
+            $this->entities($display)
+        ));
     }
 
     /**
