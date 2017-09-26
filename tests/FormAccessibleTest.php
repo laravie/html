@@ -1,6 +1,5 @@
 <?php
 
-use Mockery as m;
 use Carbon\Carbon;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Database\Eloquent\Model;
@@ -19,12 +18,12 @@ class FormAccessibleTest extends TestCase
         $this->now = Carbon::now();
 
         $this->modelData = [
-          'string'     => 'abcdefghijklmnop',
-          'email'      => 'tj@tjshafer.com',
-          'address'    => [
-              'street' => 'abcde st'
+          'string' => 'abcdefghijklmnop',
+          'email' => 'tj@tjshafer.com',
+          'address' => [
+              'street' => 'abcde st',
           ],
-          'array'      => [1, 2, 3,],
+          'array' => [1, 2, 3],
           'transform_key' => 'testing testing',
           'created_at' => $this->now,
           'updated_at' => $this->now,
@@ -61,7 +60,7 @@ class FormAccessibleTest extends TestCase
         $model = new ModelThatUsesForms($this->modelData);
         $relatedModel = new ModelThatUsesForms($this->modelData);
         $relatedModel->address = [
-            'street' => '123 Evergreen Terrace'
+            'street' => '123 Evergreen Terrace',
         ];
         $model->setRelation('related', $relatedModel);
 

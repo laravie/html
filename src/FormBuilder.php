@@ -65,9 +65,9 @@ class FormBuilder
         ViewFactoryContract $view,
         Request $request = null
     ) {
-        $this->url     = $url;
-        $this->html    = $html;
-        $this->view    = $view;
+        $this->url = $url;
+        $this->html = $html;
+        $this->view = $view;
         $this->request = $request;
     }
 
@@ -167,7 +167,7 @@ class FormBuilder
      */
     protected function missingOldAndModel($name)
     {
-        return (is_null($this->old($name)) && is_null($this->getModelValueAttribute($name)));
+        return is_null($this->old($name)) && is_null($this->getModelValueAttribute($name));
     }
 
     /**
@@ -275,7 +275,7 @@ class FormBuilder
             if ($hasNullMiddleware
                 && is_null($old)
                 && is_null($value)
-                && !is_null($this->view->shared('errors'))
+                && ! is_null($this->view->shared('errors'))
                 && count($this->view->shared('errors')) > 0
             ) {
                 return;

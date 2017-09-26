@@ -156,6 +156,7 @@ trait InputTrait
         if ($value instanceof DateTime) {
             $value = $value->format('Y-m-d');
         }
+
         return $this->input('date', $name, $value, $options);
     }
 

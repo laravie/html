@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Routing\RouteCollection;
@@ -25,12 +24,12 @@ class FormBuilderTest extends TestCase
 
         // prepare request for test with some data
         $request = Request::create('/foo', 'GET', [
-            "person" => [
-                "name" => "John",
-                "surname" => "Doe",
+            'person' => [
+                'name' => 'John',
+                'surname' => 'Doe',
             ],
-            "agree" => 1,
-            "checkbox_array" => [1, 2, 3],
+            'agree' => 1,
+            'checkbox_array' => [1, 2, 3],
         ]);
 
         $request = Request::createFromBase($request);
@@ -75,30 +74,30 @@ class FormBuilderTest extends TestCase
     {
         $this->formBuilder->considerRequest();
 
-        $name = $this->formBuilder->text("person[name]", "Not John");
-        $surname = $this->formBuilder->text("person[surname]", "Not Doe");
+        $name = $this->formBuilder->text('person[name]', 'Not John');
+        $surname = $this->formBuilder->text('person[surname]', 'Not Doe');
         $this->assertEquals('<input name="person[name]" type="text" value="John">', $name);
         $this->assertEquals('<input name="person[surname]" type="text" value="Doe">', $surname);
 
-        $checked = $this->formBuilder->checkbox("agree", 1);
-        $unchecked = $this->formBuilder->checkbox("no_value", 1);
+        $checked = $this->formBuilder->checkbox('agree', 1);
+        $unchecked = $this->formBuilder->checkbox('no_value', 1);
         $this->assertEquals('<input checked="checked" name="agree" type="checkbox" value="1">', $checked);
         $this->assertEquals('<input name="no_value" type="checkbox" value="1">', $unchecked);
 
-        $checked_array = $this->formBuilder->checkbox("checkbox_array[]", 1);
-        $unchecked_array = $this->formBuilder->checkbox("checkbox_array[]", 4);
+        $checked_array = $this->formBuilder->checkbox('checkbox_array[]', 1);
+        $unchecked_array = $this->formBuilder->checkbox('checkbox_array[]', 4);
         $this->assertEquals('<input checked="checked" name="checkbox_array[]" type="checkbox" value="1">', $checked_array);
         $this->assertEquals('<input name="checkbox_array[]" type="checkbox" value="4">', $unchecked_array);
 
-        $checked = $this->formBuilder->radio("agree", 1);
-        $unchecked = $this->formBuilder->radio("no_value", 1);
+        $checked = $this->formBuilder->radio('agree', 1);
+        $unchecked = $this->formBuilder->radio('no_value', 1);
         $this->assertEquals('<input checked="checked" name="agree" type="radio" value="1">', $checked);
         $this->assertEquals('<input name="no_value" type="radio" value="1">', $unchecked);
 
         // now we check that Request is ignored and value take precedence
         $this->formBuilder->considerRequest(false);
-        $name = $this->formBuilder->text("person[name]", "Not John");
-        $surname = $this->formBuilder->text("person[surname]", "Not Doe");
+        $name = $this->formBuilder->text('person[name]', 'Not John');
+        $surname = $this->formBuilder->text('person[surname]', 'Not Doe');
         $this->assertEquals('<input name="person[name]" type="text" value="Not John">', $name);
         $this->assertEquals('<input name="person[surname]" type="text" value="Not Doe">', $surname);
     }
@@ -135,6 +134,7 @@ class FormBuilderTest extends TestCase
             foreach ($data as $key => $attribute) {
                 $dataAttributes[] = $key.'="'.$attribute.'"';
             }
+
             return '<input name="'.$name.'" type="text" value="'.$value.'" '.implode(' ', $dataAttributes).'>';
         });
 
@@ -305,7 +305,7 @@ class FormBuilderTest extends TestCase
 
         $this->assertEquals('<input name="foo" type="date">', $form1);
         $this->assertEquals('<input name="foo" type="date" value="2015-02-20">', $form2);
-        $this->assertEquals('<input name="foo" type="date" value="' . \Carbon\Carbon::now()->format('Y-m-d') . '">',
+        $this->assertEquals('<input name="foo" type="date" value="'.\Carbon\Carbon::now()->format('Y-m-d').'">',
           $form3);
         $this->assertEquals('<input class="span2" name="foo" type="date">', $form4);
     }
@@ -317,7 +317,7 @@ class FormBuilderTest extends TestCase
         $form3 = $this->formBuilder->time('foo', null, ['class' => 'span2']);
 
         $this->assertEquals('<input name="foo" type="time">', $form1);
-        $this->assertEquals('<input name="foo" type="time" value="' . \Carbon\Carbon::now()->format('H:i') . '">',
+        $this->assertEquals('<input name="foo" type="time" value="'.\Carbon\Carbon::now()->format('H:i').'">',
           $form2);
         $this->assertEquals('<input class="span2" name="foo" type="time">', $form3);
     }
@@ -384,7 +384,7 @@ class FormBuilderTest extends TestCase
             'size',
             [
                 'Large sizes' => [
-                    'L'  => 'Large',
+                    'L' => 'Large',
                     'XL' => 'Extra Large',
                 ],
                 'S' => 'Small',
@@ -392,7 +392,7 @@ class FormBuilderTest extends TestCase
             null,
             [
                 'class' => 'class-name',
-                'id'    => 'select-id',
+                'id' => 'select-id',
             ]
         );
 
@@ -668,7 +668,7 @@ class FormBuilderTest extends TestCase
         $url = 'http://laravel.com/';
         $image = $this->formBuilder->image($url);
 
-        $this->assertEquals('<input src="' . $url . '" type="image">', $image);
+        $this->assertEquals('<input src="'.$url.'" type="image">', $image);
     }
 
     public function testFormColor()

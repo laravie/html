@@ -50,7 +50,7 @@ trait SelectionTrait
 
         foreach ($list as $value => $display) {
             $optionAttributes = isset($optionsAttributes[$value]) ? $optionsAttributes[$value] : [];
-            $html[]           = $this->getSelectOption($display, $value, $selected, $optionAttributes);
+            $html[] = $this->getSelectOption($display, $value, $selected, $optionAttributes);
         }
 
         // Once we have all of this HTML, we can join this into a single element after
@@ -142,7 +142,7 @@ trait SelectionTrait
     {
         $options = [
             'selected' => $this->getSelectedValue(null, $selected),
-            'value'    => '',
+            'value' => '',
         ];
 
         return $this->toHtmlString(sprintf(

@@ -52,7 +52,7 @@ trait Componentable
     protected function renderComponent($name, array $arguments)
     {
         $component = static::$components[$name];
-        $data      = $this->getComponentData($component['signature'], $arguments);
+        $data = $this->getComponentData($component['signature'], $arguments);
 
         return new HtmlString(
           $this->view->make($component['view'], $data)->render()
@@ -78,12 +78,12 @@ trait Componentable
             // just use null instead, so that we can treat them all the same.
             if (is_numeric($variable)) {
                 $variable = $default;
-                $default  = null;
+                $default = null;
             }
 
             $data[$variable] = Arr::get($arguments, $i, $default);
 
-            $i++;
+            ++$i;
         }
 
         return $data;
