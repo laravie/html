@@ -65,9 +65,9 @@ class FormBuilder
         ViewFactoryContract $view,
         Request $request = null
     ) {
-        $this->url = $url;
-        $this->html = $html;
-        $this->view = $view;
+        $this->url     = $url;
+        $this->html    = $html;
+        $this->view    = $view;
         $this->request = $request;
     }
 

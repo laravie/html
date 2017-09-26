@@ -33,7 +33,7 @@ trait SessionHelperTrait
             return;
         }
 
-        $key = $this->transformKey($name);
+        $key     = $this->transformKey($name);
         $payload = $this->session->getOldInput($key);
 
         if (! is_array($payload)) {

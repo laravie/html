@@ -38,7 +38,7 @@ class HtmlBuilder
      */
     public function __construct(UrlGeneratorContract $url, ViewFactoryContract $view)
     {
-        $this->url = $url;
+        $this->url  = $url;
         $this->view = $view;
     }
 

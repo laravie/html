@@ -8,6 +8,7 @@ return PhpCsFixer\Config::create()
             ->setRiskyAllowed(false)
             ->setRules([
                 '@Symfony' => true,
+                'binary_operator_spaces' => ['align_double_arrow' => true, 'align_equals' => true],
                 'no_empty_comment' => false,
                 'no_extra_consecutive_blank_lines' => false,
                 'not_operator_with_successor_space' => true,

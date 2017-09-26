@@ -19,16 +19,16 @@ class FormBuilderTest extends TestCase
     public function setUp()
     {
         $this->urlGenerator = new UrlGenerator(new RouteCollection(), Request::create('/foo', 'GET'));
-        $this->viewFactory = m::mock(Factory::class);
-        $this->htmlBuilder = new HtmlBuilder($this->urlGenerator, $this->viewFactory);
+        $this->viewFactory  = m::mock(Factory::class);
+        $this->htmlBuilder  = new HtmlBuilder($this->urlGenerator, $this->viewFactory);
 
         // prepare request for test with some data
         $request = Request::create('/foo', 'GET', [
             'person' => [
-                'name' => 'John',
+                'name'    => 'John',
                 'surname' => 'Doe',
             ],
-            'agree' => 1,
+            'agree'          => 1,
             'checkbox_array' => [1, 2, 3],
         ]);
 
@@ -74,29 +74,29 @@ class FormBuilderTest extends TestCase
     {
         $this->formBuilder->considerRequest();
 
-        $name = $this->formBuilder->text('person[name]', 'Not John');
+        $name    = $this->formBuilder->text('person[name]', 'Not John');
         $surname = $this->formBuilder->text('person[surname]', 'Not Doe');
         $this->assertEquals('<input name="person[name]" type="text" value="John">', $name);
         $this->assertEquals('<input name="person[surname]" type="text" value="Doe">', $surname);
 
-        $checked = $this->formBuilder->checkbox('agree', 1);
+        $checked   = $this->formBuilder->checkbox('agree', 1);
         $unchecked = $this->formBuilder->checkbox('no_value', 1);
         $this->assertEquals('<input checked="checked" name="agree" type="checkbox" value="1">', $checked);
         $this->assertEquals('<input name="no_value" type="checkbox" value="1">', $unchecked);
 
-        $checked_array = $this->formBuilder->checkbox('checkbox_array[]', 1);
+        $checked_array   = $this->formBuilder->checkbox('checkbox_array[]', 1);
         $unchecked_array = $this->formBuilder->checkbox('checkbox_array[]', 4);
         $this->assertEquals('<input checked="checked" name="checkbox_array[]" type="checkbox" value="1">', $checked_array);
         $this->assertEquals('<input name="checkbox_array[]" type="checkbox" value="4">', $unchecked_array);
 
-        $checked = $this->formBuilder->radio('agree', 1);
+        $checked   = $this->formBuilder->radio('agree', 1);
         $unchecked = $this->formBuilder->radio('no_value', 1);
         $this->assertEquals('<input checked="checked" name="agree" type="radio" value="1">', $checked);
         $this->assertEquals('<input name="no_value" type="radio" value="1">', $unchecked);
 
         // now we check that Request is ignored and value take precedence
         $this->formBuilder->considerRequest(false);
-        $name = $this->formBuilder->text('person[name]', 'Not John');
+        $name    = $this->formBuilder->text('person[name]', 'Not John');
         $surname = $this->formBuilder->text('person[surname]', 'Not Doe');
         $this->assertEquals('<input name="person[name]" type="text" value="Not John">', $name);
         $this->assertEquals('<input name="person[surname]" type="text" value="Not Doe">', $surname);
@@ -139,9 +139,9 @@ class FormBuilderTest extends TestCase
         });
 
         $form = $this->formBuilder->data_field('foo', null, [
-            'role' => 'set_name',
-            'data-titlecase' => 'ucfirst',
-            'data-inputmask-type' => 'Regex',
+            'role'                 => 'set_name',
+            'data-titlecase'       => 'ucfirst',
+            'data-inputmask-type'  => 'Regex',
             'data-inputmask-regex' => '[A-Za-z0-9\\s-\\(\\)&]{2,70}',
         ]);
 
@@ -384,7 +384,7 @@ class FormBuilderTest extends TestCase
             'size',
             [
                 'Large sizes' => [
-                    'L' => 'Large',
+                    'L'  => 'Large',
                     'XL' => 'Extra Large',
                 ],
                 'S' => 'Small',
@@ -392,7 +392,7 @@ class FormBuilderTest extends TestCase
             null,
             [
                 'class' => 'class-name',
-                'id' => 'select-id',
+                'id'    => 'select-id',
             ]
         );
 
@@ -583,9 +583,9 @@ class FormBuilderTest extends TestCase
         $session->shouldReceive('getOldInput')->withNoArgs()->andReturn([]);
         $session->shouldReceive('getOldInput')->with('items')->andReturn(null);
 
-        $mockModel2 = new StdClass();
+        $mockModel2     = new StdClass();
         $mockModel2->id = 2;
-        $mockModel3 = new StdClass();
+        $mockModel3     = new StdClass();
         $mockModel3->id = 3;
         $this->setModel(['items' => new Collection([$mockModel2, $mockModel3])]);
 
@@ -665,7 +665,7 @@ class FormBuilderTest extends TestCase
 
     public function testImageInput()
     {
-        $url = 'http://laravel.com/';
+        $url   = 'http://laravel.com/';
         $image = $this->formBuilder->image($url);
 
         $this->assertEquals('<input src="'.$url.'" type="image">', $image);

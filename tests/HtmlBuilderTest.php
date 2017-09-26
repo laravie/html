@@ -16,8 +16,8 @@ class HtmlBuilderTest extends TestCase
     public function setUp()
     {
         $this->urlGenerator = new UrlGenerator(new RouteCollection(), Request::create('/foo', 'GET'));
-        $this->viewFactory = m::mock(Factory::class);
-        $this->htmlBuilder = new HtmlBuilder($this->urlGenerator, $this->viewFactory);
+        $this->viewFactory  = m::mock(Factory::class);
+        $this->htmlBuilder  = new HtmlBuilder($this->urlGenerator, $this->viewFactory);
     }
 
     public function tearDown()
@@ -28,7 +28,7 @@ class HtmlBuilderTest extends TestCase
     public function testDl()
     {
         $list = [
-          'foo' => 'bar',
+          'foo'  => 'bar',
           'bing' => 'baz',
         ];
 

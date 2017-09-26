@@ -56,8 +56,8 @@ trait CreatorTrait
         // something other than GET or POST we'll use POST since we will spoof the
         // actual method since forms don't support the reserved methods in HTML.
         $attributes = [
-            'method' => $this->getMethod($method),
-            'action' => $this->getAction($options),
+            'method'         => $this->getMethod($method),
+            'action'         => $this->getAction($options),
             'accept-charset' => 'UTF-8',
         ];
 
