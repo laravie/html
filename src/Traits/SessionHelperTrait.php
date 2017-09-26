@@ -30,13 +30,13 @@ trait SessionHelperTrait
     public function old($name)
     {
         if (! isset($this->session)) {
-            return ;
+            return;
         }
 
         $key     = $this->transformKey($name);
         $payload = $this->session->getOldInput($key);
 
-        if (!is_array($payload)) {
+        if (! is_array($payload)) {
             return $payload;
         }
 
@@ -47,6 +47,7 @@ trait SessionHelperTrait
 
             if (! empty($this->payload[$key])) {
                 $value = $this->payload[$key]->shift();
+
                 return $value;
             }
         }
@@ -61,7 +62,7 @@ trait SessionHelperTrait
      */
     public function oldInputIsEmpty()
     {
-        return (isset($this->session) && count($this->session->getOldInput()) == 0);
+        return isset($this->session) && count($this->session->getOldInput()) == 0;
     }
 
     /**

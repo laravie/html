@@ -138,6 +138,7 @@ trait CreatorTrait
 
         return $method != 'GET' ? 'POST' : $method;
     }
+
     /**
      * Get the form action from the options.
      *

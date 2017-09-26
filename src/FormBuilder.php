@@ -31,13 +31,6 @@ class FormBuilder
     protected $html;
 
     /**
-     * The URL generator instance.
-     *
-     * @var \Illuminate\Contracts\Routing\UrlGenerator
-     */
-    protected $url;
-
-    /**
      * The View factory instance.
      *
      * @var \Illuminate\Contracts\View\Factory
@@ -66,8 +59,12 @@ class FormBuilder
      * @param  \Illuminate\Contracts\View\Factory  $view
      * @param  \Illuminate\Http\Request|null  $request
      */
-    public function __construct(HtmlBuilder $html, UrlGeneratorContract $url, ViewFactoryContract $view, Request $request = null)
-    {
+    public function __construct(
+        HtmlBuilder $html,
+        UrlGeneratorContract $url,
+        ViewFactoryContract $view,
+        Request $request = null
+    ) {
         $this->url     = $url;
         $this->html    = $html;
         $this->view    = $view;
@@ -170,7 +167,7 @@ class FormBuilder
      */
     protected function missingOldAndModel($name)
     {
-        return (is_null($this->old($name)) && is_null($this->getModelValueAttribute($name)));
+        return is_null($this->old($name)) && is_null($this->getModelValueAttribute($name));
     }
 
     /**
@@ -278,7 +275,7 @@ class FormBuilder
             if ($hasNullMiddleware
                 && is_null($old)
                 && is_null($value)
-                && !is_null($this->view->shared('errors'))
+                && ! is_null($this->view->shared('errors'))
                 && count($this->view->shared('errors')) > 0
             ) {
                 return;
