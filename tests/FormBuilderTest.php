@@ -2,6 +2,7 @@
 
 use Mockery as m;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store;
 use PHPUnit\Framework\TestCase;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
@@ -18,9 +19,22 @@ class FormBuilderTest extends TestCase
     public function setUp()
     {
         $this->urlGenerator = new UrlGenerator(new RouteCollection(), Request::create('/foo', 'GET'));
-        $this->viewFactory = m::mock(Factory::class);
-        $this->htmlBuilder = new HtmlBuilder($this->urlGenerator, $this->viewFactory);
-        $this->formBuilder = new FormBuilder($this->htmlBuilder, $this->urlGenerator, $this->viewFactory, 'abc');
+        $this->viewFactory  = m::mock(Factory::class);
+        $this->htmlBuilder  = new HtmlBuilder($this->urlGenerator, $this->viewFactory);
+
+        // prepare request for test with some data
+        $request = Request::create('/foo', 'GET', [
+            'person' => [
+                'name'    => 'John',
+                'surname' => 'Doe',
+            ],
+            'agree'          => 1,
+            'checkbox_array' => [1, 2, 3],
+        ]);
+
+        $request = Request::createFromBase($request);
+
+        $this->formBuilder = new FormBuilder($this->htmlBuilder, $this->urlGenerator, $this->viewFactory, $request);
     }
 
     /**
@@ -56,6 +70,38 @@ class FormBuilderTest extends TestCase
           $form5);
     }
 
+    public function testRequestValue()
+    {
+        $this->formBuilder->considerRequest();
+
+        $name    = $this->formBuilder->text('person[name]', 'Not John');
+        $surname = $this->formBuilder->text('person[surname]', 'Not Doe');
+        $this->assertEquals('<input name="person[name]" type="text" value="John">', $name);
+        $this->assertEquals('<input name="person[surname]" type="text" value="Doe">', $surname);
+
+        $checked   = $this->formBuilder->checkbox('agree', 1);
+        $unchecked = $this->formBuilder->checkbox('no_value', 1);
+        $this->assertEquals('<input checked="checked" name="agree" type="checkbox" value="1">', $checked);
+        $this->assertEquals('<input name="no_value" type="checkbox" value="1">', $unchecked);
+
+        $checked_array   = $this->formBuilder->checkbox('checkbox_array[]', 1);
+        $unchecked_array = $this->formBuilder->checkbox('checkbox_array[]', 4);
+        $this->assertEquals('<input checked="checked" name="checkbox_array[]" type="checkbox" value="1">', $checked_array);
+        $this->assertEquals('<input name="checkbox_array[]" type="checkbox" value="4">', $unchecked_array);
+
+        $checked   = $this->formBuilder->radio('agree', 1);
+        $unchecked = $this->formBuilder->radio('no_value', 1);
+        $this->assertEquals('<input checked="checked" name="agree" type="radio" value="1">', $checked);
+        $this->assertEquals('<input name="no_value" type="radio" value="1">', $unchecked);
+
+        // now we check that Request is ignored and value take precedence
+        $this->formBuilder->considerRequest(false);
+        $name    = $this->formBuilder->text('person[name]', 'Not John');
+        $surname = $this->formBuilder->text('person[surname]', 'Not Doe');
+        $this->assertEquals('<input name="person[name]" type="text" value="Not John">', $name);
+        $this->assertEquals('<input name="person[surname]" type="text" value="Not Doe">', $surname);
+    }
+
     public function testClosingForm()
     {
         $this->assertEquals('</form>', $this->formBuilder->close());
@@ -88,13 +134,14 @@ class FormBuilderTest extends TestCase
             foreach ($data as $key => $attribute) {
                 $dataAttributes[] = $key.'="'.$attribute.'"';
             }
+
             return '<input name="'.$name.'" type="text" value="'.$value.'" '.implode(' ', $dataAttributes).'>';
         });
 
         $form = $this->formBuilder->data_field('foo', null, [
-            'role' => 'set_name',
-            'data-titlecase' => 'ucfirst',
-            'data-inputmask-type' => 'Regex',
+            'role'                 => 'set_name',
+            'data-titlecase'       => 'ucfirst',
+            'data-inputmask-type'  => 'Regex',
             'data-inputmask-regex' => '[A-Za-z0-9\\s-\\(\\)&]{2,70}',
         ]);
 
@@ -156,7 +203,7 @@ class FormBuilderTest extends TestCase
         $this->formBuilder->setSessionStore($session = m::mock('Illuminate\Contracts\Session\Session'));
         $this->setModel($model = ['relation' => ['key' => 'attribute'], 'other' => 'val']);
 
-        $session->shouldReceive('getOldInput')->twice()->with('name_with_dots')->andReturn('some value');
+        $session->shouldReceive('getOldInput')->once()->with('name_with_dots')->andReturn('some value');
         $input = $this->formBuilder->text('name.with.dots', 'default value');
         $this->assertEquals('<input name="name.with.dots" type="text" value="some value">', $input);
 
@@ -258,7 +305,7 @@ class FormBuilderTest extends TestCase
 
         $this->assertEquals('<input name="foo" type="date">', $form1);
         $this->assertEquals('<input name="foo" type="date" value="2015-02-20">', $form2);
-        $this->assertEquals('<input name="foo" type="date" value="' . \Carbon\Carbon::now()->format('Y-m-d') . '">',
+        $this->assertEquals('<input name="foo" type="date" value="'.\Carbon\Carbon::now()->format('Y-m-d').'">',
           $form3);
         $this->assertEquals('<input class="span2" name="foo" type="date">', $form4);
     }
@@ -270,7 +317,7 @@ class FormBuilderTest extends TestCase
         $form3 = $this->formBuilder->time('foo', null, ['class' => 'span2']);
 
         $this->assertEquals('<input name="foo" type="time">', $form1);
-        $this->assertEquals('<input name="foo" type="time" value="' . \Carbon\Carbon::now()->format('H:i') . '">',
+        $this->assertEquals('<input name="foo" type="time" value="'.\Carbon\Carbon::now()->format('H:i').'">',
           $form2);
         $this->assertEquals('<input class="span2" name="foo" type="time">', $form3);
     }
@@ -364,6 +411,43 @@ class FormBuilderTest extends TestCase
             $select,
             '<select name="encoded_html"><option value="no_break_space">&nbsp;</option><option value="ampersand">&amp;</option><option value="lower_than">&lt;</option></select>'
         );
+
+        $select = $this->formBuilder->select(
+            'size',
+            ['L' => 'Large', 'S' => 'Small'],
+            null,
+            [],
+            ['L' => ['data-foo' => 'bar', 'disabled']]
+        );
+
+        $this->assertEquals(
+            $select,
+            '<select name="size"><option value="L" data-foo="bar" disabled>Large</option><option value="S">Small</option></select>'
+        );
+
+        $store = new Store('name', new \SessionHandler());
+        $store->put('_old_input', ['countries' => ['1']]);
+        $this->formBuilder->setSessionStore($store);
+
+        $result = $this->formBuilder->select('countries', [1 => 'L', 2 => 'M']);
+
+        $this->assertEquals(
+            '<select name="countries"><option value="1" selected="selected">L</option><option value="2">M</option></select>',
+            $result
+        );
+    }
+
+    public function testSelectCollection()
+    {
+        $select = $this->formBuilder->select(
+            'size',
+            collect(['L' => 'Large', 'S' => 'Small']),
+            null,
+            [],
+            ['L' => ['data-foo' => 'bar', 'disabled']]
+        );
+        $this->assertEquals($select,
+            '<select name="size"><option value="L" data-foo="bar" disabled>Large</option><option value="S">Small</option></select>');
     }
 
     public function testFormSelectRepopulation()
@@ -372,12 +456,12 @@ class FormBuilderTest extends TestCase
         $this->formBuilder->setSessionStore($session = m::mock('Illuminate\Contracts\Session\Session'));
         $this->setModel($model = ['size' => ['key' => 'S'], 'other' => 'val']);
 
-        $session->shouldReceive('getOldInput')->twice()->with('size')->andReturn('M');
+        $session->shouldReceive('getOldInput')->once()->with('size')->andReturn('M');
         $select = $this->formBuilder->select('size', $list, 'S');
         $this->assertEquals($select,
           '<select name="size"><option value="L">Large</option><option value="M" selected="selected">Medium</option><option value="S">Small</option></select>');
 
-        $session->shouldReceive('getOldInput')->twice()->with('size.multi')->andReturn(['L', 'S']);
+        $session->shouldReceive('getOldInput')->once()->with('size.multi')->andReturn(['L', 'S']);
         $select = $this->formBuilder->select('size[multi][]', $list, 'M', ['multiple' => 'multiple']);
         $this->assertEquals($select,
           '<select multiple="multiple" name="size[multi][]"><option value="L" selected="selected">Large</option><option value="M">Medium</option><option value="S" selected="selected">Small</option></select>');
@@ -396,7 +480,9 @@ class FormBuilderTest extends TestCase
             null,
             ['placeholder' => 'Select One...']
         );
-        $this->assertEquals($select, '<select name="size"><option selected="selected" value="">Select One...</option><option value="L">Large</option><option value="S">Small</option></select>');
+
+        $this->assertEquals($select,
+          '<select name="size"><option selected="selected" value="">Select One...</option><option value="L">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
             'size',
@@ -405,7 +491,8 @@ class FormBuilderTest extends TestCase
             ['placeholder' => 'Select One...']
         );
 
-        $this->assertEquals($select, '<select name="size"><option value="">Select One...</option><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
+        $this->assertEquals($select,
+          '<select name="size"><option value="">Select One...</option><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
             'encoded_html',
@@ -499,9 +586,9 @@ class FormBuilderTest extends TestCase
         $session->shouldReceive('getOldInput')->withNoArgs()->andReturn([]);
         $session->shouldReceive('getOldInput')->with('items')->andReturn(null);
 
-        $mockModel2 = new StdClass();
+        $mockModel2     = new StdClass();
         $mockModel2->id = 2;
-        $mockModel3 = new StdClass();
+        $mockModel3     = new StdClass();
         $mockModel3->id = 3;
         $this->setModel(['items' => new Collection([$mockModel2, $mockModel3])]);
 
@@ -581,10 +668,10 @@ class FormBuilderTest extends TestCase
 
     public function testImageInput()
     {
-        $url = 'http://laravel.com/';
+        $url   = 'http://laravel.com/';
         $image = $this->formBuilder->image($url);
 
-        $this->assertEquals('<input src="' . $url . '" type="image">', $image);
+        $this->assertEquals('<input src="'.$url.'" type="image">', $image);
     }
 
     public function testFormColor()

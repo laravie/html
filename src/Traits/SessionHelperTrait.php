@@ -29,9 +29,30 @@ trait SessionHelperTrait
      */
     public function old($name)
     {
-        if (isset($this->session)) {
-            return $this->session->getOldInput($this->transformKey($name));
+        if (! isset($this->session)) {
+            return;
         }
+
+        $key     = $this->transformKey($name);
+        $payload = $this->session->getOldInput($key);
+
+        if (! is_array($payload)) {
+            return $payload;
+        }
+
+        if (! in_array($this->type, ['select', 'checkbox'])) {
+            if (! isset($this->payload[$key])) {
+                $this->payload[$key] = collect($payload);
+            }
+
+            if (! empty($this->payload[$key])) {
+                $value = $this->payload[$key]->shift();
+
+                return $value;
+            }
+        }
+
+        return $payload;
     }
 
     /**
@@ -41,7 +62,7 @@ trait SessionHelperTrait
      */
     public function oldInputIsEmpty()
     {
-        return (isset($this->session) && count($this->session->getOldInput()) == 0);
+        return isset($this->session) && count($this->session->getOldInput()) == 0;
     }
 
     /**

@@ -3,7 +3,9 @@
 namespace Collective\Html;
 
 use BadMethodCallException;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
+use Illuminate\Contracts\Http\Kernel;
 use Collective\Html\Traits\InputTrait;
 use Collective\Html\Traits\CheckerTrait;
 use Collective\Html\Traits\CreatorTrait;
@@ -11,6 +13,7 @@ use Illuminate\Support\Traits\Macroable;
 use Collective\Html\Traits\SelectionTrait;
 use Collective\Html\Traits\SessionHelperTrait;
 use Illuminate\Contracts\View\Factory as ViewFactoryContract;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
 class FormBuilder
@@ -28,17 +31,44 @@ class FormBuilder
     protected $html;
 
     /**
+     * The View factory instance.
+     *
+     * @var \Illuminate\Contracts\View\Factory
+     */
+    protected $view;
+
+    /**
+     * The request implementation.
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
+     * Consider Request variables while auto fill.
+     *
+     * @var bool
+     */
+    protected $considerRequest = false;
+
+    /**
      * Create a new form builder instance.
      *
      * @param  \Collective\Html\HtmlBuilder  $html
      * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
      * @param  \Illuminate\Contracts\View\Factory  $view
+     * @param  \Illuminate\Http\Request|null  $request
      */
-    public function __construct(HtmlBuilder $html, UrlGeneratorContract $url, ViewFactoryContract $view)
-    {
-        $this->url  = $url;
-        $this->html = $html;
-        $this->view = $view;
+    public function __construct(
+        HtmlBuilder $html,
+        UrlGeneratorContract $url,
+        ViewFactoryContract $view,
+        Request $request = null
+    ) {
+        $this->url     = $url;
+        $this->html    = $html;
+        $this->view    = $view;
+        $this->request = $request;
     }
 
     /**
@@ -137,7 +167,7 @@ class FormBuilder
      */
     protected function missingOldAndModel($name)
     {
-        return (is_null($this->old($name)) && is_null($this->getModelValueAttribute($name)));
+        return is_null($this->old($name)) && is_null($this->getModelValueAttribute($name));
     }
 
     /**
@@ -235,8 +265,25 @@ class FormBuilder
             return $value;
         }
 
-        if (! is_null($this->old($name)) && $name != '_method') {
-            return $this->old($name);
+        if (! is_null($old = $this->old($name)) && $name != '_method') {
+            return $old;
+        }
+
+        if (class_exists(Kernel::class, false)) {
+            $hasNullMiddleware = app(Kernel::class)->hasMiddleware(ConvertEmptyStringsToNull::class);
+
+            if ($hasNullMiddleware
+                && is_null($old)
+                && is_null($value)
+                && ! is_null($this->view->shared('errors'))
+                && count($this->view->shared('errors')) > 0
+            ) {
+                return;
+            }
+        }
+
+        if (! is_null($request = $this->request($name)) && $name != '_method') {
+            return $request;
         }
 
         if (! is_null($value)) {
@@ -319,5 +366,39 @@ class FormBuilder
         }
 
         throw new BadMethodCallException("Method {$method} does not exist.");
+    }
+
+    /**
+     * Get value from current Request.
+     *
+     * @param  string  $name
+     *
+     * @return array|null|string
+     */
+    protected function request($name)
+    {
+        if (! $this->considerRequest) {
+            return;
+        }
+
+        if (! isset($this->request)) {
+            return;
+        }
+
+        return $this->request->input($this->transformKey($name));
+    }
+
+    /**
+     * Take Request in fill process.
+     *
+     * @param  bool  $consider
+     *
+     * @return $this
+     */
+    public function considerRequest($consider = true)
+    {
+        $this->considerRequest = $consider;
+
+        return $this;
     }
 }

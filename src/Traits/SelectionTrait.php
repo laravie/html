@@ -2,6 +2,7 @@
 
 namespace Collective\Html\Traits;
 
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 
 trait SelectionTrait
@@ -9,47 +10,57 @@ trait SelectionTrait
     /**
      * Create a select box field.
      *
-     * @param  string  $name
-     * @param  array   $list
-     * @param  string  $selected
-     * @param  array   $options
+     * @param  string $name
+     * @param  array  $list
+     * @param  string $selected
+     * @param  array  $selectAttributes
+     * @param  array  $optionsAttributes
      *
      * @return \Illuminate\Support\HtmlString
      */
-    public function select($name, $list = [], $selected = null, $options = [])
-    {
+    public function select(
+        $name,
+        $list = [],
+        $selected = null,
+        array $selectAttributes = [],
+        array $optionsAttributes = []
+    ) {
+        $this->type = 'select';
+
         // When building a select box the "value" attribute is really the selected one
         // so we will use that when checking the model or session for a value which
         // should provide a convenient method of re-populating the forms on post.
         $selected = $this->getValueAttribute($name, $selected);
 
-        $options['id'] = $this->getIdAttribute($name, $options);
+        $selectAttributes['id'] = $this->getIdAttribute($name, $selectAttributes);
 
-        ! isset($options['name']) && $options['name'] = $name;
+        if (! isset($selectAttributes['name'])) {
+            $selectAttributes['name'] = $name;
+        }
 
         // We will simply loop through the options and build an HTML value for each of
         // them until we have an array of HTML declarations. Then we will join them
         // all together into one single HTML element that can be put on the form.
         $html = [];
 
-        if (isset($options['placeholder'])) {
-            $html[] = $this->placeholderOption($options['placeholder'], $selected);
-            unset($options['placeholder']);
+        if (isset($selectAttributes['placeholder'])) {
+            $html[] = $this->placeholderOption($selectAttributes['placeholder'], $selected);
+            unset($selectAttributes['placeholder']);
         }
 
-        if (isset($options['native-placeholder'])) {
-            $options['placeholder'] = $options['native-placeholder'];
-            unset($options['native-placeholder']);
+        if (isset($selectAttributes['native-placeholder'])) {
+            $selectAttributes['placeholder'] = $selectAttributes['native-placeholder'];
+            unset($selectAttributes['native-placeholder']);
         }
 
         foreach ($list as $value => $display) {
-            $html[] = $this->getSelectOption($display, $value, $selected);
+            $html[] = $this->getSelectOption($display, $value, $selected, $optionsAttributes[$value] ?? []);
         }
 
         // Once we have all of this HTML, we can join this into a single element after
         // formatting the attributes into an HTML "attributes" string, then we will
         // build out a final select statement, which will contain all the values.
-        $options = $this->getHtmlBuilder()->attributes($options);
+        $options = $this->getHtmlBuilder()->attributes($selectAttributes);
 
         $list = implode('', $html);
 
@@ -62,16 +73,17 @@ trait SelectionTrait
      * @param  string  $display
      * @param  string  $value
      * @param  string  $selected
+     * @param  array   $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
-    public function getSelectOption($display, $value, $selected)
+    public function getSelectOption($display, $value, $selected, array $attributes = [])
     {
         if (is_array($display)) {
-            return $this->optionGroup($display, $value, $selected);
+            return $this->optionGroup($display, $value, $selected, $attributes);
         }
 
-        return $this->option($display, $value, $selected);
+        return $this->option($display, $value, $selected, $attributes);
     }
 
     /**
@@ -80,18 +92,23 @@ trait SelectionTrait
      * @param  array   $list
      * @param  string  $label
      * @param  string  $selected
+     * @param  array   $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
-    protected function optionGroup($list, $label, $selected)
+    protected function optionGroup($list, $label, $selected, array $attributes = [])
     {
         $html = [];
 
         foreach ($list as $value => $display) {
-            $html[] = $this->option($display, $value, $selected);
+            $html[] = $this->option($display, $value, $selected, $attributes);
         }
 
-        return $this->toHtmlString('<optgroup label="'.$this->entities($label).'">'.implode('', $html).'</optgroup>');
+        return $this->toHtmlString(sprintf(
+            '<optgroup label="%s">%s</optgroup>',
+            $this->entities($label),
+            implode('', $html)
+        ));
     }
 
     /**
@@ -100,16 +117,21 @@ trait SelectionTrait
      * @param  string  $display
      * @param  string  $value
      * @param  string  $selected
+     * @param  array   $attributes
      *
      * @return \Illuminate\Support\HtmlString
      */
-    protected function option($display, $value, $selected)
+    protected function option($display, $value, $selected, array $attributes = [])
     {
         $selected = $this->getSelectedValue($value, $selected);
 
-        $options = ['value' => $value, 'selected' => $selected];
+        $options = ['value' => $value, 'selected' => $selected] + $attributes;
 
-        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.$this->entities($display).'</option>');
+        return $this->toHtmlString(sprintf(
+            '<option%s>%s</option>',
+            $this->getHtmlBuilder()->attributes($options),
+            $this->entities($display)
+        ));
     }
 
     /**
@@ -122,12 +144,16 @@ trait SelectionTrait
      */
     protected function placeholderOption($display, $selected)
     {
-        $selected = $this->getSelectedValue(null, $selected);
-        $value    = '';
+        $options = [
+            'selected' => $this->getSelectedValue(null, $selected),
+            'value'    => '',
+        ];
 
-        $options = compact('selected', 'value');
-
-        return $this->toHtmlString('<option'.$this->html->attributes($options).'>'.$this->entities($display).'</option>');
+        return $this->toHtmlString(sprintf(
+            '<option%s>%s</option>',
+            $this->getHtmlBuilder()->attributes($options),
+            $this->entities($display)
+        ));
     }
 
     /**
@@ -145,7 +171,9 @@ trait SelectionTrait
         }
 
         if (is_array($selected)) {
-            return in_array($value, $selected, true) ? 'selected' : null;
+            return in_array($value, $selected, true) || in_array((string) $value, $selected, true) ? 'selected' : null;
+        } elseif ($selected instanceof Collection) {
+            return $selected->contains($value) ? 'selected' : null;
         }
 
         return ((string) $value == (string) $selected) ? 'selected' : null;

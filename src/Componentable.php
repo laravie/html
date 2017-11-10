@@ -82,7 +82,7 @@ trait Componentable
 
             $data[$variable] = $arguments[$i] ?? $default;
 
-            $i++;
+            ++$i;
         }
 
         return $data;
