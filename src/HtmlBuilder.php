@@ -5,6 +5,7 @@ namespace Collective\Html;
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Traits\Macroable;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\Factory as ViewFactoryContract;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
@@ -51,7 +52,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function entities($value, $encoding = false)
+    public function entities(string $value, bool $encoding = false): string
     {
         return htmlentities($value, ENT_QUOTES, 'UTF-8', $encoding);
     }
@@ -63,7 +64,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function decode($value)
+    public function decode(string $value): string
     {
         return html_entity_decode($value, ENT_QUOTES, 'UTF-8');
     }
@@ -72,12 +73,12 @@ class HtmlBuilder
      * Generate a link to a JavaScript file.
      *
      * @param  string  $url
-     * @param  array   $attributes
-     * @param  bool    $secure
+     * @param  array  $attributes
+     * @param  bool|null  $secure
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function script($url, $attributes = [], $secure = null)
+    public function script(string $url, array $attributes = [], ?bool $secure = null): Htmlable
     {
         $attributes['src'] = $this->url->asset($url, $secure);
 
@@ -88,12 +89,12 @@ class HtmlBuilder
      * Generate a link to a CSS file.
      *
      * @param  string  $url
-     * @param  array   $attributes
-     * @param  bool    $secure
+     * @param  array  $attributes
+     * @param  bool|null  $secure
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function style($url, $attributes = [], $secure = null)
+    public function style(string $url, array $attributes = [], ?bool $secure = null): Htmlable
     {
         $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
 
@@ -108,13 +109,13 @@ class HtmlBuilder
      * Generate an HTML image element.
      *
      * @param  string  $url
-     * @param  string  $alt
-     * @param  array   $attributes
-     * @param  bool    $secure
+     * @param  string|null  $alt
+     * @param  array  $attributes
+     * @param  bool|null  $secure
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function image($url, $alt = null, $attributes = [], $secure = null)
+    public function image(string $url, ?string $alt = null, array $attributes = [], ?bool $secure = null): Htmlable
     {
         $attributes['alt'] = $alt;
 
@@ -125,13 +126,13 @@ class HtmlBuilder
     /**
      * Generate a link to a Favicon file.
      *
-     * @param string $url
+     * @param string  $url
      * @param array  $attributes
-     * @param bool   $secure
+     * @param bool|null  $secure
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function favicon($url, $attributes = [], $secure = null)
+    public function favicon(string $url, array $attributes = [], ?bool $secure = null): Htmlable
     {
         $defaults = ['rel' => 'shortcut icon', 'type' => 'image/x-icon'];
 
@@ -146,14 +147,14 @@ class HtmlBuilder
      * Generate a HTML link.
      *
      * @param  string  $url
-     * @param  string  $title
-     * @param  array   $attributes
-     * @param  bool    $secure
-     * @param bool     $escape
+     * @param  string|null  $title
+     * @param  array  $attributes
+     * @param  bool|null  $secure
+     * @param  bool  $escape
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function link($url, $title = null, $attributes = [], $secure = null, $escape = true)
+    public function link(string $url, ?string $title = null, array $attributes = [], ?bool $secure = null, bool $escape = true): Htmlable
     {
         $url = $this->url->to($url, [], $secure);
 
@@ -172,12 +173,12 @@ class HtmlBuilder
      * Generate a HTTPS HTML link.
      *
      * @param  string  $url
-     * @param  string  $title
-     * @param  array   $attributes
+     * @param  string|null  $title
+     * @param  array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function secureLink($url, $title = null, $attributes = [])
+    public function secureLink(string $url, ?string $title = null, array $attributes = []): Htmlable
     {
         return $this->link($url, $title, $attributes, true);
     }
@@ -186,13 +187,13 @@ class HtmlBuilder
      * Generate a HTML link to an asset.
      *
      * @param  string  $url
-     * @param  string  $title
-     * @param  array   $attributes
-     * @param  bool    $secure
+     * @param  string|null  $title
+     * @param  array  $attributes
+     * @param  bool|null  $secure
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function linkAsset($url, $title = null, $attributes = [], $secure = null)
+    public function linkAsset(string $url, ?string $title = null, array $attributes = [], ?bool $secure = null): Htmlable
     {
         $url = $this->url->asset($url, $secure);
 
@@ -203,12 +204,12 @@ class HtmlBuilder
      * Generate a HTTPS HTML link to an asset.
      *
      * @param  string  $url
-     * @param  string  $title
-     * @param  array   $attributes
+     * @param  string|null  $title
+     * @param  array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function linkSecureAsset($url, $title = null, $attributes = [])
+    public function linkSecureAsset(string $url, ?string $title = null, array $attributes = []): Htmlable
     {
         return $this->linkAsset($url, $title, $attributes, true);
     }
@@ -217,13 +218,13 @@ class HtmlBuilder
      * Generate a HTML link to a named route.
      *
      * @param  string  $name
-     * @param  string  $title
-     * @param  array   $parameters
-     * @param  array   $attributes
+     * @param  string|null  $title
+     * @param  array  $parameters
+     * @param  array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function linkRoute($name, $title = null, $parameters = [], $attributes = [])
+    public function linkRoute(string $name, ?string $title = null, array $parameters = [], array $attributes = []): Htmlable
     {
         return $this->link($this->url->route($name, $parameters), $title, $attributes);
     }
@@ -232,13 +233,13 @@ class HtmlBuilder
      * Generate a HTML link to a controller action.
      *
      * @param  string  $action
-     * @param  string  $title
-     * @param  array   $parameters
-     * @param  array   $attributes
+     * @param  string|null  $title
+     * @param  array  $parameters
+     * @param  array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function linkAction($action, $title = null, $parameters = [], $attributes = [])
+    public function linkAction(string $action, ?string $title = null, array $parameters = [], array $attributes = []): Htmlable
     {
         return $this->link($this->url->action($action, $parameters), $title, $attributes);
     }
@@ -247,13 +248,13 @@ class HtmlBuilder
      * Generate a HTML link to an email address.
      *
      * @param  string  $email
-     * @param  string  $title
+     * @param  string|null  $title
      * @param  array   $attributes
-     * @param bool     $escape
+     * @param  bool  $escape
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function mailto($email, $title = null, $attributes = [], $escape = true)
+    public function mailto(string $email, ?string $title = null, array $attributes = [], bool $escape = true): Htmlable
     {
         $email = $this->email($email);
 
@@ -275,7 +276,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function email($email)
+    public function email(string $email): string
     {
         return str_replace('@', '&#64;', $this->obfuscate($email));
     }
@@ -287,7 +288,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function nbsp($num = 1)
+    public function nbsp(int $num = 1): string
     {
         return str_repeat('&nbsp;', $num);
     }
@@ -295,12 +296,12 @@ class HtmlBuilder
     /**
      * Generate an ordered list of items.
      *
-     * @param  array   $list
-     * @param  array   $attributes
+     * @param  iterable  $list
+     * @param  array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString|string
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function ol($list, $attributes = [])
+    public function ol(iterable $list, array $attributes = []): Htmlable
     {
         return $this->listing('ol', $list, $attributes);
     }
@@ -308,12 +309,12 @@ class HtmlBuilder
     /**
      * Generate an un-ordered list of items.
      *
-     * @param  array   $list
-     * @param  array   $attributes
+     * @param  iterable  $list
+     * @param  array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString|string
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function ul($list, $attributes = [])
+    public function ul(iterable $list, array $attributes = []): Htmlable
     {
         return $this->listing('ul', $list, $attributes);
     }
@@ -324,9 +325,9 @@ class HtmlBuilder
      * @param  array   $list
      * @param  array   $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function dl(array $list, array $attributes = [])
+    public function dl(array $list, array $attributes = []): Htmlable
     {
         $attributes = $this->attributes($attributes);
 
@@ -349,17 +350,17 @@ class HtmlBuilder
      * Create a listing HTML element.
      *
      * @param  string  $type
-     * @param  array   $list
-     * @param  array   $attributes
+     * @param  iterable  $list
+     * @param  array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString|string
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function listing($type, $list, $attributes = [])
+    protected function listing(string $type, iterable $list, array $attributes = []): Htmlable
     {
         $html = '';
 
         if (count($list) == 0) {
-            return $html;
+            return $this->toHtmlString($html);
         }
 
         // Essentially we will just spin through the list and build the list of the HTML
@@ -377,13 +378,13 @@ class HtmlBuilder
     /**
      * Create the HTML for a listing element.
      *
-     * @param  mixed   $key
+     * @param  mixed  $key
      * @param  string  $type
-     * @param  mixed   $value
+     * @param  mixed  $value
      *
      * @return string
      */
-    protected function listingElement($key, $type, $value)
+    protected function listingElement($key, string $type, $value): string
     {
         if (is_array($value)) {
             return $this->nestedListing($key, $type, $value);
@@ -401,7 +402,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    protected function nestedListing($key, $type, $value)
+    protected function nestedListing($key, string $type, $value): string
     {
         if (is_int($key)) {
             return $this->listing($type, $value);
@@ -417,7 +418,7 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function attributes($attributes)
+    public function attributes(array $attributes): string
     {
         $html = [];
 
@@ -446,10 +447,10 @@ class HtmlBuilder
     /**
      * Build a single attribute element.
      *
-     * @param  string  $key
-     * @param  string  $value
+     * @param  string|int  $key
+     * @param  mixed  $value
      *
-     * @return string
+     * @return mixed
      */
     protected function attributeElement($key, $value)
     {
@@ -468,18 +469,20 @@ class HtmlBuilder
         if (! is_null($value)) {
             return $key.'="'.$this->entities($value).'"';
         }
+
+        return null;
     }
 
     /**
      * Generate a meta tag.
      *
-     * @param string $name
-     * @param string $content
+     * @param string|null  $name
+     * @param string  $content
      * @param array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function meta($name, $content, array $attributes = [])
+    public function meta(?string $name, $content, array $attributes = []): Htmlable
     {
         $defaults = compact('name', 'content');
 
@@ -495,9 +498,9 @@ class HtmlBuilder
      * @param  mixed  $content
      * @param  array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return string
      */
-    public function tag($tag, $content, array $attributes = [])
+    public function tag(string $tag, $content, array $attributes = []): string
     {
         $content = is_array($content) ? implode(PHP_EOL, $content) : $content;
 
@@ -509,9 +512,9 @@ class HtmlBuilder
      *
      * @param $html
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function toHtmlString($html)
+    protected function toHtmlString(string $html): Htmlable
     {
         return new HtmlString($html);
     }
@@ -519,14 +522,14 @@ class HtmlBuilder
     /**
      * Dynamically handle calls to the class.
      *
-     * @param  string $method
+     * @param  string  $method
      * @param  array  $parameters
      *
      * @throws \BadMethodCallException
      *
-     * @return \Illuminate\Contracts\View\View|mixed
+     * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         if (static::hasComponent($method)) {
             return $this->renderComponent($method, $parameters);

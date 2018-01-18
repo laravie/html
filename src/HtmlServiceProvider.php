@@ -33,7 +33,7 @@ class HtmlServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerHtmlBuilder()
+    protected function registerHtmlBuilder(): void
     {
         $this->app->singleton('html', function ($app) {
             return new HtmlBuilder(
@@ -47,7 +47,7 @@ class HtmlServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerFormBuilder()
+    protected function registerFormBuilder(): void
     {
         $this->app->singleton('form', function ($app) {
             return (new FormBuilder(
