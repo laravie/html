@@ -1,10 +1,12 @@
 <?php
 
-namespace Collective\Html\Traits;
+namespace Collective\Html\Concerns;
 
 use Illuminate\Support\Arr;
+use Collective\Html\HtmlBuilder;
+use Illuminate\Contracts\Support\Htmlable;
 
-trait CreatorTrait
+trait Creator
 {
     /**
      * The current model instance for the form.
@@ -46,9 +48,9 @@ trait CreatorTrait
      *
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function open(array $options = [])
+    public function open(array $options = []): Htmlable
     {
         $method = $options['method'] ?? 'post';
 
@@ -86,9 +88,9 @@ trait CreatorTrait
     /**
      * Close the current form.
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function close()
+    public function close(): Htmlable
     {
         $this->labels = [];
 
@@ -104,7 +106,7 @@ trait CreatorTrait
      *
      * @return string
      */
-    protected function getAppendage($method)
+    protected function getAppendage(string $method): string
     {
         list($method, $appendage) = [strtoupper($method), ''];
 
@@ -132,7 +134,7 @@ trait CreatorTrait
      *
      * @return string
      */
-    protected function getMethod($method)
+    protected function getMethod(string $method): string
     {
         $method = strtoupper($method);
 
@@ -146,7 +148,7 @@ trait CreatorTrait
      *
      * @return string
      */
-    protected function getAction(array $options)
+    protected function getAction(array $options): string
     {
         // We will also check for a "route" or "action" parameter on the array so that
         // developers can easily specify a route or controller action when creating
@@ -175,7 +177,7 @@ trait CreatorTrait
      *
      * @return string
      */
-    protected function getUrlAction($options)
+    protected function getUrlAction($options): string
     {
         if (is_array($options)) {
             return $this->url->to($options[0], array_slice($options, 1));
@@ -191,7 +193,7 @@ trait CreatorTrait
      *
      * @return string
      */
-    protected function getRouteAction($options)
+    protected function getRouteAction($options): string
     {
         if (is_array($options)) {
             return $this->url->route($options[0], array_slice($options, 1));
@@ -207,7 +209,7 @@ trait CreatorTrait
      *
      * @return string
      */
-    protected function getControllerAction($options)
+    protected function getControllerAction($options): string
     {
         if (is_array($options)) {
             return $this->url->action($options[0], array_slice($options, 1));
@@ -221,21 +223,21 @@ trait CreatorTrait
      *
      * @return string
      */
-    abstract public function token();
+    abstract public function token(): string;
 
     /**
      * Get html builder.
      *
-     * @return \Orchestra\Html\Support\HtmlBuilder
+     * @return \Collective\Html\\HtmlBuilder
      */
-    abstract public function getHtmlBuilder();
+    abstract public function getHtmlBuilder(): HtmlBuilder;
 
     /**
      * Transform the string to an Html serializable object.
      *
      * @param  string  $html
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    abstract protected function toHtmlString($html);
+    abstract protected function toHtmlString(string $html): Htmlable;
 }

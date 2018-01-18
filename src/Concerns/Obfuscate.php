@@ -1,8 +1,8 @@
 <?php
 
-namespace Collective\Html\Traits;
+namespace Collective\Html\Concerns;
 
-trait ObfuscateTrait
+trait Obfuscate
 {
     /**
      * Obfuscate a string to prevent spam-bots from sniffing it.
@@ -11,7 +11,7 @@ trait ObfuscateTrait
      *
      * @return string
      */
-    public function obfuscate($value)
+    public function obfuscate(string $value): string
     {
         $safe = '';
 

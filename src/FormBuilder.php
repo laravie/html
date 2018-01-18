@@ -6,22 +6,24 @@ use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\Http\Kernel;
-use Collective\Html\Traits\InputTrait;
-use Collective\Html\Traits\CheckerTrait;
-use Collective\Html\Traits\CreatorTrait;
 use Illuminate\Support\Traits\Macroable;
-use Collective\Html\Traits\SelectionTrait;
-use Collective\Html\Traits\SessionHelperTrait;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\Factory as ViewFactoryContract;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
 class FormBuilder
 {
-    use Componentable, CheckerTrait, CreatorTrait, InputTrait, Macroable, SelectionTrait, SessionHelperTrait {
-        Componentable::__call as componentCall;
-        Macroable::__call as macroCall;
-    }
+    use Componentable,
+        Concerns\Checker,
+        Concerns\Creator,
+        Concerns\Input,
+        Concerns\Selection,
+        Concerns\SessionHelper,
+        Macroable {
+            Componentable::__call as componentCall;
+            Macroable::__call as macroCall;
+        }
 
     /**
      * The HTML builder instance.
@@ -79,7 +81,7 @@ class FormBuilder
      *
      * @return string
      */
-    protected function entities($value, $encoding = false)
+    protected function entities(string $value, bool $encoding = false): string
     {
         return $this->html->entities($value, $encoding);
     }
@@ -87,9 +89,9 @@ class FormBuilder
     /**
      * Generate a hidden field with the current CSRF token.
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function token()
+    public function token(): Htmlable
     {
         if (empty($this->csrfToken) && ! is_null($this->session)) {
             $this->csrfToken = $this->session->token();
@@ -104,9 +106,9 @@ class FormBuilder
      * @param  mixed  $model
      * @param  array  $options
      *
-     * @return string
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function model($model, array $options = [])
+    public function model($model, array $options = []): Htmlable
     {
         $this->model = $model;
 
@@ -120,7 +122,7 @@ class FormBuilder
      *
      * @return void
      */
-    public function setModel($model)
+    public function setModel($model): void
     {
         $this->model = $model;
     }
@@ -132,9 +134,9 @@ class FormBuilder
      * @param  string  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function label($name, $value = null, $options = [])
+    public function label(string $name, ?string $value = null, array $options = []): Htmlable
     {
         $this->labels[] = $name;
 
@@ -153,7 +155,7 @@ class FormBuilder
      *
      * @return string
      */
-    protected function formatLabel($name, $value)
+    protected function formatLabel(string $name, ?string $value): string
     {
         return $value ?: ucwords(str_replace('_', ' ', $name));
     }
@@ -165,7 +167,7 @@ class FormBuilder
      *
      * @return bool
      */
-    protected function missingOldAndModel($name)
+    protected function missingOldAndModel(string $name): bool
     {
         return is_null($this->old($name)) && is_null($this->getModelValueAttribute($name));
     }
@@ -173,12 +175,12 @@ class FormBuilder
     /**
      * Create a HTML reset input element.
      *
-     * @param  string  $value
-     * @param  array   $attributes
+     * @param  string|null  $value
+     * @param  array  $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function reset($value, $attributes = [])
+    public function reset(?string $value = null, array $attributes = []): Htmlable
     {
         return $this->input('reset', null, $value, $attributes);
     }
@@ -187,12 +189,12 @@ class FormBuilder
      * Create a hidden input field.
      *
      * @param  string  $name
-     * @param  string  $value
-     * @param  array   $options
+     * @param  string|null  $value
+     * @param  array  $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function hidden($name, $value = null, $options = [])
+    public function hidden(string $name, ?string $value = null, array $options = []): Htmlable
     {
         return $this->input('hidden', $name, $value, $options);
     }
@@ -200,12 +202,12 @@ class FormBuilder
     /**
      * Create a submit button element.
      *
-     * @param  string  $value
-     * @param  array   $options
+     * @param  string|null  $value
+     * @param  array  $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function submit($value = null, $options = [])
+    public function submit(?string $value = null, array $options = []): Htmlable
     {
         return $this->input('submit', null, $value, $options);
     }
@@ -213,13 +215,13 @@ class FormBuilder
     /**
      * Create a button element.
      *
-     * @param  string  $value
-     * @param  array   $options
-     * @param  bool    $escape
+     * @param  string|null  $value
+     * @param  array  $options
+     * @param  bool  $escape
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function button($value = null, $options = [], $escape = true)
+    public function button(?string $value = null, array $options = [], bool $escape = true): Htmlable
     {
         if (! array_key_exists('type', $options)) {
             $options['type'] = 'button';
@@ -235,12 +237,12 @@ class FormBuilder
     /**
      * Get the ID attribute for a field name.
      *
-     * @param  string  $name
-     * @param  array   $attributes
+     * @param  string|null  $name
+     * @param  array  $attributes
      *
-     * @return string
+     * @return string|null
      */
-    public function getIdAttribute($name, $attributes)
+    public function getIdAttribute(?string $name, array $attributes): ?string
     {
         if (array_key_exists('id', $attributes)) {
             return $attributes['id'];
@@ -249,17 +251,19 @@ class FormBuilder
         if (in_array($name, $this->labels)) {
             return $name;
         }
+
+        return null;
     }
 
     /**
      * Get the value that should be assigned to the field.
      *
-     * @param  string  $name
-     * @param  string  $value
+     * @param  string|null  $name
+     * @param  mixed  $value
      *
-     * @return string
+     * @return mixed
      */
-    public function getValueAttribute($name, $value = null)
+    public function getValueAttribute(?string $name, $value = null)
     {
         if (is_null($name)) {
             return $value;
@@ -278,7 +282,7 @@ class FormBuilder
                 && ! is_null($this->view->shared('errors'))
                 && count($this->view->shared('errors')) > 0
             ) {
-                return;
+                return null;
             }
         }
 
@@ -300,9 +304,9 @@ class FormBuilder
      *
      * @param  string  $name
      *
-     * @return string
+     * @return mixed
      */
-    protected function getModelValueAttribute($name)
+    protected function getModelValueAttribute(string $name)
     {
         if (method_exists($this->model, 'getFormValue')) {
             return $this->model->getFormValue($this->transformKey($name));
@@ -318,7 +322,7 @@ class FormBuilder
      *
      * @return string
      */
-    protected function transformKey($key)
+    protected function transformKey(string $key): string
     {
         return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $key);
     }
@@ -328,9 +332,9 @@ class FormBuilder
      *
      * @param  string  $html
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function toHtmlString($html)
+    protected function toHtmlString(string $html): Htmlable
     {
         return new HtmlString($html);
     }
@@ -340,7 +344,7 @@ class FormBuilder
      *
      * @return \Collective\Html\HtmlBuilder
      */
-    public function getHtmlBuilder()
+    public function getHtmlBuilder(): HtmlBuilder
     {
         return $this->html;
     }
@@ -348,14 +352,14 @@ class FormBuilder
     /**
      * Dynamically handle calls to the class.
      *
-     * @param  string $method
+     * @param  string  $method
      * @param  array  $parameters
      *
      * @throws \BadMethodCallException
      *
-     * @return \Illuminate\Contracts\View\View|mixed
+     * @return \Illuminate\Contracts\Support\Htmlable|mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         if (static::hasComponent($method)) {
             return $this->renderComponent($method, $parameters);
@@ -375,7 +379,7 @@ class FormBuilder
      *
      * @return array|null|string
      */
-    protected function request($name)
+    protected function request(string $name)
     {
         if (! $this->considerRequest) {
             return;
@@ -395,7 +399,7 @@ class FormBuilder
      *
      * @return $this
      */
-    public function considerRequest($consider = true)
+    public function considerRequest(bool $consider = true): self
     {
         $this->considerRequest = $consider;
 

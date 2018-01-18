@@ -1,30 +1,32 @@
 <?php
 
-namespace Collective\Html\Traits;
+namespace Collective\Html\Concerns;
 
+use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Arrayable;
 
-trait SelectionTrait
+trait Selection
 {
     /**
      * Create a select box field.
      *
      * @param  string $name
-     * @param  array  $list
-     * @param  string $selected
+     * @param  iterable  $list
+     * @param  string|null  $selected
      * @param  array  $selectAttributes
      * @param  array  $optionsAttributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
     public function select(
-        $name,
-        $list = [],
-        $selected = null,
+        string $name,
+        iterable $list = [],
+        ?string $selected = null,
         array $selectAttributes = [],
         array $optionsAttributes = []
-    ) {
+    ): Htmlable {
         $this->type = 'select';
 
         // When building a select box the "value" attribute is really the selected one
@@ -70,14 +72,14 @@ trait SelectionTrait
     /**
      * Get the select option for the given value.
      *
-     * @param  string  $display
+     * @param  string|array  $display
      * @param  string  $value
-     * @param  string  $selected
+     * @param  string|array|null  $selected
      * @param  array   $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function getSelectOption($display, $value, $selected, array $attributes = [])
+    public function getSelectOption($display, string $value, $selected, array $attributes = []): Htmlable
     {
         if (is_array($display)) {
             return $this->optionGroup($display, $value, $selected, $attributes);
@@ -89,14 +91,14 @@ trait SelectionTrait
     /**
      * Create an option group form element.
      *
-     * @param  array   $list
+     * @param  iterable   $list
      * @param  string  $label
-     * @param  string  $selected
+     * @param  string|array|null  $selected
      * @param  array   $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function optionGroup($list, $label, $selected, array $attributes = [])
+    protected function optionGroup(iterable $list, string $label, $selected, array $attributes = []): Htmlable
     {
         $html = [];
 
@@ -116,12 +118,12 @@ trait SelectionTrait
      *
      * @param  string  $display
      * @param  string  $value
-     * @param  string  $selected
+     * @param  string|array|null  $selected
      * @param  array   $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function option($display, $value, $selected, array $attributes = [])
+    protected function option(string $display, string $value, $selected, array $attributes = []): Htmlable
     {
         $selected = $this->getSelectedValue($value, $selected);
 
@@ -138,11 +140,11 @@ trait SelectionTrait
      * Create a placeholder select element option.
      *
      * @param string  $display
-     * @param string  $selected
+     * @param string|iterable|null  $selected
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function placeholderOption($display, $selected)
+    protected function placeholderOption(string $display, $selected): Htmlable
     {
         $options = [
             'selected' => $this->getSelectedValue(null, $selected),
@@ -159,12 +161,12 @@ trait SelectionTrait
     /**
      * Determine if the value is selected.
      *
-     * @param  string  $value
-     * @param  string|array|\Illuminate\Contracts\Support\Arrayable  $selected
+     * @param  string|null $value
+     * @param  string|iterable|null  $selected
      *
-     * @return string
+     * @return string|null
      */
-    protected function getSelectedValue($value, $selected)
+    protected function getSelectedValue(?string $value, $selected): ?string
     {
         if ($selected instanceof Arrayable) {
             $selected = $selected->toArray();
@@ -183,14 +185,14 @@ trait SelectionTrait
      * Create a select range field.
      *
      * @param  string  $name
-     * @param  string  $begin
-     * @param  string  $end
-     * @param  string  $selected
+     * @param  string|int  $begin
+     * @param  string|int  $end
+     * @param  string|array|null  $selected
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function selectRange($name, $begin, $end, $selected = null, $options = [])
+    public function selectRange(string $name, $begin, $end, $selected = null, array $options = []): Htmlable
     {
         $range = array_combine($range = range($begin, $end), $range);
 
@@ -201,14 +203,14 @@ trait SelectionTrait
      * Create a select year field.
      *
      * @param  string  $name
-     * @param  string  $begin
-     * @param  string  $end
-     * @param  string  $selected
+     * @param  string|int  $begin
+     * @param  string|int  $end
+     * @param  string|array|null  $selected
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function selectYear($name, $begin, $end, $selected = null, $options = [])
+    public function selectYear(string $name, $begin, $end, $selected = null, array $options = []): Htmlable
     {
         return $this->selectRange($name, $begin, $end, $selected, $options);
     }
@@ -217,13 +219,13 @@ trait SelectionTrait
      * Create a select month field.
      *
      * @param  string  $name
-     * @param  string  $selected
+     * @param  string|array|null  $selected
      * @param  array   $options
      * @param  string  $format
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function selectMonth($name, $selected = null, $options = [], $format = '%B')
+    public function selectMonth(string $name, $selected = null, array $options = [], string $format = '%B'): Htmlable
     {
         $months = [];
 
@@ -242,23 +244,23 @@ trait SelectionTrait
      *
      * @return string
      */
-    abstract protected function entities($value, $encoding = false);
+    abstract protected function entities(string $value, bool $encoding = false): string;
 
     /**
      * Get html builder.
      *
-     * @return \Orchestra\Html\Support\HtmlBuilder
+     * @return \Collective\Html\\HtmlBuilder
      */
-    abstract public function getHtmlBuilder();
+    abstract public function getHtmlBuilder(): HtmlBuilder;
 
     /**
      * Transform the string to an Html serializable object.
      *
      * @param  string  $html
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    abstract protected function toHtmlString($html);
+    abstract protected function toHtmlString(string $html): Htmlable;
 
     /**
      * Get the ID attribute for a field name.
@@ -268,7 +270,7 @@ trait SelectionTrait
      *
      * @return string
      */
-    abstract public function getIdAttribute($name, $attributes);
+    abstract public function getIdAttribute(string $name, array $attributes): string;
 
     /**
      * Get the value that should be assigned to the field.
@@ -278,5 +280,5 @@ trait SelectionTrait
      *
      * @return string
      */
-    abstract public function getValueAttribute($name, $value = null);
+    abstract public function getValueAttribute(string $name, ?string $value = null): string;
 }

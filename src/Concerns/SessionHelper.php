@@ -1,10 +1,10 @@
 <?php
 
-namespace Collective\Html\Traits;
+namespace Collective\Html\Concerns;
 
 use Illuminate\Contracts\Session\Session;
 
-trait SessionHelperTrait
+trait SessionHelper
 {
     /**
      * The CSRF token used by the form builder.
@@ -25,12 +25,12 @@ trait SessionHelperTrait
      *
      * @param  string  $name
      *
-     * @return string
+     * @return array|string|null
      */
-    public function old($name)
+    public function old(string $name)
     {
         if (! isset($this->session)) {
-            return;
+            return null;
         }
 
         $key     = $this->transformKey($name);
@@ -60,7 +60,7 @@ trait SessionHelperTrait
      *
      * @return bool
      */
-    public function oldInputIsEmpty()
+    public function oldInputIsEmpty(): bool
     {
         return isset($this->session) && count($this->session->getOldInput()) == 0;
     }
@@ -70,7 +70,7 @@ trait SessionHelperTrait
      *
      * @return  \Illuminate\Contracts\Session\Session
      */
-    public function getSessionStore()
+    public function getSessionStore(): Session
     {
         return $this->session;
     }
@@ -82,7 +82,7 @@ trait SessionHelperTrait
      *
      * @return $this
      */
-    public function setSessionStore(Session $session)
+    public function setSessionStore(Session $session): self
     {
         $this->session = $session;
 
@@ -94,7 +94,7 @@ trait SessionHelperTrait
      *
      * @return string
      */
-    abstract public function token();
+    abstract public function token(): string;
 
     /**
      * Transform key from array to dot syntax.
@@ -103,5 +103,5 @@ trait SessionHelperTrait
      *
      * @return string
      */
-    abstract protected function transformKey($key);
+    abstract protected function transformKey(string $key): string;
 }
