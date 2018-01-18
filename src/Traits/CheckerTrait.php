@@ -3,6 +3,7 @@
 namespace Collective\Html\Traits;
 
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Support\Htmlable;
 
 trait CheckerTrait
 {
@@ -10,13 +11,13 @@ trait CheckerTrait
      * Create a checkbox input field.
      *
      * @param  string  $name
-     * @param  mixed   $value
-     * @param  bool    $checked
-     * @param  array   $options
+     * @param  mixed  $value
+     * @param  bool|null  $checked
+     * @param  array  $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function checkbox($name, $value = 1, $checked = null, $options = [])
+    public function checkbox(string $name, $value = 1, ?bool $checked = null, array $options = []): Htmlable
     {
         return $this->checkable('checkbox', $name, $value, $checked, $options);
     }
@@ -26,12 +27,12 @@ trait CheckerTrait
      *
      * @param  string  $name
      * @param  mixed   $value
-     * @param  bool    $checked
+     * @param  bool|null  $checked
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function radio($name, $value = null, $checked = null, $options = [])
+    public function radio(string $name, $value = null, ?bool $checked = null, array $options = []): Htmlable
     {
         is_null($value) && $value = $name;
 
@@ -44,12 +45,12 @@ trait CheckerTrait
      * @param  string  $type
      * @param  string  $name
      * @param  mixed   $value
-     * @param  bool    $checked
+     * @param  bool|null  $checked
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function checkable($type, $name, $value, $checked, $options)
+    protected function checkable(string $type, string $name, $value, ?bool $checked, array $options): Htmlable
     {
         $this->type = $type;
 
@@ -66,11 +67,11 @@ trait CheckerTrait
      * @param  string  $type
      * @param  string  $name
      * @param  mixed   $value
-     * @param  bool    $checked
+     * @param  bool|null  $checked
      *
-     * @return bool
+     * @return bool|null
      */
-    protected function getCheckedState($type, $name, $value, $checked)
+    protected function getCheckedState(string $type, string $name, $value, ?bool $checked): ?bool
     {
         switch ($type) {
             case 'checkbox':
@@ -87,11 +88,11 @@ trait CheckerTrait
      *
      * @param  string  $name
      * @param  mixed  $value
-     * @param  bool  $checked
+     * @param  bool|null  $checked
      *
-     * @return bool
+     * @return bool|null
      */
-    protected function getCheckboxCheckedState($name, $value, $checked)
+    protected function getCheckboxCheckedState(string $name, $value, ?bool $checked): ?bool
     {
         $request = $this->request($name);
 
@@ -119,11 +120,11 @@ trait CheckerTrait
      *
      * @param  string  $name
      * @param  mixed  $value
-     * @param  bool  $checked
+     * @param  bool|null  $checked
      *
-     * @return bool
+     * @return bool|null
      */
-    protected function getRadioCheckedState($name, $value, $checked)
+    protected function getRadioCheckedState(string $name, $value, ?bool $checked): ?bool
     {
         $request = $this->request($name);
 

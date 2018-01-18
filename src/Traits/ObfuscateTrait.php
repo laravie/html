@@ -11,7 +11,7 @@ trait ObfuscateTrait
      *
      * @return string
      */
-    public function obfuscate($value)
+    public function obfuscate(string $value): string
     {
         $safe = '';
 

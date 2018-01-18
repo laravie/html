@@ -3,6 +3,7 @@
 namespace Collective\Html\Traits;
 
 use DateTime;
+use Illuminate\Contracts\Support\Htmlable;
 
 trait InputTrait
 {
@@ -17,13 +18,13 @@ trait InputTrait
      * Create a form input field.
      *
      * @param  string  $type
-     * @param  string  $name
-     * @param  string  $value
+     * @param  string|null  $name
+     * @param  string|null  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function input($type, $name, $value = null, $options = [])
+    public function input(string $type, ?string $name, ?string $value = null, array $options = []): Htmlable
     {
         ! isset($options['name']) && $options['name'] = $name;
 
@@ -50,12 +51,12 @@ trait InputTrait
      * Create a search input field.
      *
      * @param  string $name
-     * @param  string $value
+     * @param  string|null  $value
      * @param  array  $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function search($name, $value = null, $options = [])
+    public function search(string $name, ?string $value = null, array $options = []): Htmlable
     {
         return $this->input('search', $name, $value, $options);
     }
@@ -64,12 +65,12 @@ trait InputTrait
      * Create a text input field.
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  string|null  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function text($name, $value = null, $options = [])
+    public function text(string $name, ?string $value = null, array $options = []): Htmlable
     {
         return $this->input('text', $name, $value, $options);
     }
@@ -80,9 +81,9 @@ trait InputTrait
      * @param  string  $name
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function password($name, $options = [])
+    public function password(string $name, array $options = []): Htmlable
     {
         return $this->input('password', $name, '', $options);
     }
@@ -91,12 +92,12 @@ trait InputTrait
      * Create a color input field.
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  string|null  $value
      * @param  array  $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function color($name, $value = null, $options = [])
+    public function color(string $name, ?string $value = null, array $options = []): Htmlable
     {
         return $this->input('color', $name, $value, $options);
     }
@@ -105,12 +106,12 @@ trait InputTrait
      * Create an e-mail input field.
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  string|null  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function email($name, $value = null, $options = [])
+    public function email(string $name, ?string $value = null, array $options = []): Htmlable
     {
         return $this->input('email', $name, $value, $options);
     }
@@ -122,9 +123,9 @@ trait InputTrait
      * @param  string  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function tel($name, $value = null, $options = [])
+    public function tel(string $name, $value = null, array $options = []): Htmlable
     {
         return $this->input('tel', $name, $value, $options);
     }
@@ -133,12 +134,12 @@ trait InputTrait
      * Create a number input field.
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  string|int|null  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function number($name, $value = null, $options = [])
+    public function number(string $name, $value = null, array $options = []): Htmlable
     {
         return $this->input('number', $name, $value, $options);
     }
@@ -147,12 +148,12 @@ trait InputTrait
      * Create a date input field.
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  \DateTime|string|null  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function date($name, $value = null, $options = [])
+    public function date(string $name, $value = null, array $options = []): Htmlable
     {
         if ($value instanceof DateTime) {
             $value = $value->format('Y-m-d');
@@ -165,12 +166,12 @@ trait InputTrait
      * Create a datetime input field.
      *
      * @param  string $name
-     * @param  string $value
+     * @param  \DateTime|string|null  $value
      * @param  array  $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function datetime($name, $value = null, $options = [])
+    public function datetime(string $name, $value = null, array $options = []): Htmlable
     {
         if ($value instanceof DateTime) {
             $value = $value->format(DateTime::RFC3339);
@@ -183,12 +184,12 @@ trait InputTrait
      * Create a datetime-local input field.
      *
      * @param  string $name
-     * @param  string $value
+     * @param  \DateTime|string|null  $value
      * @param  array  $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function datetimeLocal($name, $value = null, $options = [])
+    public function datetimeLocal(string $name, $value = null, array $options = []): Htmlable
     {
         if ($value instanceof DateTime) {
             $value = $value->format('Y-m-d\TH:i');
@@ -201,12 +202,12 @@ trait InputTrait
      * Create a time input field.
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  string|null  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function time($name, $value = null, $options = [])
+    public function time(string $name, ?string $value = null, array $options = []): Htmlable
     {
         return $this->input('time', $name, $value, $options);
     }
@@ -215,12 +216,12 @@ trait InputTrait
      * Create a url input field.
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  string|null  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function url($name, $value = null, $options = [])
+    public function url(string $name, ?string $value = null, array $options = []): Htmlable
     {
         return $this->input('url', $name, $value, $options);
     }
@@ -231,9 +232,9 @@ trait InputTrait
      * @param  string  $name
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function file($name, $options = [])
+    public function file(string $name, array $options = []): Htmlable
     {
         return $this->input('file', $name, null, $options);
     }
@@ -245,9 +246,9 @@ trait InputTrait
      * @param  string  $name
      * @param  array   $attributes
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function image($url, $name = null, $attributes = [])
+    public function image(string $url, ?string $name = null, array $attributes = []): Htmlable
     {
         $attributes['src'] = $this->url->asset($url);
 
@@ -258,12 +259,12 @@ trait InputTrait
      * Create a textarea input field.
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  string|null  $value
      * @param  array   $options
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function textarea($name, $value = null, $options = [])
+    public function textarea(string $name, ?string $value = null, array $options = []): Htmlable
     {
         ! isset($options['name']) && $options['name'] = $name;
 
@@ -293,7 +294,7 @@ trait InputTrait
      *
      * @return array
      */
-    protected function setTextAreaSize($options)
+    protected function setTextAreaSize(array $options): array
     {
         if (isset($options['size'])) {
             return $this->setQuickTextAreaSize($options);
@@ -316,7 +317,7 @@ trait InputTrait
      *
      * @return array
      */
-    protected function setQuickTextAreaSize($options)
+    protected function setQuickTextAreaSize(array $options): array
     {
         $segments = explode('x', $options['size']);
 
@@ -331,14 +332,14 @@ trait InputTrait
      *
      * @return string
      */
-    abstract protected function entities($value, $encoding = false);
+    abstract protected function entities(string $value, bool $encoding = false): string;
 
     /**
      * Transform the string to an Html serializable object.
      *
      * @param  string  $html
      *
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    abstract protected function toHtmlString($html);
+    abstract protected function toHtmlString(string $html): Htmlable;
 }
