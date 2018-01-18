@@ -5,22 +5,25 @@ namespace Collective\Html\Eloquent;
 use ReflectionClass;
 use ReflectionMethod;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 trait FormAccessible
 {
     /**
      * A cached ReflectionClass instance for $this.
      *
-     * @var ReflectionClass
+     * @var \ReflectionClass
      */
     protected $reflection;
 
     /**
+     * Get form value.
+     *
      * @param string $key
      *
      * @return mixed
      */
-    public function getFormValue($key)
+    public function getFormValue(string $key)
     {
         $value = $this->getAttributeFromArray($key);
 
@@ -66,39 +69,39 @@ trait FormAccessible
      *
      * @return bool
      */
-    public function isNestedModel($key)
+    public function isNestedModel(string $key): bool
     {
-        if (in_array($key, array_keys($this->getRelations()))) {
-            return true;
-        }
-
-        return false;
+        return in_array($key, array_keys($this->getRelations()));
     }
 
     /**
-     * @param $key
+     * Detect whether key has form mutator.
+     *
+     * @param  string  $key
      *
      * @return bool
      */
-    protected function hasFormMutator($key)
+    protected function hasFormMutator(string $key): bool
     {
         $methods = $this->getReflection()->getMethods(ReflectionMethod::IS_PUBLIC);
 
-        $mutator = collect($methods)
-          ->first(function (ReflectionMethod $method, $index) use ($key) {
-              return $method->getName() == 'form'.Str::studly($key).'Attribute';
-          });
+        $mutator = (new Collection($methods))
+                      ->first(function (ReflectionMethod $method, $index) use ($key) {
+                          return $method->getName() == 'form'.Str::studly($key).'Attribute';
+                      });
 
         return (bool) $mutator;
     }
 
     /**
-     * @param $key
-     * @param $value
+     * Mutate form attribute.
+     *
+     * @param string  $key
+     * @param mixed  $value
      *
      * @return mixed
      */
-    private function mutateFormAttribute($key, $value)
+    private function mutateFormAttribute(string $key, $value)
     {
         return $this->{'form'.Str::studly($key).'Attribute'}($value);
     }
@@ -106,9 +109,9 @@ trait FormAccessible
     /**
      * Get a ReflectionClass Instance.
      *
-     * @return ReflectionClass
+     * @return \ReflectionClass
      */
-    protected function getReflection()
+    protected function getReflection(): ReflectionClass
     {
         if (! $this->reflection) {
             $this->reflection = new ReflectionClass($this);

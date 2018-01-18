@@ -5,16 +5,17 @@ namespace Collective\Html;
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Traits\Macroable;
-use Collective\Html\Traits\ObfuscateTrait;
 use Illuminate\Contracts\View\Factory as ViewFactoryContract;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
 class HtmlBuilder
 {
-    use Componentable, Macroable, ObfuscateTrait {
-        Componentable::__call as componentCall;
-        Macroable::__call as macroCall;
-    }
+    use Componentable,
+        Macroable,
+        Concerns\Obfuscate {
+            Componentable::__call as componentCall;
+            Macroable::__call as macroCall;
+        }
 
     /**
      * The URL generator instance.

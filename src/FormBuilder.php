@@ -6,22 +6,23 @@ use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\Http\Kernel;
-use Collective\Html\Traits\InputTrait;
-use Collective\Html\Traits\CheckerTrait;
-use Collective\Html\Traits\CreatorTrait;
 use Illuminate\Support\Traits\Macroable;
-use Collective\Html\Traits\SelectionTrait;
-use Collective\Html\Traits\SessionHelperTrait;
 use Illuminate\Contracts\View\Factory as ViewFactoryContract;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
 
 class FormBuilder
 {
-    use Componentable, CheckerTrait, CreatorTrait, InputTrait, Macroable, SelectionTrait, SessionHelperTrait {
-        Componentable::__call as componentCall;
-        Macroable::__call as macroCall;
-    }
+    use Componentable,
+        Concerns\Checker,
+        Concerns\Creator,
+        Concerns\Input,
+        Concerns\Selection,
+        Concerns\SessionHelper,
+        Macroable {
+            Componentable::__call as componentCall;
+            Macroable::__call as macroCall;
+        }
 
     /**
      * The HTML builder instance.

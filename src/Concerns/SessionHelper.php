@@ -1,10 +1,10 @@
 <?php
 
-namespace Collective\Html\Traits;
+namespace Collective\Html\Concerns;
 
 use Illuminate\Contracts\Session\Session;
 
-trait SessionHelperTrait
+trait SessionHelper
 {
     /**
      * The CSRF token used by the form builder.

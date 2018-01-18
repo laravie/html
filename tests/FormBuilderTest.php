@@ -586,9 +586,9 @@ class FormBuilderTest extends TestCase
         $session->shouldReceive('getOldInput')->withNoArgs()->andReturn([]);
         $session->shouldReceive('getOldInput')->with('items')->andReturn(null);
 
-        $mockModel2 = new StdClass();
+        $mockModel2     = new StdClass();
         $mockModel2->id = 2;
-        $mockModel3 = new StdClass();
+        $mockModel3     = new StdClass();
         $mockModel3->id = 3;
         $this->setModel(['items' => new Collection([$mockModel2, $mockModel3])]);
 

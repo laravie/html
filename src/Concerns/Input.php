@@ -1,11 +1,11 @@
 <?php
 
-namespace Collective\Html\Traits;
+namespace Collective\Html\Concerns;
 
 use DateTime;
 use Illuminate\Contracts\Support\Htmlable;
 
-trait InputTrait
+trait Input
 {
     /**
      * The types of inputs to not fill values on by default.

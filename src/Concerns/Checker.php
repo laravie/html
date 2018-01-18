@@ -1,11 +1,11 @@
 <?php
 
-namespace Collective\Html\Traits;
+namespace Collective\Html\Concerns;
 
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Htmlable;
 
-trait CheckerTrait
+trait Checker
 {
     /**
      * Create a checkbox input field.

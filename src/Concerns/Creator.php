@@ -1,12 +1,12 @@
 <?php
 
-namespace Collective\Html\Traits;
+namespace Collective\Html\Concerns;
 
 use Illuminate\Support\Arr;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Contracts\Support\Htmlable;
 
-trait CreatorTrait
+trait Creator
 {
     /**
      * The current model instance for the form.

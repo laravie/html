@@ -17,13 +17,13 @@ trait Componentable
     /**
      * Register a custom component.
      *
-     * @param       $name
-     * @param       $view
-     * @param array $signature
+     * @param  string  $name
+     * @param  mixed  $view
+     * @param  array  $signature
      *
      * @return void
      */
-    public static function component($name, $view, array $signature)
+    public static function component(string $name, $view, array $signature): void
     {
         static::$components[$name] = compact('view', 'signature');
     }
@@ -31,11 +31,11 @@ trait Componentable
     /**
      * Check if a component is registered.
      *
-     * @param $name
+     * @param  string  $name
      *
      * @return bool
      */
-    public static function hasComponent($name)
+    public static function hasComponent(string $name): bool
     {
         return isset(static::$components[$name]);
     }
@@ -43,12 +43,12 @@ trait Componentable
     /**
      * Render a custom component.
      *
-     * @param        $name
-     * @param  array $arguments
+     * @param  string  $name
+     * @param  array  $arguments
      *
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function renderComponent($name, array $arguments)
+    protected function renderComponent(string $name, array $arguments): Htmlable
     {
         $component = static::$components[$name];
         $data      = $this->getComponentData($component['signature'], $arguments);
@@ -66,7 +66,7 @@ trait Componentable
      *
      * @return array
      */
-    protected function getComponentData(array $signature, array $arguments)
+    protected function getComponentData(array $signature, array $arguments): array
     {
         $data = [];
 
@@ -96,9 +96,11 @@ trait Componentable
      *
      * @throws \BadMethodCallException
      *
-     * @return \Illuminate\Contracts\View\View|mixed
+     * @return \Illuminate\Contracts\Support\Htmlable
+     *
+     * @throws \BadMethodCallException
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters): Htmlable
     {
         if (static::hasComponent($method)) {
             return $this->renderComponent($method, $parameters);

@@ -1,13 +1,13 @@
 <?php
 
-namespace Collective\Html\Traits;
+namespace Collective\Html\Concerns;
 
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Arrayable;
 
-trait SelectionTrait
+trait Selection
 {
     /**
      * Create a select box field.
