@@ -52,8 +52,12 @@ class HtmlBuilder
      *
      * @return string
      */
-    public function entities(string $value, bool $encoding = false): string
+    public function entities($value, bool $encoding = false): string
     {
+        if ($value instanceof Htmlable) {
+            return $value->toHtml();
+        }
+
         return htmlentities($value, ENT_QUOTES, 'UTF-8', $encoding);
     }
 
