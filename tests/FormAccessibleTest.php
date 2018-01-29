@@ -33,7 +33,6 @@ class FormAccessibleTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Orchestra\Database\ConsoleServiceProvider::class,
             \Collective\Html\HtmlServiceProvider::class,
         ];
     }
