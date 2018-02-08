@@ -145,10 +145,12 @@ trait SelectionTrait
         }
 
         if (is_array($selected)) {
-            return in_array($value, $selected, true) ? 'selected' : null;
+            return in_array($value, $selected, true) || in_array((string) $value, $selected, true)
+                        ? 'selected'
+                        : null;
         }
 
-        return ((string) $value == (string) $selected) ? 'selected' : null;
+        return ((string) $value === (string) $selected) ? 'selected' : null;
     }
 
     /**
