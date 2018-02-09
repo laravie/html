@@ -23,7 +23,8 @@ trait SelectionTrait
         $list = [],
         $selected = null,
         array $selectAttributes = [],
-        array $optionsAttributes = []
+        array $optionsAttributes = [],
+        array $optgroupsAttributes = []
     ) {
         $this->type = 'select';
 
@@ -54,7 +55,9 @@ trait SelectionTrait
         }
 
         foreach ($list as $value => $display) {
-            $html[] = $this->getSelectOption($display, $value, $selected, $optionsAttributes[$value] ?? []);
+            $html[] = $this->getSelectOption(
+                $display, $value, $selected, $optionsAttributes[$value] ?? [], $optgroupsAttributes[$value] ?? []
+            );
         }
 
         // Once we have all of this HTML, we can join this into a single element after
@@ -73,14 +76,20 @@ trait SelectionTrait
      * @param  string  $display
      * @param  string  $value
      * @param  string  $selected
-     * @param  array   $attributes
+     * @param  array  $attributes
+     * @param  array  $optgroups
      *
      * @return \Illuminate\Support\HtmlString
      */
-    public function getSelectOption($display, $value, $selected, array $attributes = [])
-    {
+    public function getSelectOption(
+        $display,
+        $value,
+        $selected,
+        array $attributes = [],
+        array $optgroups = []
+    ) {
         if (is_array($display)) {
-            return $this->optionGroup($display, $value, $selected, $attributes);
+            return $this->optionGroup($display, $value, $selected, $optgroups, $attributes);
         }
 
         return $this->option($display, $value, $selected, $attributes);
@@ -92,21 +101,30 @@ trait SelectionTrait
      * @param  array   $list
      * @param  string  $label
      * @param  string  $selected
-     * @param  array   $attributes
+     * @param  array  $attributes
+     * @param  array  $optionsAttributes
      *
      * @return \Illuminate\Support\HtmlString
      */
-    protected function optionGroup($list, $label, $selected, array $attributes = [])
-    {
+    protected function optionGroup(
+        $list,
+        $label,
+        $selected,
+        array $attributes = [],
+        array $optionsAttributes = []
+    ) {
         $html = [];
 
         foreach ($list as $value => $display) {
-            $html[] = $this->option($display, $value, $selected, $attributes);
+            $html[] = $this->option(
+                $display, $value, $selected, $optionsAttributes[$value] ?? []
+            );
         }
 
         return $this->toHtmlString(sprintf(
-            '<optgroup label="%s">%s</optgroup>',
+            '<optgroup label="%s"%s>%s</optgroup>',
             $this->entities($label),
+            $this->getHtmlBuilder()->attributes($attributes),
             implode('', $html)
         ));
     }
