@@ -106,6 +106,7 @@ trait Selection
      * @param  string|array|null  $selected
      * @param  array  $attributes
      * @param  array  $optionsAttributes
+     * @param  int  $level
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
@@ -114,14 +115,22 @@ trait Selection
         string $label,
         $selected,
         array $attributes = [],
-        array $optionsAttributes = []
+        array $optionsAttributes = [],
+        int $level = 0
     ): Htmlable {
         $html = [];
+        $space = str_repeat("&nbsp;", $level);
 
         foreach ($list as $value => $display) {
-            $html[] = $this->option(
-                $display, $value, $selected, $optionsAttributes[$value] ?? []
-            );
+            if (is_array($display)) {
+                $html[] = $this->option(
+                    $display, $value, $selected, $optionsAttributes[$value] ?? [], $level+5
+                );
+            } else {
+                $html[] = $this->option(
+                    $space.$display, $value, $selected, $optionsAttributes[$value] ?? []
+                );
+            }
         }
 
         return $this->toHtmlString(sprintf(
@@ -177,7 +186,7 @@ trait Selection
         ];
 
         return $this->toHtmlString(sprintf(
-            '<option%s>%s</option>',
+            '<option%s hidden="hidden">%s</option>',
             $this->getHtmlBuilder()->attributes($options),
             $this->entities($display)
         ));
