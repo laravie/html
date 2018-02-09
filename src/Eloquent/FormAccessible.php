@@ -5,7 +5,6 @@ namespace Collective\Html\Eloquent;
 use ReflectionClass;
 use ReflectionMethod;
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 
 trait FormAccessible
 {
@@ -85,10 +84,10 @@ trait FormAccessible
     {
         $methods = $this->getReflection()->getMethods(ReflectionMethod::IS_PUBLIC);
 
-        $mutator = (new Collection($methods))
-                      ->first(function (ReflectionMethod $method, $index) use ($key) {
-                          return $method->getName() === 'form'.Str::studly($key).'Attribute';
-                      });
+        $mutator = collect($methods)
+                        ->first(function (ReflectionMethod $method, $index) use ($key) {
+                            return $method->getName() === 'form'.Str::studly($key).'Attribute';
+                        });
 
         return (bool) $mutator;
     }

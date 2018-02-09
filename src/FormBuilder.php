@@ -128,6 +128,16 @@ class FormBuilder
     }
 
     /**
+     * Get the current model instance on the form builder.
+     *
+     * @return mixed
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
      * Create a form label element.
      *
      * @param  string  $name
@@ -269,7 +279,7 @@ class FormBuilder
             return $value;
         }
 
-        if (! is_null($old = $this->old($name)) && $name != '_method') {
+        if (! is_null($old = $this->old($name)) && $name !== '_method') {
             return $old;
         }
 
