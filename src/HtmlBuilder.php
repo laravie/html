@@ -86,7 +86,7 @@ class HtmlBuilder
     {
         $attributes['src'] = $this->url->asset($url, $secure);
 
-        return $this->toHtmlString('<script' . $this->attributes($attributes) . '></script>');
+        return $this->toHtmlString('<script'.$this->attributes($attributes).'></script>');
     }
 
     /**
@@ -106,7 +106,7 @@ class HtmlBuilder
 
         $attributes['href'] = $this->url->asset($url, $secure);
 
-        return $this->toHtmlString('<link' . $this->attributes($attributes) . '>');
+        return $this->toHtmlString('<link'.$this->attributes($attributes).'>');
     }
 
     /**
@@ -144,7 +144,7 @@ class HtmlBuilder
 
         $attributes['href'] = $this->url->asset($url, $secure);
 
-        return $this->toHtmlString('<link' . $this->attributes($attributes) . '>');
+        return $this->toHtmlString('<link'.$this->attributes($attributes).'>');
     }
 
     /**
@@ -170,7 +170,7 @@ class HtmlBuilder
             $title = $this->entities($title);
         }
 
-        return $this->toHtmlString('<a href="' . $this->entities($url) . '"' . $this->attributes($attributes) . '>' . $title . '</a>');
+        return $this->toHtmlString('<a href="'.$this->entities($url).'"'.$this->attributes($attributes).'>'.$title.'</a>');
     }
 
     /**
@@ -492,7 +492,7 @@ class HtmlBuilder
 
         $attributes = array_merge($defaults, $attributes);
 
-        return $this->toHtmlString('<meta' . $this->attributes($attributes) . '>');
+        return $this->toHtmlString('<meta'.$this->attributes($attributes).'>');
     }
 
     /**
@@ -508,7 +508,7 @@ class HtmlBuilder
     {
         $content = is_array($content) ? implode('', $content) : $content;
 
-        return $this->toHtmlString('<' . $tag . $this->attributes($attributes) . '>' . $this->toHtmlString($content) . '</' . $tag . '>');
+        return $this->toHtmlString('<'.$tag.$this->attributes($attributes).'>'.$this->toHtmlString($content).'</'.$tag.'>');
     }
 
     /**

@@ -405,12 +405,12 @@ class FormBuilderTest extends TestCase
             'size',
             [
                 'Large sizes' => [
-                    'L' => 'Large',
+                    'L'  => 'Large',
                     'XL' => 'Extra Large',
                 ],
-                'M' => 'Medium',
+                'M'           => 'Medium',
                 'Small sizes' => [
-                    'S' => 'Small',
+                    'S'  => 'Small',
                     'XS' => 'Extra Small',
                 ],
             ],
@@ -418,7 +418,7 @@ class FormBuilderTest extends TestCase
             [],
             [
                 'Large sizes' => [
-                    'L' => ['disabled']
+                    'L' => ['disabled'],
                 ],
                 'M' => ['disabled'],
             ],

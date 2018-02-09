@@ -102,7 +102,7 @@ class HtmlBuilderTest extends TestCase
         $target = $this->urlGenerator->to('bar.ico');
         $result = $this->htmlBuilder->favicon('http://foo.com/bar.ico');
 
-        $this->assertEquals('<link rel="shortcut icon" type="image/x-icon" href="' . $target . '">', $result);
+        $this->assertEquals('<link rel="shortcut icon" type="image/x-icon" href="'.$target.'">', $result);
     }
 
     public function testComponentRegistration()
@@ -118,7 +118,7 @@ class HtmlBuilderTest extends TestCase
 
         $result2 = $this->htmlBuilder->link('http://www.example.com', '<span>Example.com</span>', ['class' => 'example-link'], null, false);
 
-        $result3 = $this->htmlBuilder->link("https://a.com/b?id=4&not_id=5", "URL which needs escaping");
+        $result3 = $this->htmlBuilder->link('https://a.com/b?id=4&not_id=5', 'URL which needs escaping');
 
         $this->assertEquals('<a href="http://www.example.com" class="example-link">&lt;span&gt;Example.com&lt;/span&gt;</a>', $result1);
         $this->assertEquals('<a href="http://www.example.com" class="example-link"><span>Example.com</span></a>', $result2);
