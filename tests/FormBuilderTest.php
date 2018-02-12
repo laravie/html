@@ -402,6 +402,37 @@ class FormBuilderTest extends TestCase
         );
 
         $select = $this->formBuilder->select(
+            'size',
+            [
+                'Large sizes' => [
+                    'L'  => 'Large',
+                    'XL' => 'Extra Large',
+                ],
+                'M'           => 'Medium',
+                'Small sizes' => [
+                    'S'  => 'Small',
+                    'XS' => 'Extra Small',
+                ],
+            ],
+            null,
+            [],
+            [
+                'Large sizes' => [
+                    'L' => ['disabled'],
+                ],
+                'M' => ['disabled'],
+            ],
+            [
+                'Small sizes' => ['disabled'],
+            ]
+        );
+
+        $this->assertEquals(
+            $select->toHtml(),
+            '<select name="size"><optgroup label="Large sizes"><option value="L" disabled>Large</option><option value="XL">Extra Large</option></optgroup><option value="M" disabled>Medium</option><optgroup label="Small sizes" disabled><option value="S">Small</option><option value="XS">Extra Small</option></optgroup></select>'
+        );
+
+        $select = $this->formBuilder->select(
             'encoded_html',
             ['no_break_space' => '&nbsp;', 'ampersand' => '&amp;', 'lower_than' => '&lt;'],
             null
@@ -482,7 +513,7 @@ class FormBuilderTest extends TestCase
         );
 
         $this->assertEquals($select,
-          '<select name="size"><option selected="selected" value="">Select One...</option><option value="L">Large</option><option value="S">Small</option></select>');
+          '<select name="size"><option selected="selected" value="" hidden="hidden">Select One...</option><option value="L">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
             'size',
@@ -492,7 +523,7 @@ class FormBuilderTest extends TestCase
         );
 
         $this->assertEquals($select,
-          '<select name="size"><option value="">Select One...</option><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
+          '<select name="size"><option value="" hidden="hidden">Select One...</option><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
             'encoded_html',
@@ -501,7 +532,7 @@ class FormBuilderTest extends TestCase
             ['placeholder' => 'Select the &nbsp;']
         );
         $this->assertEquals($select,
-            '<select name="encoded_html"><option selected="selected" value="">Select the &nbsp;</option><option value="no_break_space">&nbsp;</option><option value="ampersand">&amp;</option><option value="lower_than">&lt;</option></select>'
+            '<select name="encoded_html"><option selected="selected" value="" hidden="hidden">Select the &nbsp;</option><option value="no_break_space">&nbsp;</option><option value="ampersand">&amp;</option><option value="lower_than">&lt;</option></select>'
         );
     }
 

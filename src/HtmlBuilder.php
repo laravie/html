@@ -86,7 +86,7 @@ class HtmlBuilder
     {
         $attributes['src'] = $this->url->asset($url, $secure);
 
-        return $this->toHtmlString('<script'.$this->attributes($attributes).'></script>'.PHP_EOL);
+        return $this->toHtmlString('<script'.$this->attributes($attributes).'></script>');
     }
 
     /**
@@ -102,11 +102,11 @@ class HtmlBuilder
     {
         $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
 
-        $attributes = $attributes + $defaults;
+        $attributes = array_merge($attributes, $defaults);
 
         $attributes['href'] = $this->url->asset($url, $secure);
 
-        return $this->toHtmlString('<link'.$this->attributes($attributes).'>'.PHP_EOL);
+        return $this->toHtmlString('<link'.$this->attributes($attributes).'>');
     }
 
     /**
@@ -140,11 +140,11 @@ class HtmlBuilder
     {
         $defaults = ['rel' => 'shortcut icon', 'type' => 'image/x-icon'];
 
-        $attributes = $attributes + $defaults;
+        $attributes = array_merge($attributes, $defaults);
 
         $attributes['href'] = $this->url->asset($url, $secure);
 
-        return $this->toHtmlString('<link'.$this->attributes($attributes).'>'.PHP_EOL);
+        return $this->toHtmlString('<link'.$this->attributes($attributes).'>');
     }
 
     /**
@@ -170,7 +170,7 @@ class HtmlBuilder
             $title = $this->entities($title);
         }
 
-        return $this->toHtmlString('<a href="'.$url.'"'.$this->attributes($attributes).'>'.$title.'</a>');
+        return $this->toHtmlString('<a href="'.$this->entities($url).'"'.$this->attributes($attributes).'>'.$title.'</a>');
     }
 
     /**
@@ -363,7 +363,7 @@ class HtmlBuilder
     {
         $html = '';
 
-        if (count($list) == 0) {
+        if (count($list) === 0) {
             return $this->toHtmlString($html);
         }
 
@@ -466,7 +466,7 @@ class HtmlBuilder
         }
 
         // Treat boolean attributes as HTML properties
-        if (is_bool($value) && $key != 'value') {
+        if (is_bool($value) && $key !== 'value') {
             return $value ? $key : '';
         }
 
@@ -475,6 +475,42 @@ class HtmlBuilder
         }
 
         return null;
+    }
+
+    /**
+     * Obfuscate a string to prevent spam-bots from sniffing it.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public function obfuscate($value)
+    {
+        $safe = '';
+
+        foreach (str_split($value) as $letter) {
+            if (ord($letter) > 128) {
+                return $letter;
+            }
+
+            // To properly obfuscate the value, we will randomly convert each letter to
+            // its entity or hexadecimal representation, keeping a bot from sniffing
+            // the randomly obfuscated letters out of the string on the responses.
+            switch (rand(1, 3)) {
+                case 1:
+                    $safe .= '&#' . ord($letter) . ';';
+                    break;
+
+                case 2:
+                    $safe .= '&#x' . dechex(ord($letter)) . ';';
+                    break;
+
+                case 3:
+                    $safe .= $letter;
+            }
+        }
+
+        return $safe;
     }
 
     /**
@@ -492,7 +528,7 @@ class HtmlBuilder
 
         $attributes = array_merge($defaults, $attributes);
 
-        return $this->toHtmlString('<meta'.$this->attributes($attributes).'>'.PHP_EOL);
+        return $this->toHtmlString('<meta'.$this->attributes($attributes).'>');
     }
 
     /**
@@ -506,9 +542,9 @@ class HtmlBuilder
      */
     public function tag(string $tag, $content, array $attributes = []): string
     {
-        $content = is_array($content) ? implode(PHP_EOL, $content) : $content;
+        $content = is_array($content) ? implode('', $content) : $content;
 
-        return $this->toHtmlString('<'.$tag.$this->attributes($attributes).'>').PHP_EOL.$content.PHP_EOL.$this->toHtmlString('</'.$tag.'>').PHP_EOL;
+        return $this->toHtmlString('<'.$tag.$this->attributes($attributes).'>'.$this->toHtmlString($content).'</'.$tag.'>');
     }
 
     /**

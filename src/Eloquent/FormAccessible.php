@@ -5,7 +5,6 @@ namespace Collective\Html\Eloquent;
 use ReflectionClass;
 use ReflectionMethod;
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 
 trait FormAccessible
 {
@@ -51,11 +50,11 @@ trait FormAccessible
             unset($keys[0]);
             $key = implode('.', $keys);
 
-            if ($this->hasFormMutator($key)) {
+            if (method_exists($relatedModel, 'hasFormMutator') && $key !== '' && $relatedModel->hasFormMutator($key)) {
                 return $relatedModel->getFormValue($key);
             }
 
-            return data_get($relatedModel, $key);
+            return data_get($relatedModel, empty($key) ? null : $key);
         }
 
         // No form mutator, let the model resolve this
@@ -81,14 +80,14 @@ trait FormAccessible
      *
      * @return bool
      */
-    protected function hasFormMutator(string $key): bool
+    public function hasFormMutator(string $key): bool
     {
         $methods = $this->getReflection()->getMethods(ReflectionMethod::IS_PUBLIC);
 
-        $mutator = (new Collection($methods))
-                      ->first(function (ReflectionMethod $method, $index) use ($key) {
-                          return $method->getName() == 'form'.Str::studly($key).'Attribute';
-                      });
+        $mutator = collect($methods)
+                        ->first(function (ReflectionMethod $method, $index) use ($key) {
+                            return $method->getName() === 'form'.Str::studly($key).'Attribute';
+                        });
 
         return (bool) $mutator;
     }

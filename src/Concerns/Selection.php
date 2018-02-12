@@ -17,6 +17,7 @@ trait Selection
      * @param  string|null  $selected
      * @param  array  $selectAttributes
      * @param  array  $optionsAttributes
+     * @param  array  $optgroupsAttributes
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
@@ -25,7 +26,8 @@ trait Selection
         iterable $list = [],
         ?string $selected = null,
         array $selectAttributes = [],
-        array $optionsAttributes = []
+        array $optionsAttributes = [],
+        array $optgroupsAttributes = []
     ): Htmlable {
         $this->type = 'select';
 
@@ -56,7 +58,9 @@ trait Selection
         }
 
         foreach ($list as $value => $display) {
-            $html[] = $this->getSelectOption($display, $value, $selected, $optionsAttributes[$value] ?? []);
+            $html[] = $this->getSelectOption(
+                $display, $value, $selected, $optionsAttributes[$value] ?? [], $optgroupsAttributes[$value] ?? []
+            );
         }
 
         // Once we have all of this HTML, we can join this into a single element after
@@ -75,14 +79,20 @@ trait Selection
      * @param  string|array  $display
      * @param  string  $value
      * @param  string|array|null  $selected
-     * @param  array   $attributes
+     * @param  array  $attributes
+     * @param  array  $optgroups
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function getSelectOption($display, string $value, $selected, array $attributes = []): Htmlable
-    {
+    public function getSelectOption(
+        $display,
+        string $value,
+        $selected,
+        array $attributes = [],
+        array $optgroups = []
+    ): Htmlable {
         if (is_array($display)) {
-            return $this->optionGroup($display, $value, $selected, $attributes);
+            return $this->optionGroup($display, $value, $selected, $optgroups, $attributes);
         }
 
         return $this->option($display, $value, $selected, $attributes);
@@ -94,21 +104,39 @@ trait Selection
      * @param  iterable   $list
      * @param  string  $label
      * @param  string|array|null  $selected
-     * @param  array   $attributes
+     * @param  array  $attributes
+     * @param  array  $optionsAttributes
+     * @param  int  $level
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function optionGroup(iterable $list, string $label, $selected, array $attributes = []): Htmlable
-    {
+    protected function optionGroup(
+        iterable $list,
+        string $label,
+        $selected,
+        array $attributes = [],
+        array $optionsAttributes = [],
+        int $level = 0
+    ): Htmlable {
         $html = [];
+        $space = str_repeat("&nbsp;", $level);
 
         foreach ($list as $value => $display) {
-            $html[] = $this->option($display, $value, $selected, $attributes);
+            if (is_array($display)) {
+                $html[] = $this->option(
+                    $display, $value, $selected, $optionsAttributes[$value] ?? [], $level+5
+                );
+            } else {
+                $html[] = $this->option(
+                    $space.$display, $value, $selected, $optionsAttributes[$value] ?? []
+                );
+            }
         }
 
         return $this->toHtmlString(sprintf(
-            '<optgroup label="%s">%s</optgroup>',
+            '<optgroup label="%s"%s>%s</optgroup>',
             $this->entities($label),
+            $this->getHtmlBuilder()->attributes($attributes),
             implode('', $html)
         ));
     }
@@ -119,12 +147,18 @@ trait Selection
      * @param  string  $display
      * @param  string  $value
      * @param  string|array|null  $selected
-     * @param  array   $attributes
+     * @param  array  $attributes
+     * @param  array  $optgroups
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function option(string $display, string $value, $selected, array $attributes = []): Htmlable
-    {
+    protected function option(
+        string $display,
+        string $value,
+        $selected,
+        array $attributes = [],
+        array $optgroups = []
+    ): Htmlable {
         $selected = $this->getSelectedValue($value, $selected);
 
         $options = ['value' => $value, 'selected' => $selected] + $attributes;
@@ -152,7 +186,7 @@ trait Selection
         ];
 
         return $this->toHtmlString(sprintf(
-            '<option%s>%s</option>',
+            '<option%s hidden="hidden">%s</option>',
             $this->getHtmlBuilder()->attributes($options),
             $this->entities($display)
         ));
