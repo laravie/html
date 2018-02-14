@@ -118,13 +118,13 @@ trait Selection
         array $optionsAttributes = [],
         int $level = 0
     ): Htmlable {
-        $html = [];
-        $space = str_repeat("&nbsp;", $level);
+        $html  = [];
+        $space = str_repeat('&nbsp;', $level);
 
         foreach ($list as $value => $display) {
             if (is_array($display)) {
                 $html[] = $this->option(
-                    $display, $value, $selected, $optionsAttributes[$value] ?? [], $level+5
+                    $display, $value, $selected, $optionsAttributes[$value] ?? [], $level + 5
                 );
             } else {
                 $html[] = $this->option(
