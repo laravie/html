@@ -48,7 +48,7 @@ class FormAccessibleTest extends TestCase
     public function testItCanMutateValuesForForms()
     {
         $model = new ModelThatUsesForms($this->modelData);
-        $user = new User(['name' => 'Anton']);
+        $user  = new User(['name' => 'Anton']);
         $model->setRelation('user', $user);
 
         Form::setModel($model);
@@ -179,11 +179,11 @@ class User extends Model
 
     public function formNameAttribute($value)
     {
-        return 'Get name for form: ' . $value;
+        return 'Get name for form: '.$value;
     }
 
     public function getNameAttribute($value)
     {
-        return 'Get name: ' . $value;
+        return 'Get name: '.$value;
     }
 }

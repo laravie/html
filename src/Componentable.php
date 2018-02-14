@@ -97,8 +97,6 @@ trait Componentable
      * @throws \BadMethodCallException
      *
      * @return \Illuminate\Contracts\Support\Htmlable
-     *
-     * @throws \BadMethodCallException
      */
     public function __call(string $method, array $parameters): Htmlable
     {

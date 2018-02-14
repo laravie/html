@@ -498,11 +498,11 @@ class HtmlBuilder
             // the randomly obfuscated letters out of the string on the responses.
             switch (rand(1, 3)) {
                 case 1:
-                    $safe .= '&#' . ord($letter) . ';';
+                    $safe .= '&#'.ord($letter).';';
                     break;
 
                 case 2:
-                    $safe .= '&#x' . dechex(ord($letter)) . ';';
+                    $safe .= '&#x'.dechex(ord($letter)).';';
                     break;
 
                 case 3:
