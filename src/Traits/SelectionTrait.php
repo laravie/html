@@ -134,7 +134,7 @@ trait SelectionTrait
      *
      * @param  string  $display
      * @param  string  $value
-     * @param  string  $selected
+     * @param  string|array|\Illuminate\Contracts\Support\Arrayable|bool  $selected
      * @param  array   $attributes
      *
      * @return \Illuminate\Support\HtmlString
@@ -178,7 +178,7 @@ trait SelectionTrait
      * Determine if the value is selected.
      *
      * @param  string  $value
-     * @param  string|array|\Illuminate\Contracts\Support\Arrayable  $selected
+     * @param  string|array|\Illuminate\Contracts\Support\Arrayable|bool  $selected
      *
      * @return string
      */
@@ -194,6 +194,10 @@ trait SelectionTrait
                         : null;
         } elseif ($selected instanceof Collection) {
             return $selected->contains($value) ? 'selected' : null;
+        }
+
+        if (is_int($value) && is_bool($selected)) {
+            return (bool) $value === $selected;
         }
 
         return ((string) $value === (string) $selected) ? 'selected' : null;
