@@ -469,7 +469,7 @@ class FormBuilderTest extends TestCase
 
         $select = $this->formBuilder->select('avc', [1 => 'Yes', 0 => 'No'], true, ['placeholder' => 'Select']);
         $this->assertEquals(
-            '<select name="avc"><option value="">Select</option><option value="1" selected>Yes</option><option value="0" >No</option></select>',
+            '<select name="avc"><option value="" hidden="hidden">Select</option><option value="1" selected="selected">Yes</option><option value="0">No</option></select>',
             $select
         );
     }
