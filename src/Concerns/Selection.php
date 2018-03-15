@@ -14,7 +14,7 @@ trait Selection
      *
      * @param  string $name
      * @param  iterable  $list
-     * @param  string|null  $selected
+     * @param  string|array|null  $selected
      * @param  array  $selectAttributes
      * @param  array  $optionsAttributes
      * @param  array  $optgroupsAttributes
@@ -24,7 +24,7 @@ trait Selection
     public function select(
         string $name,
         iterable $list = [],
-        ?string $selected = null,
+        $selected = null,
         array $selectAttributes = [],
         array $optionsAttributes = [],
         array $optgroupsAttributes = []
@@ -146,7 +146,7 @@ trait Selection
      *
      * @param  string  $display
      * @param  string  $value
-     * @param  string|array|null  $selected
+     * @param  string|array|\Illuminate\Contracts\Support\Arrayable|bool  $selected
      * @param  array  $attributes
      * @param  array  $optgroups
      *
@@ -196,7 +196,7 @@ trait Selection
      * Determine if the value is selected.
      *
      * @param  string|null $value
-     * @param  string|iterable|null  $selected
+     * @param  string|array|\Illuminate\Contracts\Support\Arrayable|bool|null  $selected
      *
      * @return string|null
      */
@@ -212,6 +212,10 @@ trait Selection
                         : null;
         } elseif ($selected instanceof Collection) {
             return $selected->contains($value) ? 'selected' : null;
+        }
+
+        if (is_int($value) && is_bool($selected)) {
+            return (bool) $value === $selected;
         }
 
         return ((string) $value === (string) $selected) ? 'selected' : null;
@@ -312,9 +316,9 @@ trait Selection
      * Get the value that should be assigned to the field.
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  string|array|null  $value
      *
-     * @return string
+     * @return mixed
      */
-    abstract public function getValueAttribute(string $name, ?string $value = null): string;
+    abstract public function getValueAttribute(string $name, $value = null);
 }
