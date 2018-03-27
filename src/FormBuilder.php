@@ -292,7 +292,7 @@ class FormBuilder
             }
         }
 
-        if (! is_null($request = $this->request($name)) && $name != '_method') {
+        if (! is_null($request = $this->request($name)) && $name !== '_method') {
             return $request;
         }
 

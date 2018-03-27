@@ -483,6 +483,7 @@ class FormBuilderTest extends TestCase
             [],
             ['L' => ['data-foo' => 'bar', 'disabled']]
         );
+
         $this->assertEquals($select,
             '<select name="size"><option value="L" data-foo="bar" disabled>Large</option><option value="S">Small</option></select>');
     }
@@ -579,11 +580,13 @@ class FormBuilderTest extends TestCase
     public function testFormSelectCollection()
     {
         $collection = new Collection(['a', 1]);
+
         $select = $this->formBuilder->select(
             'letters',
             ['a' => 'A Option', '1' => 'test'],
             $collection
         );
+
         $this->assertEquals(
             '<select name="letters"><option value="a" selected="selected">A Option</option><option value="1" selected="selected">test</option></select>',
             (string) $select
