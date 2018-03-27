@@ -79,7 +79,7 @@ trait Checker
             case 'radio':
                 return $this->getRadioCheckedState($name, $value, $checked);
             default:
-                return $this->getValueAttribute($name) == $value;
+                return $this->compareValues($name, $value);
         }
     }
 
@@ -132,6 +132,20 @@ trait Checker
             return $checked;
         }
 
+        return $this->compareValues($name, $value);
+    }
+
+    /**
+     * Determine if the provide value loosely compares to the value assigned to the field.
+     * Use loose comparison because Laravel model casting may be in affect and therefore
+     * 1 == true and 0 == false.
+     *
+     * @param  string|null  $name
+     * @param  mixed  $value
+     * @return bool
+     */
+    protected function compareValues(?string $name, $value): bool
+    {
         return $this->getValueAttribute($name) == $value;
     }
 }

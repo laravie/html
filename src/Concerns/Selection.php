@@ -186,7 +186,7 @@ trait Selection
         ];
 
         return $this->toHtmlString(sprintf(
-            '<option%s hidden="hidden">%s</option>',
+            '<option%s>%s</option>',
             $this->getHtmlBuilder()->attributes($options),
             $this->entities($display)
         ));
