@@ -186,7 +186,7 @@ trait Selection
         ];
 
         return $this->toHtmlString(sprintf(
-            '<option%s hidden="hidden">%s</option>',
+            '<option%s>%s</option>',
             $this->getHtmlBuilder()->attributes($options),
             $this->entities($display)
         ));
@@ -204,7 +204,7 @@ trait Selection
     {
         if ($selected instanceof Collection) {
             return $selected->contains($value) ? 'selected' : null;
-        } else if ($selected instanceof Arrayable) {
+        } elseif ($selected instanceof Arrayable) {
             $selected = $selected->toArray();
         }
 

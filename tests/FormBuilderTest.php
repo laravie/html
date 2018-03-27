@@ -469,7 +469,7 @@ class FormBuilderTest extends TestCase
 
         $select = $this->formBuilder->select('avc', [1 => 'Yes', 0 => 'No'], true, ['placeholder' => 'Select']);
         $this->assertEquals(
-            '<select name="avc"><option value="" hidden="hidden">Select</option><option value="1" selected="selected">Yes</option><option value="0">No</option></select>',
+            '<select name="avc"><option value="">Select</option><option value="1" selected="selected">Yes</option><option value="0">No</option></select>',
             $select
         );
     }
@@ -483,6 +483,7 @@ class FormBuilderTest extends TestCase
             [],
             ['L' => ['data-foo' => 'bar', 'disabled']]
         );
+
         $this->assertEquals($select,
             '<select name="size"><option value="L" data-foo="bar" disabled>Large</option><option value="S">Small</option></select>');
     }
@@ -519,7 +520,7 @@ class FormBuilderTest extends TestCase
         );
 
         $this->assertEquals($select,
-          '<select name="size"><option selected="selected" value="" hidden="hidden">Select One...</option><option value="L">Large</option><option value="S">Small</option></select>');
+          '<select name="size"><option selected="selected" value="">Select One...</option><option value="L">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
             'size',
@@ -529,7 +530,7 @@ class FormBuilderTest extends TestCase
         );
 
         $this->assertEquals($select,
-          '<select name="size"><option value="" hidden="hidden">Select One...</option><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
+          '<select name="size"><option value="">Select One...</option><option value="L" selected="selected">Large</option><option value="S">Small</option></select>');
 
         $select = $this->formBuilder->select(
             'encoded_html',
@@ -538,7 +539,7 @@ class FormBuilderTest extends TestCase
             ['placeholder' => 'Select the &nbsp;']
         );
         $this->assertEquals($select,
-            '<select name="encoded_html"><option selected="selected" value="" hidden="hidden">Select the &nbsp;</option><option value="no_break_space">&nbsp;</option><option value="ampersand">&amp;</option><option value="lower_than">&lt;</option></select>'
+            '<select name="encoded_html"><option selected="selected" value="">Select the &nbsp;</option><option value="no_break_space">&nbsp;</option><option value="ampersand">&amp;</option><option value="lower_than">&lt;</option></select>'
         );
     }
 
@@ -579,13 +580,16 @@ class FormBuilderTest extends TestCase
     public function testFormSelectCollection()
     {
         $collection = new Collection(['a', 1]);
+
         $select = $this->formBuilder->select(
             'letters',
             ['a' => 'A Option', '1' => 'test'],
             $collection
         );
-        $this->assertEquals((string) $select,
-            '<select name="letters"><option value="a" selected="selected">A Option</option><option value="1" selected="selected">test</option></select>'
+
+        $this->assertEquals(
+            '<select name="letters"><option value="a" selected="selected">A Option</option><option value="1" selected="selected">test</option></select>',
+            (string) $select
         );
     }
 
@@ -673,6 +677,21 @@ class FormBuilderTest extends TestCase
         $this->assertEquals('<input name="foo" type="radio" value="foo">', $form2);
         $this->assertEquals('<input checked="checked" name="foo" type="radio" value="foobar">', $form3);
         $this->assertEquals('<input class="span2" name="foo" type="radio" value="foobar">', $form4);
+    }
+
+    public function testFormRadioWithAttributeCastToBoolean()
+    {
+        $this->setModel(['itemA' => true, 'itemB' => false]);
+
+        $radio1 = $this->formBuilder->radio('itemA', 1);
+        $radio2 = $this->formBuilder->radio('itemA', 0);
+        $radio3 = $this->formBuilder->radio('itemB', 1);
+        $radio4 = $this->formBuilder->radio('itemB', 0);
+
+        $this->assertEquals('<input checked="checked" name="itemA" type="radio" value="1">', $radio1);
+        $this->assertEquals('<input name="itemA" type="radio" value="0">', $radio2);
+        $this->assertEquals('<input name="itemB" type="radio" value="1">', $radio3);
+        $this->assertEquals('<input checked="checked" name="itemB" type="radio" value="0">', $radio4);
     }
 
     public function testFormRadioRepopulation()
