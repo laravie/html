@@ -586,8 +586,9 @@ class FormBuilderTest extends TestCase
             $collection
         );
 
-        $this->assertEquals((string) $select,
-            '<select name="letters"><option value="a" selected="selected">A Option</option><option value="1" selected="selected">test</option></select>'
+        $this->assertEquals(
+            '<select name="letters"><option value="a" selected="selected">A Option</option><option value="1" selected="selected">test</option></select>',
+            (string) $select
         );
     }
 

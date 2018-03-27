@@ -204,7 +204,7 @@ trait Selection
     {
         if ($selected instanceof Collection) {
             return $selected->contains($value) ? 'selected' : null;
-        } else if ($selected instanceof Arrayable) {
+        } elseif ($selected instanceof Arrayable) {
             $selected = $selected->toArray();
         }
 
