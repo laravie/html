@@ -576,6 +576,20 @@ class FormBuilderTest extends TestCase
         $this->assertContains('<select id="foo" name="month"><option value="1">January</option>', $month3);
     }
 
+    public function testFormSelectCollection()
+    {
+        $collection = new Collection(['a', 1]);
+        $select = $this->formBuilder->select(
+            'letters',
+            ['a' => 'A Option', '1' => 'test'],
+            $collection
+        );
+        $this->assertEquals(
+            '<select name="letters"><option value="a" selected="selected">A Option</option><option value="1" selected="selected">test</option></select>',
+            (string) $select
+        );
+    }
+
     public function testFormCheckbox()
     {
         $this->formBuilder->setSessionStore($session = m::mock('Illuminate\Contracts\Session\Session'));
