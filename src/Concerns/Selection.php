@@ -202,16 +202,16 @@ trait Selection
      */
     protected function getSelectedValue(?string $value, $selected): ?string
     {
-        if ($selected instanceof Collection) {
-            return $selected->contains($value) ? 'selected' : null;
-        } elseif ($selected instanceof Arrayable) {
-            $selected = $selected->toArray();
-        }
+        $selection = $selected instanceof Arrayable ? $selected->toArray() : $selected;
 
-        if (is_array($selected)) {
-            return in_array($value, $selected, true) || in_array((string) $value, $selected, true)
-                        ? 'selected'
-                        : null;
+        if (is_array($selection)) {
+            if (in_array($value, $selection, true) || in_array((string) $value, $selection, true)) {
+                return 'selected';
+            } elseif ($selected instanceof Collection) {
+                return $selected->contains($value) ? 'selected' : null;
+            }
+
+            return null;
         }
 
         if (is_int($value) && is_bool($selected)) {
