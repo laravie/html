@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.5.2
+
+Released: 2018-04-03
+
+### Changes
+
+* Validation in select field for boolean value of selected option. ([@AndersonFriaca](https://github.com/AndersonFriaca))
+
+### Fixes
+
+* Fix form method of hidden input '_method' is preserved on next request. ([@tortuetorche](https://github.com/tortuetorche))
+* Fix selected to check for using `Illuminate\Support\Collection::contains()` whenever possible. ([@VinceG](https://github.com/VinceG))
+
 ## 5.5.1
 
 Released: 2018-02-10
