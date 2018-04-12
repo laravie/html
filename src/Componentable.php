@@ -4,6 +4,7 @@ namespace Collective\Html;
 
 use BadMethodCallException;
 use Illuminate\Support\HtmlString;
+use Illuminate\Contracts\Support\Htmlable;
 
 trait Componentable
 {
