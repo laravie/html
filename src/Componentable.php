@@ -3,7 +3,6 @@
 namespace Collective\Html;
 
 use BadMethodCallException;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\HtmlString;
 use Illuminate\Contracts\Support\Htmlable;
 
