@@ -142,6 +142,7 @@ trait Checker
      *
      * @param  string|null  $name
      * @param  mixed  $value
+     *
      * @return bool
      */
     protected function compareValues(?string $name, $value): bool

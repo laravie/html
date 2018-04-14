@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.6.2
+
+Released: 2018-04-14
+
+### Fixes
+
+* Fix issue where defaults has a higher priority then the attributes. ([@
+b3a1024](https://github.com/laravie/html/commit/b3a10245c791a211e5f8ec37117f4549cd22aabe))
+* Add missing `Illuminate\Contracts\Support\Htmlable` import. ([@c1f1999](https://github.com/laravie/html/commit/c1f1999b02cdd5aebe351428909fd2e21ad2176a))
+
 ## 5.6.1
 
 Released: 2018-04-03
