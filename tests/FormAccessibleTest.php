@@ -7,7 +7,10 @@ use Collective\Html\Eloquent\FormAccessible;
 
 class FormAccessibleTest extends TestCase
 {
-    protected function setUp()
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
     {
         parent::setUp();
 
