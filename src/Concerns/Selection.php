@@ -2,6 +2,7 @@
 
 namespace Collective\Html\Concerns;
 
+use Illuminate\Support\Arr;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Htmlable;
@@ -71,6 +72,39 @@ trait Selection
         $list = implode('', $html);
 
         return $this->toHtmlString("<select{$options}>{$list}</select>");
+    }
+
+    /**
+     * Create a datalist box field.
+     *
+     * @param  string $id
+     * @param  array  $list
+     *
+     * @return \Illuminate\Contracts\Support\Htmlable
+     */
+    public function datalist(string $id, array $list = []): Htmlable
+    {
+        $this->type = 'datalist';
+
+        $attributes['id'] = $id;
+
+        $html = [];
+
+        if (Arr::isAssoc($list)) {
+            foreach ($list as $value => $display) {
+                $html[] = $this->option($display, $value, null, []);
+            }
+        } else {
+            foreach ($list as $value) {
+                $html[] = $this->option($value, $value, null, []);
+            }
+        }
+
+        $attributes = $this->getHtmlBuilder()->attributes($attributes);
+
+        $list = implode('', $html);
+
+        return $this->toHtmlString("<datalist{$attributes}>{$list}</datalist>");
     }
 
     /**
