@@ -13,14 +13,17 @@ class HtmlBuilderTest extends TestCase
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->urlGenerator = new UrlGenerator(new RouteCollection(), Request::create('/foo', 'GET'));
         $this->viewFactory  = m::mock(Factory::class);
         $this->htmlBuilder  = new HtmlBuilder($this->urlGenerator, $this->viewFactory);
     }
 
-    public function tearDown()
+    /**
+     * Teardown the test environment.
+     */
+    protected function tearDown(): void
     {
         m::close();
     }

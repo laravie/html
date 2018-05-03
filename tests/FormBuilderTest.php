@@ -16,7 +16,7 @@ class FormBuilderTest extends TestCase
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->urlGenerator = new UrlGenerator(new RouteCollection(), Request::create('/foo', 'GET'));
         $this->viewFactory  = m::mock(Factory::class);
@@ -40,7 +40,7 @@ class FormBuilderTest extends TestCase
     /**
      * Destroy the test environment.
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         m::close();
     }
