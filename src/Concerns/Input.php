@@ -89,6 +89,20 @@ trait Input
     }
 
     /**
+     * Create a range input field.
+     *
+     * @param  string  $name
+     * @param  string|null  $value
+     * @param  array  $options
+     *
+     * @return \Illuminate\Contracts\Support\Htmlable
+     */
+    public function range(string $name, ?string $value = null, array $options = []): Htmlable
+    {
+        return $this->input('range', $name, $value, $options);
+    }
+
+    /**
      * Create a color input field.
      *
      * @param  string  $name
@@ -202,14 +216,55 @@ trait Input
      * Create a time input field.
      *
      * @param  string  $name
-     * @param  string|null  $value
+     * @param  \DateTime|string|null  $value
      * @param  array   $options
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function time(string $name, ?string $value = null, array $options = []): Htmlable
+    public function time(string $name, $value = null, array $options = []): Htmlable
     {
+        if ($value instanceof DateTime) {
+            $value = $value->format('H:i');
+        }
+
+
         return $this->input('time', $name, $value, $options);
+    }
+
+    /**
+     * Create a week input field.
+     *
+     * @param  string  $name
+     * @param  \DateTime|string|null  $value
+     * @param  array  $options
+     *
+     * @return \Illuminate\Contracts\Support\Htmlable
+     */
+    public function week(string $name, $value = null, array $options = []): Htmlable
+    {
+        if ($value instanceof DateTime) {
+            $value = $value->format('Y-\WW');
+        }
+
+        return $this->input('week', $name, $value, $options);
+    }
+
+    /**
+     * Create a month input field.
+     *
+     * @param  string  $name
+     * @param  \DateTime|string|null  $value
+     * @param  array  $options
+     *
+     * @return \Illuminate\Contracts\Support\Htmlable
+     */
+    public function month(string $name, $value = null, array $options = []): Htmlable
+    {
+        if ($value instanceof DateTime) {
+            $value = $value->format('Y-m');
+        }
+
+        return $this->input('month', $name, $value, $options);
     }
 
     /**
