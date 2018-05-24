@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.6.3
+
+Released: 2018-05-24
+
+### Added
+
+* Added `range()`, `week()` and `month()` to `FormBuilder`.
+
+### Fixes
+
+* Fixes `time()` to accept `DateTime` instance.
+
 ## 5.6.2
 
 Released: 2018-04-14
