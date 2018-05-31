@@ -68,6 +68,34 @@ class FormBuilderTest extends TestCase
           $form4);
         $this->assertEquals('<form method="POST" action="http://localhost/foo" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT"><input name="_token" type="hidden" value="abc">',
           $form5);
+
+        $formBuilder->considerRequest();
+        $name    = $formBuilder->text('person[name]', 'Not John');
+        $surname = $formBuilder->text('person[surname]', 'Not Doe');
+        $this->assertEquals('<input name="person[name]" type="text" value="John">', $name);
+        $this->assertEquals('<input name="person[surname]" type="text" value="Doe">', $surname);
+
+        $checked   = $formBuilder->checkbox('agree', 1);
+        $unchecked = $formBuilder->checkbox('no_value', 1);
+        $this->assertEquals('<input checked="checked" name="agree" type="checkbox" value="1">', $checked);
+        $this->assertEquals('<input name="no_value" type="checkbox" value="1">', $unchecked);
+
+        $checked_array   = $formBuilder->checkbox('checkbox_array[]', 1);
+        $unchecked_array = $formBuilder->checkbox('checkbox_array[]', 4);
+        $this->assertEquals('<input checked="checked" name="checkbox_array[]" type="checkbox" value="1">', $checked_array);
+        $this->assertEquals('<input name="checkbox_array[]" type="checkbox" value="4">', $unchecked_array);
+
+        $checked   = $formBuilder->radio('agree', 1);
+        $unchecked = $formBuilder->radio('no_value', 1);
+        $this->assertEquals('<input checked="checked" name="agree" type="radio" value="1">', $checked);
+        $this->assertEquals('<input name="no_value" type="radio" value="1">', $unchecked);
+
+        // now we check that Request is ignored and value take precedence
+        $formBuilder->considerRequest(false);
+        $name    = $formBuilder->text('person[name]', 'Not John');
+        $surname = $formBuilder->text('person[surname]', 'Not Doe');
+        $this->assertEquals('<input name="person[name]" type="text" value="Not John">', $name);
+        $this->assertEquals('<input name="person[surname]" type="text" value="Not Doe">', $surname);
     }
 
     public function testRequestValue()
@@ -806,6 +834,18 @@ class FormBuilderTest extends TestCase
         $this->assertEquals('<input disabled name="test" type="text">', $input);
         $input = $this->formBuilder->textarea('test', null, ['readonly']);
         $this->assertEquals('<textarea readonly name="test" cols="50" rows="10"></textarea>', $input);
+    }
+
+    public function testArrayClassAttributes()
+    {
+        $input = $this->formBuilder->text('test', null, ['class' => ['class-a', 'class-b']]);
+        $this->assertEquals('<input class="class-a class-b" name="test" type="text">', $input);
+
+        $input = $this->formBuilder->text('test', null, ['class' => [
+            'class-a',
+            false ? 'class-b' : 'class-c',
+        ]]);
+        $this->assertEquals('<input class="class-a class-c" name="test" type="text">', $input);
     }
 
     protected function setModel(array $data, $object = true)
