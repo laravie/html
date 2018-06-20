@@ -152,7 +152,7 @@ class FormBuilder
 
         $options = $this->html->attributes($options);
 
-        $value = e($this->formatLabel($name, $value));
+        $value = $this->entities($this->formatLabel($name, $value));
 
         return $this->toHtmlString('<label for="'.$name.'"'.$options.'>'.$value.'</label>');
     }
