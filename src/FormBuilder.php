@@ -152,7 +152,7 @@ class FormBuilder
 
         $options = $this->html->attributes($options);
 
-        $value = e($this->formatLabel($name, $value));
+        $value = $this->entities($this->formatLabel($name, $value));
 
         return $this->toHtmlString('<label for="'.$name.'"'.$options.'>'.$value.'</label>');
     }
@@ -310,6 +310,26 @@ class FormBuilder
     }
 
     /**
+     * Get value from current Request.
+     *
+     * @param string $name
+     *
+     * @return array|null|string
+     */
+    protected function request(string $name)
+    {
+        if (! $this->considerRequest) {
+            return null;
+        }
+
+        if (! isset($this->request)) {
+            return null;
+        }
+
+        return $this->request->input($this->transformKey($name));
+    }
+
+    /**
      * Get the model value that should be assigned to the field.
      *
      * @param  string  $name
@@ -380,26 +400,6 @@ class FormBuilder
         }
 
         throw new BadMethodCallException("Method {$method} does not exist.");
-    }
-
-    /**
-     * Get value from current Request.
-     *
-     * @param  string  $name
-     *
-     * @return array|null|string
-     */
-    protected function request(string $name)
-    {
-        if (! $this->considerRequest) {
-            return;
-        }
-
-        if (! isset($this->request)) {
-            return;
-        }
-
-        return $this->request->input($this->transformKey($name));
     }
 
     /**
