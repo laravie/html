@@ -91,7 +91,7 @@ trait Selection
         array $attributes = [],
         array $optgroups = []
     ): Htmlable {
-        if (is_array($display)) {
+        if (is_iterable($display)) {
             return $this->optionGroup($display, $value, $selected, $optgroups, $attributes);
         }
 
@@ -122,7 +122,7 @@ trait Selection
         $space = str_repeat('&nbsp;', $level);
 
         foreach ($list as $value => $display) {
-            if (is_array($display)) {
+            if (is_iterable($display)) {
                 $html[] = $this->option(
                     $display, $value, $selected, $optionsAttributes[$value] ?? [], $level + 5
                 );
