@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.6.4
+
+Released: 2018-08-02
+
+### Changes
+
+* Allow `Request` instance to be optional. ([@decadence](https://github.com/decadence))
+* Allow to set `class` attributes using `iterable` data. ([@ThunderBirdsX3](https://github.com/ThunderBirdsX3))
+* Allow sub-select to accept `iterable` data. ([@tautvydasr](https://github.com/tautvydasr))
+
 ## 5.6.3
 
 Released: 2018-05-24
