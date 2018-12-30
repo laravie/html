@@ -565,7 +565,7 @@ class FormBuilderTest extends TestCase
             'size',
             collect([
                 'Large sizes' => collect([
-                    'L' => 'Large',
+                    'L'  => 'Large',
                     'XL' => 'Extra Large',
                 ]),
                 'S' => 'Small',
@@ -573,7 +573,7 @@ class FormBuilderTest extends TestCase
             null,
             [
                 'class' => 'class-name',
-                'id' => 'select-id',
+                'id'    => 'select-id',
             ]
         );
 
@@ -586,12 +586,12 @@ class FormBuilderTest extends TestCase
             'size',
             collect([
                 'Large sizes' => collect([
-                    'L' => 'Large',
+                    'L'  => 'Large',
                     'XL' => 'Extra Large',
                 ]),
-                'M' => 'Medium',
+                'M'           => 'Medium',
                 'Small sizes' => collect([
-                    'S' => 'Small',
+                    'S'  => 'Small',
                     'XS' => 'Extra Small',
                 ]),
             ]),
@@ -599,7 +599,7 @@ class FormBuilderTest extends TestCase
             [],
             [
                 'Large sizes' => [
-                    'L' => ['disabled']
+                    'L' => ['disabled'],
                 ],
                 'M' => ['disabled'],
             ],

@@ -3,7 +3,6 @@
 namespace Collective\Html\Eloquent;
 
 use ReflectionClass;
-use ReflectionMethod;
 use Illuminate\Support\Str;
 
 trait FormAccessible
@@ -82,14 +81,7 @@ trait FormAccessible
      */
     public function hasFormMutator(string $key): bool
     {
-        $methods = $this->getReflection()->getMethods(ReflectionMethod::IS_PUBLIC);
-
-        $mutator = collect($methods)
-                        ->first(function (ReflectionMethod $method, $index) use ($key) {
-                            return $method->getName() === 'form'.Str::studly($key).'Attribute';
-                        });
-
-        return (bool) $mutator;
+        return method_exists($this, 'form'.Str::studly($key).'Attribute');
     }
 
     /**
@@ -103,19 +95,5 @@ trait FormAccessible
     private function mutateFormAttribute(string $key, $value)
     {
         return $this->{'form'.Str::studly($key).'Attribute'}($value);
-    }
-
-    /**
-     * Get a ReflectionClass Instance.
-     *
-     * @return \ReflectionClass
-     */
-    protected function getReflection(): ReflectionClass
-    {
-        if (! $this->reflection) {
-            $this->reflection = new ReflectionClass($this);
-        }
-
-        return $this->reflection;
     }
 }
