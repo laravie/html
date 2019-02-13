@@ -216,7 +216,8 @@ trait Selection
     {
         $options = [
             'selected' => $this->getSelectedValue(null, $selected),
-            'value'    => '',
+            'disabled' => true,
+            'value' => '',
         ];
 
         return $this->toHtmlString(sprintf(

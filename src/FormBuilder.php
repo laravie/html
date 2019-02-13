@@ -167,7 +167,7 @@ class FormBuilder
      */
     protected function formatLabel(string $name, ?string $value): string
     {
-        return $value ?: ucwords(str_replace('_', ' ', $name));
+        return $value ?? ucwords(str_replace('_', ' ', $name));
     }
 
     /**
