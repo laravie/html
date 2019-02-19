@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.7.1
+
+Released: 2019-02-19
+
+### Changes
+
+* Simplify `hasFormMutator` method implementation to check against `method_exists` instead of using `ReflectionClass`.
+* Force `placeholder` is not selectable on `<select>`.
+* Allows `'0'` as text on `<label>`.
+
 ## 5.7.0
 
 Released: 2017-09-05
