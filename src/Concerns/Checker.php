@@ -34,7 +34,7 @@ trait Checker
      */
     public function radio(string $name, $value = null, ?bool $checked = null, array $options = []): Htmlable
     {
-        is_null($value) && $value = $name;
+        \is_null($value) && $value = $name;
 
         return $this->checkable('radio', $name, $value, $checked, $options);
     }
@@ -96,7 +96,7 @@ trait Checker
     {
         $request = $this->request($name);
 
-        if (isset($this->session) && ! $this->oldInputIsEmpty() && is_null($this->old($name)) && ! $request) {
+        if (isset($this->session) && ! $this->oldInputIsEmpty() && \is_null($this->old($name)) && ! $request) {
             return false;
         }
 
@@ -106,8 +106,8 @@ trait Checker
 
         $posted = $this->getValueAttribute($name, $checked);
 
-        if (is_array($posted)) {
-            return in_array($value, $posted);
+        if (\is_array($posted)) {
+            return \in_array($value, $posted);
         } elseif ($posted instanceof Collection) {
             return $posted->contains('id', $value);
         }

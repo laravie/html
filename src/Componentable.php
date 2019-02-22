@@ -76,7 +76,7 @@ trait Componentable
             // If the "variable" value is actually a numeric key, we can assume that
             // no default had been specified for the component argument and we'll
             // just use null instead, so that we can treat them all the same.
-            if (is_numeric($variable)) {
+            if (\is_numeric($variable)) {
                 $variable = $default;
                 $default  = null;
             }

@@ -75,7 +75,7 @@ trait Creator
         // Finally we're ready to create the final form HTML field. We will attribute
         // format the array of attributes. We will also add on the appendage which
         // is used to spoof requests for this PUT, PATCH, etc. methods on forms.
-        $attributes = array_merge($attributes, Arr::except($options, $this->reserved));
+        $attributes = \array_merge($attributes, Arr::except($options, $this->reserved));
 
         // Finally, we will concatenate all of the attributes into a single string so
         // we can build out the final form open statement. We'll also append on an
@@ -108,12 +108,12 @@ trait Creator
      */
     protected function getAppendage(string $method): string
     {
-        list($method, $appendage) = [strtoupper($method), ''];
+        list($method, $appendage) = [\strtoupper($method), ''];
 
         // If the HTTP method is in this list of spoofed methods, we will attach the
         // method spoofer hidden input to the form. This allows us to use regular
         // form to initiate PUT and DELETE requests in addition to the typical.
-        if (in_array($method, $this->spoofedMethods)) {
+        if (\in_array($method, $this->spoofedMethods)) {
             $appendage .= $this->hidden('_method', $method);
         }
 
@@ -136,7 +136,7 @@ trait Creator
      */
     protected function getMethod(string $method): string
     {
-        $method = strtoupper($method);
+        $method = \strtoupper($method);
 
         return $method != 'GET' ? 'POST' : $method;
     }
@@ -179,8 +179,8 @@ trait Creator
      */
     protected function getUrlAction($options): string
     {
-        if (is_array($options)) {
-            return $this->url->to($options[0], array_slice($options, 1));
+        if (\is_array($options)) {
+            return $this->url->to($options[0], \array_slice($options, 1));
         }
 
         return $this->url->to($options);
@@ -195,8 +195,8 @@ trait Creator
      */
     protected function getRouteAction($options): string
     {
-        if (is_array($options)) {
-            return $this->url->route($options[0], array_slice($options, 1));
+        if (\is_array($options)) {
+            return $this->url->route($options[0], \array_slice($options, 1));
         }
 
         return $this->url->route($options);
@@ -211,8 +211,8 @@ trait Creator
      */
     protected function getControllerAction($options): string
     {
-        if (is_array($options)) {
-            return $this->url->action($options[0], array_slice($options, 1));
+        if (\is_array($options)) {
+            return $this->url->action($options[0], \array_slice($options, 1));
         }
 
         return $this->url->action($options);
@@ -228,7 +228,7 @@ trait Creator
     /**
      * Get html builder.
      *
-     * @return \Collective\Html\\HtmlBuilder
+     * @return \Collective\Html\HtmlBuilder
      */
     abstract public function getHtmlBuilder(): HtmlBuilder;
 

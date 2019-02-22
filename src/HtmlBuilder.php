@@ -58,7 +58,7 @@ class HtmlBuilder
             return $value->toHtml();
         }
 
-        return htmlentities($value, ENT_QUOTES, 'UTF-8', $encoding);
+        return \htmlentities($value, ENT_QUOTES, 'UTF-8', $encoding);
     }
 
     /**
@@ -70,7 +70,7 @@ class HtmlBuilder
      */
     public function decode(string $value): string
     {
-        return html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+        return \html_entity_decode($value, ENT_QUOTES, 'UTF-8');
     }
 
     /**
@@ -102,7 +102,7 @@ class HtmlBuilder
     {
         $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
 
-        $attributes = array_merge($defaults, $attributes);
+        $attributes = \array_merge($defaults, $attributes);
 
         $attributes['href'] = $this->url->asset($url, $secure);
 
@@ -123,8 +123,9 @@ class HtmlBuilder
     {
         $attributes['alt'] = $alt;
 
-        return $this->toHtmlString('<img src="'.$this->url->asset($url,
-            $secure).'"'.$this->attributes($attributes).'>');
+        return $this->toHtmlString(
+            '<img src="'.$this->url->asset($url, $secure).'"'.$this->attributes($attributes).'>'
+        );
     }
 
     /**
@@ -140,7 +141,7 @@ class HtmlBuilder
     {
         $defaults = ['rel' => 'shortcut icon', 'type' => 'image/x-icon'];
 
-        $attributes = array_merge($attributes, $defaults);
+        $attributes = \array_merge($attributes, $defaults);
 
         $attributes['href'] = $this->url->asset($url, $secure);
 
@@ -162,7 +163,7 @@ class HtmlBuilder
     {
         $url = $this->url->to($url, [], $secure);
 
-        if (is_null($title) || $title === false) {
+        if (\is_null($title) || $title === false) {
             $title = $url;
         }
 
@@ -282,7 +283,7 @@ class HtmlBuilder
      */
     public function email(string $email): string
     {
-        return str_replace('@', '&#64;', $this->obfuscate($email));
+        return \str_replace('@', '&#64;', $this->obfuscate($email));
     }
 
     /**
@@ -294,7 +295,7 @@ class HtmlBuilder
      */
     public function nbsp(int $num = 1): string
     {
-        return str_repeat('&nbsp;', $num);
+        return \str_repeat('&nbsp;', $num);
     }
 
     /**
@@ -363,7 +364,7 @@ class HtmlBuilder
     {
         $html = '';
 
-        if (count($list) === 0) {
+        if (\count($list) === 0) {
             return $this->toHtmlString($html);
         }
 
@@ -390,7 +391,7 @@ class HtmlBuilder
      */
     protected function listingElement($key, string $type, $value): string
     {
-        if (is_array($value)) {
+        if (\is_array($value)) {
             return $this->nestedListing($key, $type, $value);
         } else {
             return '<li>'.$this->entities($value).'</li>';
@@ -408,7 +409,7 @@ class HtmlBuilder
      */
     protected function nestedListing($key, string $type, $value): string
     {
-        if (is_int($key)) {
+        if (\is_int($key)) {
             return $this->listing($type, $value);
         } else {
             return '<li>'.$key.$this->listing($type, $value).'</li>';
@@ -430,22 +431,22 @@ class HtmlBuilder
         // as this will convert HTML attributes such as "required" to a correct
         // form like required="required" instead of using incorrect numerics.
         foreach ((array) $attributes as $key => $value) {
-            if (is_array($value) && $key !== 'class') {
+            if (\is_array($value) && $key !== 'class') {
                 foreach ((array) $value as $name => $val) {
                     $element = $this->attributeElement($key.'-'.$name, $val);
-                    if (! is_null($element)) {
+                    if (! \is_null($element)) {
                         $html[] = $element;
                     }
                 }
             } else {
                 $element = $this->attributeElement($key, $value);
-                if (! is_null($element)) {
+                if (! \is_null($element)) {
                     $html[] = $element;
                 }
             }
         }
 
-        return count($html) > 0 ? ' '.implode(' ', $html) : '';
+        return \count($html) > 0 ? ' '.\implode(' ', $html) : '';
     }
 
     /**
@@ -461,60 +462,24 @@ class HtmlBuilder
         // For numeric keys we will assume that the value is a boolean attribute
         // where the presence of the attribute represents a true value and the
         // absence represents a false value.
-        if (is_numeric($key)) {
+        if (\is_numeric($key)) {
             return $value;
         }
 
         // Treat boolean attributes as HTML properties
-        if (is_bool($value) && $key !== 'value') {
+        if (\is_bool($value) && $key !== 'value') {
             return $value ? $key : '';
         }
 
-        if (is_array($value) && $key === 'class') {
-            return 'class="'.implode(' ', $value).'"';
+        if (\is_array($value) && $key === 'class') {
+            return 'class="'.\implode(' ', $value).'"';
         }
 
-        if (! is_null($value)) {
+        if (! \is_null($value)) {
             return $key.'="'.$this->entities($value).'"';
         }
 
         return null;
-    }
-
-    /**
-     * Obfuscate a string to prevent spam-bots from sniffing it.
-     *
-     * @param string $value
-     *
-     * @return string
-     */
-    public function obfuscate($value)
-    {
-        $safe = '';
-
-        foreach (str_split($value) as $letter) {
-            if (ord($letter) > 128) {
-                return $letter;
-            }
-
-            // To properly obfuscate the value, we will randomly convert each letter to
-            // its entity or hexadecimal representation, keeping a bot from sniffing
-            // the randomly obfuscated letters out of the string on the responses.
-            switch (rand(1, 3)) {
-                case 1:
-                    $safe .= '&#'.ord($letter).';';
-                    break;
-
-                case 2:
-                    $safe .= '&#x'.dechex(ord($letter)).';';
-                    break;
-
-                case 3:
-                    $safe .= $letter;
-            }
-        }
-
-        return $safe;
     }
 
     /**
@@ -528,9 +493,7 @@ class HtmlBuilder
      */
     public function meta(?string $name, $content, array $attributes = []): Htmlable
     {
-        $defaults = compact('name', 'content');
-
-        $attributes = array_merge($defaults, $attributes);
+        $attributes = \array_merge(\compact('name', 'content'), $attributes);
 
         return $this->toHtmlString('<meta'.$this->attributes($attributes).'>');
     }
@@ -546,7 +509,7 @@ class HtmlBuilder
      */
     public function tag(string $tag, $content, array $attributes = []): string
     {
-        $content = is_array($content) ? implode('', $content) : $content;
+        $content = \is_array($content) ? \implode('', $content) : $content;
 
         return $this->toHtmlString('<'.$tag.$this->attributes($attributes).'>'.$this->toHtmlString($content).'</'.$tag.'>');
     }
