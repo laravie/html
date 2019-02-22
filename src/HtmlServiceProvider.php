@@ -3,16 +3,10 @@
 namespace Collective\Html;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class HtmlServiceProvider extends ServiceProvider
+class HtmlServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
     /**
      * Register the service provider.
      *

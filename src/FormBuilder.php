@@ -93,7 +93,7 @@ class FormBuilder
      */
     public function token(): Htmlable
     {
-        if (empty($this->csrfToken) && ! is_null($this->session)) {
+        if (empty($this->csrfToken) && ! \is_null($this->session)) {
             $this->csrfToken = $this->session->token();
         }
 
@@ -167,7 +167,7 @@ class FormBuilder
      */
     protected function formatLabel(string $name, ?string $value): string
     {
-        return $value ?? ucwords(str_replace('_', ' ', $name));
+        return $value ?? \ucwords(\str_replace('_', ' ', $name));
     }
 
     /**
@@ -179,7 +179,7 @@ class FormBuilder
      */
     protected function missingOldAndModel(string $name): bool
     {
-        return is_null($this->old($name)) && is_null($this->getModelValueAttribute($name));
+        return \is_null($this->old($name)) && \is_null($this->getModelValueAttribute($name));
     }
 
     /**
@@ -233,7 +233,7 @@ class FormBuilder
      */
     public function button(?string $value = null, array $options = [], bool $escape = true): Htmlable
     {
-        if (! array_key_exists('type', $options)) {
+        if (! \array_key_exists('type', $options)) {
             $options['type'] = 'button';
         }
 
@@ -254,11 +254,11 @@ class FormBuilder
      */
     public function getIdAttribute(?string $name, array $attributes): ?string
     {
-        if (array_key_exists('id', $attributes)) {
+        if (\array_key_exists('id', $attributes)) {
             return $attributes['id'];
         }
 
-        if (in_array($name, $this->labels)) {
+        if (\in_array($name, $this->labels)) {
             return $name;
         }
 
@@ -275,32 +275,30 @@ class FormBuilder
      */
     public function getValueAttribute(?string $name, $value = null)
     {
-        if (is_null($name)) {
+        if (\is_null($name)) {
             return $value;
         }
 
-        if (! is_null($old = $this->old($name)) && $name !== '_method') {
+        if (! \is_null($old = $this->old($name)) && $name !== '_method') {
             return $old;
         }
 
-        if (class_exists(Kernel::class, false)) {
-            $hasNullMiddleware = app(Kernel::class)->hasMiddleware(ConvertEmptyStringsToNull::class);
+        if (\class_exists(Kernel::class, false)) {
+            $hasNullMiddleware = \app(Kernel::class)->hasMiddleware(ConvertEmptyStringsToNull::class);
 
-            if ($hasNullMiddleware
-                && is_null($old)
-                && is_null($value)
-                && ! is_null($this->view->shared('errors'))
-                && count($this->view->shared('errors')) > 0
+            if ($hasNullMiddleware && \is_null($old) && \is_null($value)
+                && ! \is_null($this->view->shared('errors'))
+                && \count($this->view->shared('errors')) > 0
             ) {
                 return null;
             }
         }
 
-        if (! is_null($request = $this->request($name)) && $name !== '_method') {
+        if (! \is_null($request = $this->request($name)) && $name !== '_method') {
             return $request;
         }
 
-        if (! is_null($value)) {
+        if (! \is_null($value)) {
             return $value;
         }
 
@@ -314,15 +312,11 @@ class FormBuilder
      *
      * @param string $name
      *
-     * @return array|null|string
+     * @return array|string|null
      */
     protected function request(string $name)
     {
-        if (! $this->considerRequest) {
-            return null;
-        }
-
-        if (! isset($this->request)) {
+        if (! $this->considerRequest || ! isset($this->request)) {
             return null;
         }
 
@@ -338,11 +332,11 @@ class FormBuilder
      */
     protected function getModelValueAttribute(string $name)
     {
-        if (method_exists($this->model, 'getFormValue')) {
+        if (\method_exists($this->model, 'getFormValue')) {
             return $this->model->getFormValue($this->transformKey($name));
         }
 
-        return data_get($this->model, $this->transformKey($name));
+        return \data_get($this->model, $this->transformKey($name));
     }
 
     /**
@@ -354,7 +348,7 @@ class FormBuilder
      */
     protected function transformKey(string $key): string
     {
-        return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $key);
+        return \str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $key);
     }
 
     /**

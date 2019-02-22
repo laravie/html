@@ -31,15 +31,15 @@ class BladeServiceProvider extends ServiceProvider
     {
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
             $namespaces = [
-                'Html' => get_class_methods(HtmlBuilder::class),
-                'Form' => get_class_methods(FormBuilder::class),
+                'Html' => \get_class_methods(HtmlBuilder::class),
+                'Form' => \get_class_methods(FormBuilder::class),
             ];
 
             foreach ($namespaces as $namespace => $methods) {
                 foreach ($methods as $method) {
-                    if (in_array($method, $this->directives)) {
+                    if (\in_array($method, $this->directives)) {
                         $snakeMethod = Str::snake($method);
-                        $directive = strtolower($namespace).'_'.$snakeMethod;
+                        $directive = \strtolower($namespace).'_'.$snakeMethod;
 
                         $bladeCompiler->directive($directive, function ($expression) use ($namespace, $method) {
                             return "<?php echo $namespace::$method($expression); ?>";

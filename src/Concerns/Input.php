@@ -33,16 +33,16 @@ trait Input
         // in the model instance if one is set. Otherwise we will just use empty.
         $id = $this->getIdAttribute($name, $options);
 
-        if (! in_array($type, $this->skipValueTypes)) {
+        if (! \in_array($type, $this->skipValueTypes)) {
             $value = $this->getValueAttribute($name, $value);
         }
 
         // Once we have the type, value, and ID we can merge them into the rest of the
         // attributes array so we can convert them into their HTML attribute format
         // when creating the HTML element. Then, we will return the entire input.
-        $merge = compact('type', 'value', 'id');
+        $merge = \compact('type', 'value', 'id');
 
-        $options = array_merge($options, $merge);
+        $options = \array_merge($options, $merge);
 
         return $this->toHtmlString('<input'.$this->html->attributes($options).'>');
     }
@@ -362,7 +362,7 @@ trait Input
 
         $rows = $options['rows'] ?? 10;
 
-        return array_merge($options, compact('cols', 'rows'));
+        return \array_merge($options, \compact('cols', 'rows'));
     }
 
     /**
@@ -374,9 +374,9 @@ trait Input
      */
     protected function setQuickTextAreaSize(array $options): array
     {
-        $segments = explode('x', $options['size']);
+        $segments = \explode('x', $options['size']);
 
-        return array_merge($options, ['cols' => $segments[0], 'rows' => $segments[1]]);
+        return \array_merge($options, ['cols' => $segments[0], 'rows' => $segments[1]]);
     }
 
     /**

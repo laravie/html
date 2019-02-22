@@ -69,7 +69,7 @@ trait Selection
         // build out a final select statement, which will contain all the values.
         $options = $this->getHtmlBuilder()->attributes($selectAttributes);
 
-        $list = implode('', $html);
+        $list = \implode('', $html);
 
         return $this->toHtmlString("<select{$options}>{$list}</select>");
     }
@@ -102,7 +102,7 @@ trait Selection
 
         $attributes = $this->getHtmlBuilder()->attributes($attributes);
 
-        $list = implode('', $html);
+        $list = \implode('', $html);
 
         return $this->toHtmlString("<datalist{$attributes}>{$list}</datalist>");
     }
@@ -125,7 +125,7 @@ trait Selection
         array $attributes = [],
         array $optgroups = []
     ): Htmlable {
-        if (is_iterable($display)) {
+        if (\is_iterable($display)) {
             return $this->optionGroup($display, $value, $selected, $optgroups, $attributes);
         }
 
@@ -153,10 +153,10 @@ trait Selection
         int $level = 0
     ): Htmlable {
         $html  = [];
-        $space = str_repeat('&nbsp;', $level);
+        $space = \str_repeat('&nbsp;', $level);
 
         foreach ($list as $value => $display) {
-            if (is_iterable($display)) {
+            if (\is_iterable($display)) {
                 $html[] = $this->option(
                     $display, $value, $selected, $optionsAttributes[$value] ?? [], $level + 5
                 );
@@ -167,11 +167,11 @@ trait Selection
             }
         }
 
-        return $this->toHtmlString(sprintf(
+        return $this->toHtmlString(\sprintf(
             '<optgroup label="%s"%s>%s</optgroup>',
             $this->entities($label),
             $this->getHtmlBuilder()->attributes($attributes),
-            implode('', $html)
+            \implode('', $html)
         ));
     }
 
@@ -197,7 +197,7 @@ trait Selection
 
         $options = ['value' => $value, 'selected' => $selected] + $attributes;
 
-        return $this->toHtmlString(sprintf(
+        return $this->toHtmlString(\sprintf(
             '<option%s>%s</option>',
             $this->getHtmlBuilder()->attributes($options),
             $this->entities($display)
@@ -217,10 +217,10 @@ trait Selection
         $options = [
             'selected' => $this->getSelectedValue(null, $selected),
             'disabled' => true,
-            'value' => '',
+            'value'    => '',
         ];
 
-        return $this->toHtmlString(sprintf(
+        return $this->toHtmlString(\sprintf(
             '<option%s>%s</option>',
             $this->getHtmlBuilder()->attributes($options),
             $this->entities($display)
@@ -239,8 +239,8 @@ trait Selection
     {
         $selection = $selected instanceof Arrayable ? $selected->toArray() : $selected;
 
-        if (is_array($selection)) {
-            if (in_array($value, $selection, true) || in_array((string) $value, $selection, true)) {
+        if (\is_array($selection)) {
+            if (\in_array($value, $selection, true) || \in_array((string) $value, $selection, true)) {
                 return 'selected';
             } elseif ($selected instanceof Collection) {
                 return $selected->contains($value) ? 'selected' : null;
@@ -249,7 +249,7 @@ trait Selection
             return null;
         }
 
-        if (is_int($value) && is_bool($selected)) {
+        if (\is_int($value) && \is_bool($selected)) {
             return (bool) $value === $selected;
         }
 
@@ -269,7 +269,7 @@ trait Selection
      */
     public function selectRange(string $name, $begin, $end, $selected = null, array $options = []): Htmlable
     {
-        $range = array_combine($range = range($begin, $end), $range);
+        $range = \array_combine($range = \range($begin, $end), $range);
 
         return $this->select($name, $range, $selected, $options);
     }
@@ -304,8 +304,8 @@ trait Selection
     {
         $months = [];
 
-        foreach (range(1, 12) as $month) {
-            $months[$month] = ucfirst(strftime($format, mktime(0, 0, 0, $month, 1)));
+        foreach (\range(1, 12) as $month) {
+            $months[$month] = \ucfirst(\strftime($format, \mktime(0, 0, 0, $month, 1)));
         }
 
         return $this->select($name, $months, $selected, $options);
@@ -324,7 +324,7 @@ trait Selection
     /**
      * Get html builder.
      *
-     * @return \Collective\Html\\HtmlBuilder
+     * @return \Collective\Html\HtmlBuilder
      */
     abstract public function getHtmlBuilder(): HtmlBuilder;
 

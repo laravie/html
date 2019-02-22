@@ -2,7 +2,7 @@
 
 use Illuminate\Contracts\Support\Htmlable;
 
-if (! function_exists('link_to')) {
+if (! \function_exists('link_to')) {
     /**
      * Generate a HTML link.
      *
@@ -16,11 +16,11 @@ if (! function_exists('link_to')) {
      */
     function link_to(string $url, ?string $title = null, array $attributes = [], ?bool $secure = null, bool $escape = true): Htmlable
     {
-        return app('html')->link($url, $title, $attributes, $secure, $escape);
+        return \app('html')->link($url, $title, $attributes, $secure, $escape);
     }
 }
 
-if (! function_exists('link_to_asset')) {
+if (! \function_exists('link_to_asset')) {
     /**
      * Generate a HTML link to an asset.
      *
@@ -33,11 +33,11 @@ if (! function_exists('link_to_asset')) {
      */
     function link_to_asset(string $url, ?string $title = null, array $attributes = [], ?bool $secure = null): Htmlable
     {
-        return app('html')->linkAsset($url, $title, $attributes, $secure);
+        return \app('html')->linkAsset($url, $title, $attributes, $secure);
     }
 }
 
-if (! function_exists('link_to_route')) {
+if (! \function_exists('link_to_route')) {
     /**
      * Generate a HTML link to a named route.
      *
@@ -50,11 +50,11 @@ if (! function_exists('link_to_route')) {
      */
     function link_to_route(string $name, ?string $title = null, array $parameters = [], array $attributes = []): Htmlable
     {
-        return app('html')->linkRoute($name, $title, $parameters, $attributes);
+        return \app('html')->linkRoute($name, $title, $parameters, $attributes);
     }
 }
 
-if (! function_exists('link_to_action')) {
+if (! \function_exists('link_to_action')) {
     /**
      * Generate a HTML link to a controller action.
      *
@@ -67,6 +67,6 @@ if (! function_exists('link_to_action')) {
      */
     function link_to_action(string $action, ?string $title = null, array $parameters = [], array $attributes = []): Htmlable
     {
-        return app('html')->linkAction($action, $title, $parameters, $attributes);
+        return \app('html')->linkAction($action, $title, $parameters, $attributes);
     }
 }

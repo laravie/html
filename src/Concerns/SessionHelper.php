@@ -2,6 +2,7 @@
 
 namespace Collective\Html\Concerns;
 
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Session\Session;
 
 trait SessionHelper
@@ -36,13 +37,13 @@ trait SessionHelper
         $key     = $this->transformKey($name);
         $payload = $this->session->getOldInput($key);
 
-        if (! is_array($payload)) {
+        if (! \is_array($payload)) {
             return $payload;
         }
 
-        if (! in_array($this->type, ['select', 'checkbox'])) {
+        if (! \in_array($this->type, ['select', 'checkbox'])) {
             if (! isset($this->payload[$key])) {
-                $this->payload[$key] = collect($payload);
+                $this->payload[$key] = Collection::make($payload);
             }
 
             if (! empty($this->payload[$key])) {
@@ -62,7 +63,7 @@ trait SessionHelper
      */
     public function oldInputIsEmpty(): bool
     {
-        return isset($this->session) && count((array) $this->session->getOldInput()) === 0;
+        return isset($this->session) && \count((array) $this->session->getOldInput()) === 0;
     }
 
     /**

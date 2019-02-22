@@ -28,8 +28,8 @@ trait FormAccessible
         // If the attribute is listed as a date, we will convert it to a DateTime
         // instance on retrieval, which makes it quite convenient to work with
         // date fields without having to create a mutator for each property.
-        if (in_array($key, $this->getDates())) {
-            if (! is_null($value)) {
+        if (\in_array($key, $this->getDates())) {
+            if (! \is_null($value)) {
                 $value = $this->asDateTime($value);
             }
         }
@@ -41,23 +41,23 @@ trait FormAccessible
             return $this->mutateFormAttribute($key, $value);
         }
 
-        $keys = explode('.', $key);
+        $keys = \explode('.', $key);
 
         if ($this->isNestedModel($keys[0])) {
             $relatedModel = $this->getRelation($keys[0]);
 
             unset($keys[0]);
-            $key = implode('.', $keys);
+            $key = \implode('.', $keys);
 
-            if (method_exists($relatedModel, 'hasFormMutator') && $key !== '' && $relatedModel->hasFormMutator($key)) {
+            if (\method_exists($relatedModel, 'hasFormMutator') && $key !== '' && $relatedModel->hasFormMutator($key)) {
                 return $relatedModel->getFormValue($key);
             }
 
-            return data_get($relatedModel, empty($key) ? null : $key);
+            return \data_get($relatedModel, empty($key) ? null : $key);
         }
 
         // No form mutator, let the model resolve this
-        return data_get($this, $key);
+        return \data_get($this, $key);
     }
 
     /**
@@ -69,7 +69,7 @@ trait FormAccessible
      */
     public function isNestedModel(string $key): bool
     {
-        return in_array($key, array_keys($this->getRelations()));
+        return \in_array($key, \array_keys($this->getRelations()));
     }
 
     /**
@@ -81,7 +81,7 @@ trait FormAccessible
      */
     public function hasFormMutator(string $key): bool
     {
-        return method_exists($this, 'form'.Str::studly($key).'Attribute');
+        return \method_exists($this, 'form'.Str::studly($key).'Attribute');
     }
 
     /**
