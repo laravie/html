@@ -5,8 +5,9 @@ namespace Collective\Html;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use Illuminate\Contracts\Support\RegistrableProvider;
 
-class BladeServiceProvider extends ServiceProvider
+class BladeServiceProvider extends ServiceProvider implements RegistrableProvider
 {
     /**
      * Supported Blade Directives.
