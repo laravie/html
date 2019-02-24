@@ -4,9 +4,8 @@ namespace Collective\Html;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Contracts\Support\RegistrableProvider;
 
-class HtmlServiceProvider extends ServiceProvider implements DeferrableProvider, RegistrableProvider
+class HtmlServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register the service provider.
