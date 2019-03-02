@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.8.0
+
+Released: 2019-02-26
+
+### Changes
+
+* Update support to Laravel Framework 5.8.
+* Improve performance by prefixing all global functions calls with `\` to skip the look up and resolve process and go straight to the global function. 
+
 ## 5.7.1
 
 Released: 2019-02-19
