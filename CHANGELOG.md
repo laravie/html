@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.8.1
+
+Released: 2019-03-09
+
+### Changes
+
+* Proritize given `$attributes` for `Html::favicon()` instead of the defaults.
+
 ## 5.8.0
 
 Released: 2019-02-26
