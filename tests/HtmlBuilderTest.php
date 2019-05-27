@@ -96,7 +96,7 @@ class HtmlBuilderTest extends TestCase
     {
         $result = $this->htmlBuilder->meta(null, 'website', ['property' => 'og:type']);
 
-        $this->assertEquals('<meta content="website" property="og:type">', $result);
+        $this->assertEquals('<meta property="og:type" content="website">', $result);
     }
 
     public function testFavicon()

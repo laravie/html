@@ -40,9 +40,10 @@ trait Input
         // Once we have the type, value, and ID we can merge them into the rest of the
         // attributes array so we can convert them into their HTML attribute format
         // when creating the HTML element. Then, we will return the entire input.
-        $merge = \compact('type', 'value', 'id');
 
-        $options = \array_merge($options, $merge);
+        $options['type'] = $type;
+        $options['value'] = $value;
+        $options['id'] = $id;
 
         return $this->toHtmlString('<input'.$this->html->attributes($options).'>');
     }
@@ -358,11 +359,11 @@ trait Input
         // If the "size" attribute was not specified, we will just look for the regular
         // columns and rows attributes, using sane defaults if these do not exist on
         // the attributes array. We'll then return this entire options array back.
-        $cols = $options['cols'] ?? 50;
+        $options['cols'] = $options['cols'] ?? 50;
 
-        $rows = $options['rows'] ?? 10;
+        $options['rows'] = $options['rows'] ?? 10;
 
-        return \array_merge($options, \compact('cols', 'rows'));
+        return $options;
     }
 
     /**
@@ -376,7 +377,10 @@ trait Input
     {
         $segments = \explode('x', $options['size']);
 
-        return \array_merge($options, ['cols' => $segments[0], 'rows' => $segments[1]]);
+        $options['cols'] = $segments[0];
+        $options['rows'] = $segments[1];
+
+        return $options;
     }
 
     /**
