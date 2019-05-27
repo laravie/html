@@ -8,13 +8,6 @@ use Illuminate\Support\Str;
 trait FormAccessible
 {
     /**
-     * A cached ReflectionClass instance for $this.
-     *
-     * @var \ReflectionClass
-     */
-    protected $reflection;
-
-    /**
      * Get form value.
      *
      * @param string $key
