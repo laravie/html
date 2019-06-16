@@ -39,7 +39,7 @@
         "illuminate/view": "~5.9.0"
     },
     "require-dev": {
-        "mockery/mockery": "^1.0",
+        "mockery/mockery": "^1.2",
         "orchestra/testbench": "~3.9.0"
     },
     "replace": {
