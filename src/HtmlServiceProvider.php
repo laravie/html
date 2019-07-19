@@ -29,7 +29,7 @@ class HtmlServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     protected function registerHtmlBuilder(): void
     {
-        $this->app->singleton('html', function ($app) {
+        $this->app->singleton('html', static function ($app) {
             return new HtmlBuilder(
                 $app->make('url'), $app->make('view')
             );
@@ -43,7 +43,7 @@ class HtmlServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     protected function registerFormBuilder(): void
     {
-        $this->app->singleton('form', function ($app) {
+        $this->app->singleton('form', static function ($app) {
             return (new FormBuilder(
                 $app->make('html'), $app->make('url'), $app->make('view'), $app->make('request')
             ))->setSessionStore($app->make('session.store'));
