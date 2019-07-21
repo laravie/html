@@ -41,7 +41,7 @@ class BladeServiceProvider extends ServiceProvider
                         $snakeMethod = Str::snake($method);
                         $directive = \strtolower($namespace).'_'.$snakeMethod;
 
-                        $bladeCompiler->directive($directive, function ($expression) use ($namespace, $method) {
+                        $bladeCompiler->directive($directive, static function ($expression) use ($namespace, $method) {
                             return "<?php echo $namespace::$method($expression); ?>";
                         });
                     }
