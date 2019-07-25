@@ -40,14 +40,14 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.2",
-        "orchestra/testbench": "~3.10.0"
+        "orchestra/testbench": "^4.0"
     },
     "replace": {
         "laravelcollective/html": "*"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.10-dev"
+            "dev-master": "6.0-dev"
         }
     },
     "config": {
