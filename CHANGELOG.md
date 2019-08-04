@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 5.8.2
+
+Releases: 2019-08-04 
+
+### Changes
+
+* Use `static function` rather than `function` whenever possible, the PHP engine does not need to instantiate and later GC a `$this` variable for said closure.
+
 ## 5.8.1
 
 Released: 2019-03-09
