@@ -32,22 +32,22 @@
     },
     "require": {
         "php": ">=7.2",
-        "illuminate/http": "^6.0",
-        "illuminate/routing": "^6.0",
-        "illuminate/session": "^6.0",
-        "illuminate/support": "^6.0",
-        "illuminate/view": "^6.0"
+        "illuminate/http": "^7.0",
+        "illuminate/routing": "^7.0",
+        "illuminate/session": "^7.0",
+        "illuminate/support": "^7.0",
+        "illuminate/view": "^7.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.2",
-        "orchestra/testbench": "^4.0"
+        "orchestra/testbench": "^5.0"
     },
     "replace": {
         "laravelcollective/html": "*"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "6.0-dev"
+            "dev-master": "7.0-dev"
         }
     },
     "config": {
