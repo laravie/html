@@ -30,7 +30,7 @@ Begin by installing this package through Composer. Edit your project's `composer
 
 ```json
 "require": {
-    "laravie/html": "^5.5"
+    "laravie/html": "^6.0"
 }
 ```
 
