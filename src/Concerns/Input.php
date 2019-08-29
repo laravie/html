@@ -41,9 +41,9 @@ trait Input
         // attributes array so we can convert them into their HTML attribute format
         // when creating the HTML element. Then, we will return the entire input.
 
-        $options['type'] = $type;
+        $options['type']  = $type;
         $options['value'] = $value;
-        $options['id'] = $id;
+        $options['id']    = $id;
 
         return $this->toHtmlString('<input'.$this->html->attributes($options).'>');
     }

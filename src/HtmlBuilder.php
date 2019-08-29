@@ -493,7 +493,7 @@ class HtmlBuilder
      */
     public function meta(?string $name, $content, array $attributes = []): Htmlable
     {
-        $attributes['name'] = $name;
+        $attributes['name']    = $name;
         $attributes['content'] = $content;
 
         return $this->toHtmlString('<meta'.$this->attributes($attributes).'>');
