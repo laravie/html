@@ -288,7 +288,7 @@ class FormBuilder
 
             if ($hasNullMiddleware && \is_null($old) && \is_null($value)
                 && ! \is_null($this->view->shared('errors'))
-                && \count($this->view->shared('errors')) > 0
+                && \count(\php_sapi_name() === 'cli' ? [] : $this->view->shared('errors')) > 0
             ) {
                 return null;
             }
