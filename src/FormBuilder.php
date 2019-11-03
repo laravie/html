@@ -288,7 +288,7 @@ class FormBuilder
 
             if ($hasNullMiddleware && \is_null($old) && \is_null($value)
                 && ! \is_null($this->view->shared('errors'))
-                && \count(\php_sapi_name() === 'cli' ? [] : $this->view->shared('errors')) > 0
+                && \count(\is_countable($this->view->shared('errors')) ? $this->view->shared('errors') : []) > 0
             ) {
                 return null;
             }
@@ -332,11 +332,13 @@ class FormBuilder
      */
     protected function getModelValueAttribute(string $name)
     {
+        $key = $this->transformKey($name);
+
         if (\method_exists($this->model, 'getFormValue')) {
-            return $this->model->getFormValue($this->transformKey($name));
+            return $this->model->getFormValue($key);
         }
 
-        return \data_get($this->model, $this->transformKey($name));
+        return \data_get($this->model, $key);
     }
 
     /**
