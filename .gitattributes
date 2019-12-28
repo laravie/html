@@ -1,6 +1,7 @@
 * text=auto
 
 # Ignore following folder/file.
+/.github export-ignore
 /tests export-ignore
 /.coveralls.yml export-ignore
 /.editorconfig export-ignore
@@ -10,6 +11,8 @@
 /.scrutinizer.yml export-ignore
 /.travis.yml export-ignore
 /CHANGELOG-*.md export-ignore
+/CODE_OF_CONDUCT.md export-ignore
+/CONTRIBUTING.md export-ignore
 /LICENSE export-ignore
 /phpunit.xml export-ignore
 /README.md export-ignore
