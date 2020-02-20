@@ -1,6 +1,6 @@
 # Forms & HTML
 
-[![Build Status](https://travis-ci.org/laravie/html.svg?branch=master)](https://travis-ci.org/laravie/html)
+[![Build Status](https://travis-ci.org/laravie/html.svg?branch=7.x)](https://travis-ci.org/laravie/html)
 [![Total Downloads](https://poser.pugx.org/laravie/html/downloads)](https://packagist.org/packages/laravie/html)
 [![Latest Stable Version](https://poser.pugx.org/laravie/html/v/stable.svg)](https://packagist.org/packages/laravie/html)
 [![Latest Unstable Version](https://poser.pugx.org/laravie/html/v/unstable.svg)](https://packagist.org/packages/laravie/html)
@@ -30,7 +30,7 @@ Begin by installing this package through Composer. Edit your project's `composer
 
 ```json
 "require": {
-    "laravie/html": "^6.0"
+    "laravie/html": "^7.0"
 }
 ```
 
