@@ -11,8 +11,8 @@ env:
     - coverage=no
   matrix:
     - setup=basic
-    - setup=lowest
     - setup=stable
+    - setup=lowest
 
 before_script:
   - travis_retry composer self-update
