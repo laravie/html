@@ -4,7 +4,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 7.0.0
 
-*Unreleased*
+Released: 2020-03-03
 
 ### Changes
 
