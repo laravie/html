@@ -7,15 +7,22 @@ php:
 
 env:
   global:
+    - setup=basic
     - coverage=no
   matrix:
-    - setup=basic
-    - setup=stable
-    - setup=lowest
+    - laravel=^7.0
+    - laravel=^8.0
+    - setup=stable laravel=^7.0
+    - setup=stable laravel=^8.0
+    - setup=lowest laravel=^7.0
+    - setup=lowest laravel=^8.0
 
-before_script:
+before_install:
   - travis_retry composer self-update
   - composer config discard-changes true
+
+before_script:
+  - composer require "laravel/framework=${laravel}" --prefer-dist --no-interaction --no-suggest
   - if [[ $setup = 'basic' ]]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest; fi
   - if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-stable; fi
   - if [[ $setup = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-lowest --prefer-stable; fi
@@ -30,6 +37,12 @@ after_script:
 
 matrix:
   include:
+    - php: 7.2
+      env: laravel=^7.0
+    - php: 7.2
+      env: setup=stable laravel=^7.0
+    - php: 7.2
+      env: setup=lowest laravel=^7.0
     - php: 7.3
       env: setup=coveralls coverage=yes
   allow_failures:
