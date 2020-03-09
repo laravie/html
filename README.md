@@ -26,17 +26,9 @@
 <a name="installation"></a>
 ## Installation
 
-Begin by installing this package through Composer. Edit your project's `composer.json` file to require `laravie/html`.
+To install through composer, run the following command from terminal:
 
-```json
-"require": {
-    "laravie/html": "^7.0"
-}
-```
-
-Next, update Composer from the Terminal:
-
-    composer update
+    composer require "laravie/html"
 
 Next, add your new provider to the `providers` array of `config/app.php`:
 
