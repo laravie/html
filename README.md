@@ -295,7 +295,17 @@ echo Form::selectMonth('month');
 echo Form::submit('Click Me!');
 ```
 
-> **Note:** Need to create a button element? Try the *button* method. It has the same signature as *submit*.
+#### Generating A Button
+
+```php
+echo Form::button('Click Me!');
+```
+
+> **Note:** Default value for third parameter is true. As default, any value that you pass will be escaped.
+
+```php
+echo Form::button('<i class="fa fa-trash><i> Destroy"', ['class' => 'btn btn-danger'], false);
+```
 
 <a name="custom-macros"></a>
 ## Custom Macros
