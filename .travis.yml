@@ -44,7 +44,7 @@ matrix:
     - php: 7.2
       env: setup=lowest laravel=^7.0
     - php: 7.3
-      env: setup=coveralls coverage=yes
+      env: setup=coveralls coverage=yes laravel=^7.0
   allow_failures:
     - php: nightly
     - env: setup=coveralls coverage=yes
