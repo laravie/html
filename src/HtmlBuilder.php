@@ -159,8 +159,13 @@ class HtmlBuilder
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function link(string $url, ?string $title = null, array $attributes = [], ?bool $secure = null, bool $escape = true): Htmlable
-    {
+    public function link(
+        string $url,
+        ?string $title = null,
+        array $attributes = [],
+        ?bool $secure = null,
+        bool $escape = true
+    ): Htmlable {
         $url = $this->url->to($url, [], $secure);
 
         if (\is_null($title) || $title === false) {
@@ -180,12 +185,17 @@ class HtmlBuilder
      * @param  string  $url
      * @param  string|null  $title
      * @param  array  $attributes
+     * @param  bool  $escape
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function secureLink(string $url, ?string $title = null, array $attributes = []): Htmlable
-    {
-        return $this->link($url, $title, $attributes, true);
+    public function secureLink(
+        string $url,
+        ?string $title = null,
+        array $attributes = [],
+        bool $escape = true
+    ): Htmlable {
+        return $this->link($url, $title, $attributes, true, $escape);
     }
 
     /**
@@ -195,14 +205,20 @@ class HtmlBuilder
      * @param  string|null  $title
      * @param  array  $attributes
      * @param  bool|null  $secure
+     * @param  bool  $escape
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function linkAsset(string $url, ?string $title = null, array $attributes = [], ?bool $secure = null): Htmlable
-    {
+    public function linkAsset(
+        string $url,
+        ?string $title = null,
+        array $attributes = [],
+        ?bool $secure = null,
+        bool $escape = true
+    ): Htmlable {
         $url = $this->url->asset($url, $secure);
 
-        return $this->link($url, $title ?: $url, $attributes, $secure);
+        return $this->link($url, $title ?: $url, $attributes, $secure, $escape);
     }
 
     /**
@@ -211,12 +227,17 @@ class HtmlBuilder
      * @param  string  $url
      * @param  string|null  $title
      * @param  array  $attributes
+     * @param bool   $escape
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function linkSecureAsset(string $url, ?string $title = null, array $attributes = []): Htmlable
-    {
-        return $this->linkAsset($url, $title, $attributes, true);
+    public function linkSecureAsset(
+        string $url,
+        ?string $title = null,
+        array $attributes = [],
+        bool $escape = true
+    ): Htmlable {
+        return $this->linkAsset($url, $title, $attributes, true, $escape);
     }
 
     /**
@@ -226,12 +247,18 @@ class HtmlBuilder
      * @param  string|null  $title
      * @param  array  $parameters
      * @param  array  $attributes
+     * @param bool   $escape
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function linkRoute(string $name, ?string $title = null, array $parameters = [], array $attributes = []): Htmlable
-    {
-        return $this->link($this->url->route($name, $parameters), $title, $attributes);
+    public function linkRoute(
+        string $name,
+        ?string $title = null,
+        array $parameters = [],
+        array $attributes = [],
+        bool $escape = true
+    ): Htmlable {
+        return $this->link($this->url->route($name, $parameters), $title, $attributes, $secure, $escape);
     }
 
     /**
@@ -241,12 +268,18 @@ class HtmlBuilder
      * @param  string|null  $title
      * @param  array  $parameters
      * @param  array  $attributes
+     * @param  bool  $escape
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function linkAction(string $action, ?string $title = null, array $parameters = [], array $attributes = []): Htmlable
-    {
-        return $this->link($this->url->action($action, $parameters), $title, $attributes);
+    public function linkAction(
+        string $action,
+        ?string $title = null,
+        array $parameters = [],
+        array $attributes = [],
+        bool $escape = true
+    ): Htmlable {
+        return $this->link($this->url->action($action, $parameters), $title, $attributes, $secure, $escape);
     }
 
     /**
