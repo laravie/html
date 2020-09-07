@@ -2,6 +2,7 @@
 
 use Mockery as m;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Session\Store;
 use PHPUnit\Framework\TestCase;
 use Collective\Html\FormBuilder;
@@ -9,8 +10,6 @@ use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Collection;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCollection;
 
 class FormBuilderTest extends TestCase
