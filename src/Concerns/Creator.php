@@ -227,9 +227,9 @@ trait Creator
     /**
      * Generate a hidden field with the current CSRF token.
      *
-     * @return string
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    abstract public function token(): string;
+    abstract public function token(): Htmlable;
 
     /**
      * Get html builder.
