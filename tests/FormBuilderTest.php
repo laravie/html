@@ -938,10 +938,17 @@ class FormBuilderTest extends TestCase
     {
         if ($object) {
             $data = new FormBuilderModelStub($data);
+        } else {
+            $data = new Eloquent($data);
         }
 
         $this->formBuilder->model($data, ['method' => 'GET']);
     }
+}
+
+class Eloquent extends \Illuminate\Database\Eloquent\Model
+{
+    //
 }
 
 class FormBuilderModelStub
