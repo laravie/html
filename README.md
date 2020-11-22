@@ -1,6 +1,6 @@
 # Forms & HTML
 
-[![Build Status](https://travis-ci.org/laravie/html.svg?branch=master)](https://travis-ci.org/laravie/html)
+[![tests](https://github.com/laravie/html/workflows/tests/badge.svg?branch=7.x)](https://github.com/laravie/html/actions?query=workflow%3Atests+branch%3A7.x)
 [![Total Downloads](https://poser.pugx.org/laravie/html/downloads)](https://packagist.org/packages/laravie/html)
 [![Latest Stable Version](https://poser.pugx.org/laravie/html/v/stable.svg)](https://packagist.org/packages/laravie/html)
 [![Latest Unstable Version](https://poser.pugx.org/laravie/html/v/unstable.svg)](https://packagist.org/packages/laravie/html)
@@ -35,7 +35,7 @@ Next, add your new provider to the `providers` array of `config/app.php`:
 ```php
 
 'providers' => [
-    
+
     // ...
 
     Collective\Html\HtmlServiceProvider::class,
@@ -48,9 +48,9 @@ Finally, add two class aliases to the `aliases` array of `config/app.php`:
 ```php
 
 'aliases' => [
-    
+
     // ...
-    
+
     'Form' => Collective\Html\FormFacade::class,
     'Html' => Collective\Html\HtmlFacade::class,
 
