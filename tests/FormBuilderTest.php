@@ -271,7 +271,7 @@ class FormBuilderTest extends TestCase
 
     public function testFormRepopulationWithMixOfArraysAndObjects()
     {
-        $this->formBuilder->model(['user' => new User(['password' => 'apple'])]);
+        $this->setModel(['user' => ['password' => 'apple']]);
         $input = $this->formBuilder->text('user[password]');
         $this->assertEquals('<input name="user[password]" type="text" value="apple">', $input);
 
