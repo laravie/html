@@ -332,6 +332,10 @@ class FormBuilder
      */
     protected function getModelValueAttribute(string $name)
     {
+        if (! isset($this->model)) {
+            return null;
+        }
+
         $key = $this->transformKey($name);
 
         if (\method_exists($this->model, 'getFormValue')) {
