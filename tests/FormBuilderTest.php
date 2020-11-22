@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Collective\Html\FormBuilder;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Collection;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Routing\RouteCollection;
@@ -270,7 +271,7 @@ class FormBuilderTest extends TestCase
 
     public function testFormRepopulationWithMixOfArraysAndObjects()
     {
-        $this->formBuilder->model(['user' => (object) ['password' => 'apple']]);
+        $this->formBuilder->model(['user' => new User(['password' => 'apple'])]);
         $input = $this->formBuilder->text('user[password]');
         $this->assertEquals('<input name="user[password]" type="text" value="apple">', $input);
 
