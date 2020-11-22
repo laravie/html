@@ -4,6 +4,7 @@ namespace Collective\Html\Concerns;
 
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Contracts\Support\Htmlable;
 
 trait SessionHelper
 {
@@ -93,9 +94,9 @@ trait SessionHelper
     /**
      * Generate a hidden field with the current CSRF token.
      *
-     * @return string
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    abstract public function token(): string;
+    abstract public function token(): Htmlable;
 
     /**
      * Transform key from array to dot syntax.
