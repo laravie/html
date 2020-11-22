@@ -18,12 +18,12 @@ jobs:
         php:
           - "7.3"
           - "7.4"
+          - "8.0"
         dependencies:
           - "locked"
           - "highest"
           - "lowest"
         laravel:
-          - "6.x"
           - "7.x"
           - "8.x"
         experimental:
@@ -67,7 +67,6 @@ jobs:
           - "highest"
           - "lowest"
         laravel:
-          - "6.x"
           - "7.x"
         experimental:
           - false
