@@ -343,9 +343,9 @@ trait Selection
      * @param  string  $name
      * @param  array   $attributes
      *
-     * @return string
+     * @return ?string
      */
-    abstract public function getIdAttribute(string $name, array $attributes): string;
+    abstract public function getIdAttribute(string $name, array $attributes): ?string;
 
     /**
      * Get the value that should be assigned to the field.
