@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `laravie/html`.
 
+## 7.2.0
+
+Released: 2020-11-22
+
+### Changes
+
+* Add support for PHP 8.
+
 ## 7.1.0
 
 Released: 2020-09-01
