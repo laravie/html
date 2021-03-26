@@ -256,6 +256,7 @@ class HtmlBuilder
         ?string $title = null,
         array $parameters = [],
         array $attributes = [],
+        ?bool $secure = null,
         bool $escape = true
     ): Htmlable {
         return $this->link($this->url->route($name, $parameters), $title, $attributes, $secure, $escape);
@@ -277,6 +278,7 @@ class HtmlBuilder
         ?string $title = null,
         array $parameters = [],
         array $attributes = [],
+        ?bool $secure = null,
         bool $escape = true
     ): Htmlable {
         return $this->link($this->url->action($action, $parameters), $title, $attributes, $secure, $escape);
