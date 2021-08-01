@@ -6,19 +6,22 @@ use Illuminate\Support\Collection;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Contracts\Support\Htmlable;
 
+/**
+ * @property array  $payload
+ */
 trait SessionHelper
 {
     /**
      * The CSRF token used by the form builder.
      *
-     * @var string
+     * @var string|null
      */
     protected $csrfToken;
 
     /**
      * The session store implementation.
      *
-     * @var \Illuminate\Contracts\Session\Session
+     * @var \Illuminate\Contracts\Session\Session|null
      */
     protected $session;
 

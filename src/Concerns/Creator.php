@@ -114,14 +114,14 @@ trait Creator
         // method spoofer hidden input to the form. This allows us to use regular
         // form to initiate PUT and DELETE requests in addition to the typical.
         if (\in_array($method, $this->spoofedMethods)) {
-            $appendage .= $this->hidden('_method', $method);
+            $appendage .= $this->hidden('_method', $method)->toHtml();
         }
 
         // If the method is something other than GET we will go ahead and attach the
         // CSRF token to the form, as this can't hurt and is convenient to simply
         // always have available on every form the developers creates for them.
         if ($method != 'GET') {
-            $appendage .= $this->token();
+            $appendage .= $this->token()->toHtml();
         }
 
         return $appendage;

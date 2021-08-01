@@ -152,7 +152,7 @@ class HtmlBuilder
      * Generate a HTML link.
      *
      * @param  string  $url
-     * @param  string|null  $title
+     * @param  string|bool|null  $title
      * @param  array  $attributes
      * @param  bool|null  $secure
      * @param  bool  $escape
@@ -161,7 +161,7 @@ class HtmlBuilder
      */
     public function link(
         string $url,
-        ?string $title = null,
+        $title = null,
         array $attributes = [],
         ?bool $secure = null,
         bool $escape = true
@@ -422,15 +422,15 @@ class HtmlBuilder
      * @param  string  $type
      * @param  mixed  $value
      *
-     * @return string
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function listingElement($key, string $type, $value): string
+    protected function listingElement($key, string $type, $value): Htmlable
     {
         if (\is_array($value)) {
             return $this->nestedListing($key, $type, $value);
-        } else {
-            return '<li>'.$this->entities($value).'</li>';
         }
+
+        return $this->toHtmlString('<li>'.$this->entities($value).'</li>');
     }
 
     /**
@@ -440,15 +440,15 @@ class HtmlBuilder
      * @param  string  $type
      * @param  mixed   $value
      *
-     * @return string
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function nestedListing($key, string $type, $value): string
+    protected function nestedListing($key, string $type, $value): Htmlable
     {
         if (\is_int($key)) {
             return $this->listing($type, $value);
-        } else {
-            return '<li>'.$key.$this->listing($type, $value).'</li>';
         }
+
+        return $this->toHtmlString('<li>'.$key.$this->listing($type, $value)->toHtml().'</li>');
     }
 
     /**
@@ -541,19 +541,19 @@ class HtmlBuilder
      * @param  mixed  $content
      * @param  array  $attributes
      *
-     * @return string
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function tag(string $tag, $content, array $attributes = []): string
+    public function tag(string $tag, $content, array $attributes = []): Htmlable
     {
         $content = \is_array($content) ? \implode('', $content) : $content;
 
-        return $this->toHtmlString('<'.$tag.$this->attributes($attributes).'>'.$this->toHtmlString($content).'</'.$tag.'>');
+        return $this->toHtmlString('<'.$tag.$this->attributes($attributes).'>'.$content.'</'.$tag.'>');
     }
 
     /**
      * Transform the string to an Html serializable object.
      *
-     * @param $html
+     * @param  string  $html
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */

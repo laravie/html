@@ -56,7 +56,9 @@ trait Checker
 
         $checked = $this->getCheckedState($type, $name, $value, $checked);
 
-        $checked && $options['checked'] = 'checked';
+        if ($checked) {
+            $options['checked'] = 'checked';
+        }
 
         return $this->input($type, $name, $value, $options);
     }

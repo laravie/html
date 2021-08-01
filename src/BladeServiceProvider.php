@@ -27,7 +27,7 @@ class BladeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function register()
+    public function register()
     {
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
             $namespaces = [

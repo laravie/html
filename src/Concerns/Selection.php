@@ -8,6 +8,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * @property string  $type
+ */
 trait Selection
 {
     /**
@@ -157,8 +160,8 @@ trait Selection
 
         foreach ($list as $value => $display) {
             if (\is_iterable($display)) {
-                $html[] = $this->option(
-                    $display, $value, $selected, $optionsAttributes[$value] ?? [], $level + 5
+                $html[] = $this->optionGroup(
+                    $display, $value, $selected, $attributes, $optionsAttributes[$value] ?? [], $level + 5
                 );
             } else {
                 $html[] = $this->option(
@@ -180,7 +183,7 @@ trait Selection
      *
      * @param  string  $display
      * @param  string  $value
-     * @param  string|array|\Illuminate\Contracts\Support\Arrayable|bool  $selected
+     * @param  string|array|\Illuminate\Contracts\Support\Arrayable|bool|null  $selected
      * @param  array  $attributes
      * @param  array  $optgroups
      *
@@ -230,12 +233,12 @@ trait Selection
     /**
      * Determine if the value is selected.
      *
-     * @param  string|null $value
+     * @param  string|int|bool|null  $value
      * @param  string|array|\Illuminate\Contracts\Support\Arrayable|bool|null  $selected
      *
-     * @return string|null
+     * @return string|bool|null
      */
-    protected function getSelectedValue(?string $value, $selected): ?string
+    protected function getSelectedValue($value, $selected)
     {
         $selection = $selected instanceof Arrayable ? $selected->toArray() : $selected;
 
