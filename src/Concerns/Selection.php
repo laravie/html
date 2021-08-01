@@ -182,7 +182,7 @@ trait Selection
      * Create a select element option.
      *
      * @param  string  $display
-     * @param  string  $value
+     * @param  string|int  $value
      * @param  string|array|\Illuminate\Contracts\Support\Arrayable|bool|null  $selected
      * @param  array  $attributes
      * @param  array  $optgroups
@@ -191,7 +191,7 @@ trait Selection
      */
     protected function option(
         string $display,
-        string $value,
+        $value,
         $selected,
         array $attributes = [],
         array $optgroups = []
@@ -234,7 +234,7 @@ trait Selection
      * Determine if the value is selected.
      *
      * @param  string|int|bool|null  $value
-     * @param  string|array|\Illuminate\Contracts\Support\Arrayable|bool|null  $selected
+     * @param  mixed|null  $selected
      *
      * @return string|bool|null
      */
@@ -308,7 +308,7 @@ trait Selection
         $months = [];
 
         foreach (\range(1, 12) as $month) {
-            $months[$month] = \ucfirst(\strftime($format, \mktime(0, 0, 0, $month, 1)));
+            $months[$month] = \ucfirst((string) \strftime($format, (int) \mktime(0, 0, 0, $month, 1)));
         }
 
         return $this->select($name, $months, $selected, $options);

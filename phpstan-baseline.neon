@@ -1,2 +1,12 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			message: "#^Cannot call method getFormValue\\(\\) on class\\-string\\|object\\.$#"
+			count: 1
+			path: src/FormBuilder.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable given\\.$#"
+			count: 1
+			path: src/HtmlBuilder.php
+

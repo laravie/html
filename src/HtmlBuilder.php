@@ -47,7 +47,7 @@ class HtmlBuilder
     /**
      * Convert an HTML string to entities.
      *
-     * @param  string  $value
+     * @param  string|null  $value
      * @param  bool  $encoding
      *
      * @return string
@@ -58,7 +58,7 @@ class HtmlBuilder
             return $value->toHtml();
         }
 
-        return \htmlentities($value, ENT_QUOTES, 'UTF-8', $encoding);
+        return \htmlentities((string) $value, ENT_QUOTES, 'UTF-8', $encoding);
     }
 
     /**
@@ -152,7 +152,7 @@ class HtmlBuilder
      * Generate a HTML link.
      *
      * @param  string  $url
-     * @param  string|bool|null  $title
+     * @param  string|null  $title
      * @param  array  $attributes
      * @param  bool|null  $secure
      * @param  bool  $escape
@@ -161,19 +161,19 @@ class HtmlBuilder
      */
     public function link(
         string $url,
-        $title = null,
+        ?string $title = null,
         array $attributes = [],
         ?bool $secure = null,
         bool $escape = true
     ): Htmlable {
         $url = $this->url->to($url, [], $secure);
 
-        if (\is_null($title) || $title === false) {
+        if (\is_null($title)) {
             $title = $url;
         }
 
         if ($escape) {
-            $title = $this->entities($title);
+            $title = $this->entities((string) $title);
         }
 
         return $this->toHtmlString('<a href="'.$this->entities($url).'"'.$this->attributes($attributes).'>'.$title.'</a>');

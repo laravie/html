@@ -73,9 +73,9 @@ trait SessionHelper
     /**
      * Get the session store implementation.
      *
-     * @return  \Illuminate\Contracts\Session\Session
+     * @return  \Illuminate\Contracts\Session\Session|null
      */
-    public function getSessionStore(): Session
+    public function getSessionStore(): ?Session
     {
         return $this->session;
     }

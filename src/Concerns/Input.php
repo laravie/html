@@ -19,12 +19,12 @@ trait Input
      *
      * @param  string  $type
      * @param  string|null  $name
-     * @param  string|null  $value
+     * @param  string|int|null  $value
      * @param  array   $options
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      */
-    public function input(string $type, ?string $name, ?string $value = null, array $options = []): Htmlable
+    public function input(string $type, ?string $name, $value = null, array $options = []): Htmlable
     {
         ! isset($options['name']) && $options['name'] = $name;
 

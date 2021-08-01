@@ -59,13 +59,13 @@ class FormBuilder
      * @param  \Collective\Html\HtmlBuilder  $html
      * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
      * @param  \Illuminate\Contracts\View\Factory  $view
-     * @param  \Illuminate\Http\Request|null  $request
+     * @param  \Illuminate\Http\Request  $request
      */
     public function __construct(
         HtmlBuilder $html,
         UrlGeneratorContract $url,
         ViewFactoryContract $view,
-        Request $request = null
+        Request $request
     ) {
         $this->url     = $url;
         $this->html    = $html;
