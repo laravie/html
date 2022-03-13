@@ -39,8 +39,8 @@
         "illuminate/view": "^7.0 || ^8.0 || ^9.0"
     },
     "require-dev": {
-        "nunomaduro/larastan": "^1.0 || ^2.0",
-        "orchestra/testbench": "^5.18 || ^6.15 || ^7.0"
+        "nunomaduro/larastan": "^1.0.1 || ^2.0",
+        "orchestra/testbench": "^5.20 || ^6.24.1 || ^7.1"
     },
     "replace": {
         "laravelcollective/html": "*"
