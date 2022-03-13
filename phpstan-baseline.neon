@@ -6,6 +6,16 @@ parameters:
 			path: src/FormBuilder.php
 
 		-
+			message: "#^Parameter \\#2 \\$array of function implode expects array\\<string\\>, array\\<int, Illuminate\\\\Contracts\\\\Support\\\\Htmlable\\> given\\.$#"
+			count: 3
+			path: src/FormBuilder.php
+
+		-
+			message: "#^Property Collective\\\\Html\\\\FormBuilder\\:\\:\\$request \\(Illuminate\\\\Http\\\\Request\\) in isset\\(\\) is not nullable\\.$#"
+			count: 1
+			path: src/FormBuilder.php
+
+		-
 			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable given\\.$#"
 			count: 1
 			path: src/HtmlBuilder.php
