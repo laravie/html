@@ -36,7 +36,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+          composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Execute Static Code Analysis
         run: vendor/bin/phpstan analyse
